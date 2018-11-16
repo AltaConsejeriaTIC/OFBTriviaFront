@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 
-import IronHacksApp from './ironhackApp.js';
+import OFBTriviaApp from './OFBTriviaApp.js';
 
 import { BrowserRouter } from 'react-router-dom' // Router
 
