@@ -1,14 +1,14 @@
-// IronHacks Platform
+// Orquesta Filarmónica de Bogotá - Trivia admin.
 // ironhackApp.js - Main router
-// Created by: Alejandro Díaz Vecchio - aldiazve@unal.edu.co
 
 import React from 'react';
 import { Switch, Route, Redirect} from "react-router-dom";
 //Styled components
 import styled from 'styled-components';
 // Custom Components
-//import Loader from './js/utilities/loader.js';
 import Loader from './js/utilities/loader.js';
+import Login from './js/components/login/login.js';
+import Header from './js/components/header/header.js';
 
 const LoaderContainer = styled('div')`
   width: 100vw;
@@ -20,7 +20,7 @@ class OFBTriviaApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: undefined,
+      user: true,
       mustNavigate: false,
     };
   };
@@ -34,19 +34,22 @@ class OFBTriviaApp extends React.Component {
   };
 
   render() {
-    if(!this.state.mustNavigate){
+    if(this.state.mustNavigate){
       return(
-        <h1>Inserte aquí un loader :V</h1>
+        <Loader />
       );
     }else{
       return (
-        <CookiesProvider>
-          <div className='App'>
-            <Switch>
-              <Route path='/login' component={Login}/>
-            </Switch>
-          </div>
-        </CookiesProvider>
+        <div className='App'>
+          <Switch>
+            <Route exact path='/' render={() => null}/>
+            {!this.state.user && <Redirect to='/'/>}
+            <Route render={(props) => (<Header {...props}/>)}/>
+          </Switch>
+          <Switch>
+            <Route exact path='/' component={Login}/>
+          </Switch>
+        </div>
       );
     }
   };
