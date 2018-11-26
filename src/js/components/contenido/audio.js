@@ -1,5 +1,5 @@
-// Orquesta Filarmónica de Bogotá - Trivia admin.
-// trivia.js - Trivia Home page
+// Orquesta Filarmónica de Bogotá 
+// video.js
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../constants.js';
 import { Button } from '../../utilities/button.js';
 import SectionTitle from '../../utilities/sectionTitle.js';
-import InfoCard from '../../utilities/infoCard.js';
+import ContentCard from '../../utilities/contentCard.js';
 import PageController from '../../utilities/pageController.js';
 
 const theme = Constants.TRIVIA_THEME;
@@ -51,7 +51,7 @@ const NavColumn = styled('div')`
   }
 `;
 
-const TriviaList = styled('div')`
+const AudioList = styled('div')`
   display: flex;
   flex-direction: column;
   width: 75%;
@@ -89,21 +89,18 @@ const TriviaList = styled('div')`
   }
 `;
 
-const questionPrototipe = {
-  startDate: '19 Noviembre de 2018',
-  endDate: '21 Noviembre de 2018',
-  question: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
-  status: 'Programada',
-  answers: 13
+const audioPrototipe = {
+  name: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
+  link: 'https://open.spotify.com/track/0j3obufLXq5toSs592dX9U',
 }
 
-class Trivia extends React.Component {
+class ContenidoAudio extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       currentPage: 1,
       totalQuestions: 17,
-      questions: [questionPrototipe, questionPrototipe, questionPrototipe, questionPrototipe]
+      questions: [audioPrototipe, audioPrototipe, audioPrototipe, audioPrototipe]
     };
   };
 
@@ -116,9 +113,9 @@ class Trivia extends React.Component {
       <ThemeProvider theme={theme}>
         <TriviaContainer>
           <SectionTitle>
-            <h1>Administrar preguntas y respuestas</h1>
+            <h1>Administrar audios</h1>
             <div className='separator'/>
-            <Link to='/dashboard/trivia/new'>Agregar una trivia nueva</Link>
+            <Link to='/dashboard/trivia/new'>Agregar un audio nuevo</Link>
           </SectionTitle>
           <div className='content'>
             <NavColumn>
@@ -128,18 +125,12 @@ class Trivia extends React.Component {
               <Link to='/dashboard/contenido/audio'>Administrar audios</Link>
               <Link to='/dashboard/contenido/video'>Administrar videos</Link>
             </NavColumn>
-            <TriviaList className='item-list'>
-              <div className='list-header'>
-                <span>FECHA</span>
-                <span>PREGUNTA</span>
-                <span>ESTADO</span>
-                <span>RESPUESTA</span>
-              </div>
+            <AudioList className='item-list'>
               {this.state.questions.map((item, index) => {
-                return <InfoCard key={index} question={item}/>
+                return <ContentCard key={index} item={item}/>
               })}
               <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
-            </TriviaList>
+            </AudioList>
           </div>
         </TriviaContainer>
       </ThemeProvider>
@@ -147,4 +138,4 @@ class Trivia extends React.Component {
   }
 }
 
-export default Trivia;
+export default ContenidoAudio;

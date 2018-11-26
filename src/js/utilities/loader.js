@@ -1,4 +1,4 @@
-// IronHacks Platform
+// Orquesta Filarmónica de Bogotá.
 // loader.js - This is just a css loader. Can be used on any container.
 // Created by: Alejandro Díaz Vecchio - aldiazve@unal.edu.co
 

@@ -31,19 +31,20 @@ const HeaderContainer = styled('div')`
         width: 100%;
         font-family: 'Bitter';
         font-weight: 800;
-        font-size: 20px;
+        font-size: 18px;
         margin: 0;
       }
       
       span {
-        font-size: 13px;
+        font-size: 11px;
         letter-spacing: 1px;
         width: 100%;
       }
 
       p {
         color: ${Constants.UNDEREMPHASIZE_FOOTER_HEADER_TEXT_COLOR};
-        font-size: 13px
+        font-size: 11px
+        margin-bottom: 0;
 ;      }
     }
   }
