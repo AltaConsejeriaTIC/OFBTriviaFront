@@ -2,21 +2,19 @@
 // header.js - Navigation bar
 
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { SectionButton } from '../../utilities/button.js';
+import { Redirect } from 'react-router-dom';
+import { SectionButton, Button } from '../../utilities/button.js';
 //Styled components
 import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../constants.js';
 
-import menuIcon from './img/menu-icon.svg';
-
-const theme = Constants.HeaderTheme;
+const theme = Constants.HEADER_THEME;
 
 const HeaderContainer = styled('div')`
   height: ${props => props.theme.containerHeight};
   background-color: ${props => props.theme.backgroundColor};
-  padding: 0 50px;
+  padding: 0 5%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,7 +40,7 @@ const HeaderContainer = styled('div')`
       }
       
       span {
-        color: ${Constants.primaryColor}
+        color: ${Constants.PRIMARY_COLOR}
         margin-top: 5px;
         font-size: 13px;
         letter-spacing: 1px;
@@ -51,9 +49,14 @@ const HeaderContainer = styled('div')`
     }
 
     &.sections {
+      position: relative;
       flex-direction: row;
       align-items: center;
       flex-grow: 1;
+
+      a:first-child {
+        margin-right: 30px;
+      }
     }
   }
 
@@ -62,15 +65,21 @@ const HeaderContainer = styled('div')`
 class Header extends React.Component {
   constructor(props){
     super(props);
+    const currentSection = props.location.pathname.split('/')[2];
     this.state = {
       showUserMenu: 'none',
       showMenu: 'none',
+      currentSection: currentSection,
     }
   }
 
   logout = () => {
-
+    this.props.onLogout();
   };
+
+  onChangeSectionHandler = (section) => {
+    this.setState({currentSection: section})
+  }
 
   render() {
     if(this.state.signOut === true){
@@ -86,16 +95,21 @@ class Header extends React.Component {
               <span>ADMINISTRADOR</span>
             </div>
             <div className='sections'>
-              <SectionButton selected={false}>
+              <SectionButton selected={this.state.currentSection === 'trivia' ? 1 : 0}
+                onClick={() => this.onChangeSectionHandler('trivia')}
+                to='/dashboard/trivia'>
                 <span>Administrar Trivia:</span>
                 <span>preguntas y ganadores</span>
               </SectionButton>
-              <SectionButton selected={true}>
+              <SectionButton selected={this.state.currentSection === 'contenido' ? 1 : 0}
+                onClick={() => this.onChangeSectionHandler('contenido')}
+                to='/dashboard/contenido'>
                 <span>Administrar Contenido:</span>
                 <span>audios y videos</span>
               </SectionButton>
             </div>
             <div>
+              <Button header onClick={this.logout}>Cerrar sesión</Button>
             </div>
           </HeaderContainer>
       </ThemeProvider>

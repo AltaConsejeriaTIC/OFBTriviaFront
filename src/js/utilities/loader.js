@@ -8,7 +8,7 @@ import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../constants.js';
 
-const theme = Constants.LoaderTheme;
+const theme = Constants.LOADER_THEME;
 
 //Section container
 const SectionContainer = styled('div')`

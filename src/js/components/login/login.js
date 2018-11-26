@@ -9,7 +9,8 @@ import * as Constants from '../../../constants.js';
 import { Button } from '../../utilities/button.js';
 //IMG
 import violinImage from '../../../assets/img/login/violin.svg';
-const theme = Constants.LoginTheme;
+
+const theme = Constants.LOGIN_THEME;
 
 //Section container
 const SectionContainer = styled('div')`
@@ -43,7 +44,7 @@ const LoginContainer = styled('div')`
 
     &:first-child {
       position: relative;
-      background-color:  ${Constants.primaryColor};
+      background-color:  ${Constants.PRIMARY_COLOR};
 
       img {
         height: 60%;
@@ -91,7 +92,7 @@ const LoginContainer = styled('div')`
     };
 
     &:last-child {
-      background-color:  ${Constants.backgroundColor};
+      background-color:  ${Constants.MAIN_BACKGROUND_COLOR};
 
       form {
         -webkit-box-sizing: border-box;
@@ -122,7 +123,7 @@ const LoginContainer = styled('div')`
           input {
             height: 30px;
             border: solid 1px lightgray;
-            border-radius: ${Constants.universalBorderRadius};
+            border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
             padding-left: 10px;
             margin-top: 5px;
           }
@@ -132,12 +133,21 @@ const LoginContainer = styled('div')`
   }
 `;
 
+const LoginErrorMessage = styled('p')`
+  display: ${(props) => props.display ? 'block' : 'none'};
+  font-size: 13px;
+  color: #C53C3C;
+  margin: 10px 0;
+`;
+
 
 class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       mustNavigate: false,
+      loginError: false,
+      loginErrorType: 'FIELDS_EMPTY',
     };
   };
 
@@ -159,23 +169,29 @@ class Login extends React.Component {
     if(this.state.username && this.state.password){
       this.loging();
     }else{
-      alert('usuario: admin\ncontraseña: 1234');
+      this.setState({
+        loginError: true,
+        loginErrorType: 'FIELDS_EMPTY',
+      });
     }
   };
 
   loging = () => {
     if(this.state.username === 'admin' && this.state.password === '1234'){
+      this.props.onLogin();
       this.setState({mustNavigate: true});
     }else{
-      alert('usuario: admin\ncontraseña: 1234')
+      this.setState({
+        loginError: true,
+        loginErrorType: 'WRONG_USERNAME_OR_PASSWORD',
+      });
     }
   }
 
   render() { 
     if(this.state.mustNavigate){
-      return <Redirect push to='/dashboard'/>
+      return <Redirect push to='/dashboard/trivia'/>
     }
-
     return (
       <ThemeProvider theme={theme}>
         <SectionContainer>
@@ -191,18 +207,27 @@ class Login extends React.Component {
               <form>
                 <h2>Iniciar sesión</h2>
                   <label >USUARIO
-                  <input name='username' type='text' onChange={this.handleInputChange} placeholder='Usuario'/>
+                  <input name='username'
+                    type='text'
+                    onChange={this.handleInputChange}
+                    placeholder='Usuario'/>
                 </label>
                 <label>CONTRASEÑA
-                  <input name='password' type='password' onChange={this.handleInputChange} placeholder='Contraseña'/>
+                  <input name='password'
+                    type='password'
+                    onChange={this.handleInputChange}
+                    placeholder='Contraseña'/>
                 </label>
                 <Button primary onClick={this.onLoginClick}>Ingresar</Button>
+                <LoginErrorMessage display={this.state.loginError ? 1 : 0}>
+                  {Constants.LOGIN_ERROR_MESSAGES[this.state.loginErrorType]}
+                </LoginErrorMessage>
               </form>
             </div>
           </LoginContainer>
         </SectionContainer>
-        </ThemeProvider>
-      );
+      </ThemeProvider>
+    );
   }
 }
 
