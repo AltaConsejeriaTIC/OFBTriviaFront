@@ -50,14 +50,22 @@ const SectionContainer = styled('div')`
     }
 
     textarea {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
       font-family: 'Open Sans';
       width 100%;
       height: 100px;
       resize: none;
       margin-top: 15px;
-      padding 10px 0 0 10px;
+      padding 10px;
       border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
       border: solid 1px ${Constants.INPUT_BORDER_COLOR};
+    }
+
+    span {
+      margin-top: 10px;
+      text-align: right;
     }
   }
 
@@ -120,6 +128,8 @@ class NewTrivia extends React.Component {
     super(props);
     this.state = {
       mustNavigate: false,
+      questionContent: '',
+      questionAnswer: '',
     };
   };
 
@@ -137,7 +147,7 @@ class NewTrivia extends React.Component {
     this.setState({mustNavigate: true})
   }
 
-  render() { 
+  render() {
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/trivia'/>
     }
@@ -149,21 +159,31 @@ class NewTrivia extends React.Component {
             <div className='dates'>
               <label>
                 FECHA DE PUBLICACIÓN
-                <input type='text' name='startDate' placeholder='dd/mm/aaaa'/>
+                <input type='text' name='startDate' placeholder='dd/mm/aaaa' onChange={this.handleInputChange}/>
               </label>
               <label>
                 FECHA DE CIERRE
-                <input type='text' name='endDate' placeholder='dd/mm/aaaa'/>
+                <input type='text' name='endDate' placeholder='dd/mm/aaaa' onChange={this.handleInputChange}/>
               </label>
             </div>
             <div className='trivia-content'>
               <label>
                 PREGUNTA
-                <textarea name='questionContent' placeholder='Escribe aquí la pregunta.'/>
+                <textarea
+                  name='questionContent'
+                  placeholder='Escribe aquí la pregunta.'
+                  onChange={this.handleInputChange}
+                  maxLength={Constants.TRIVIA_QUESTION_MAX_CHARACTERS}/>
+                <span>{this.state.questionContent.length + ' DE 140 CARACTERES'}</span>
               </label>
               <label>
                 RESPUESTA
-                <textarea name='questionContent' placeholder='Escribe aquí la respuesta.'/>
+                <textarea
+                  name='questionAnswer'
+                  placeholder='Escribe aquí la respuesta.'
+                  onChange={this.handleInputChange}
+                  maxLength={Constants.TRIVIA_ANSWER_MAX_CHARACTERS}/>
+                <span>{this.state.questionAnswer.length + ' DE 140 CARACTERES'}</span>
               </label>
             </div>
           </div>

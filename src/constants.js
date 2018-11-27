@@ -26,6 +26,11 @@ export const SECONDARY_BORDER_COLOR = '#4A5363';
 export const INPUT_BORDER_COLOR = '#DBDBDB';
 export const UNIVERSAL_BORDER_RADIUS = '4px';
 
+export const TRIVIA_QUESTION_MAX_CHARACTERS = 140;
+export const TRIVIA_ANSWER_MAX_CHARACTERS = 140;
+export const AUDIO_NAME_MAX_CHARACTERS = 40;
+export const VIDEO_NAME_MAX_CHARACTERS = 40;
+
 // Styled components Themes: 
 //LOGIN
 export const LOGIN_THEME = {
@@ -59,6 +64,18 @@ export const TRIVIA_THEME = {
 }
 
 export const NEW_TRIVIA_THEME = {
+  containerHeight: '77vh',
+  backgroundColor: MAIN_BACKGROUND_COLOR,
+  textColor: '#737582',
+}
+
+export const NEW_AUDIO_THEME = {
+  containerHeight: '77vh',
+  backgroundColor: MAIN_BACKGROUND_COLOR,
+  textColor: '#737582',
+}
+
+export const NEW_VIDEO_THEME = {
   containerHeight: '77vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   textColor: '#737582',

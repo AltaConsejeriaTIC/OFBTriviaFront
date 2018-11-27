@@ -73,16 +73,6 @@ class PageController extends React.Component {
 
 
   render() {
-    let pages;
-    if(this.state.currentPage === 1) {
-      var index = this.state.totalItems/4;
-      
-      pages = <div>
-        <PageButton to='#' selected={1} onClick={this.handleClick}>1</PageButton>
-      </div>
-    }
-
-
     console.log(this.state)
     return(
       <PageControllerContainer>

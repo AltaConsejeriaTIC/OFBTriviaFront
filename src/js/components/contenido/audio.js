@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../constants.js';
-import { Button } from '../../utilities/button.js';
 import SectionTitle from '../../utilities/sectionTitle.js';
 import ContentCard from '../../utilities/contentCard.js';
 import PageController from '../../utilities/pageController.js';
@@ -115,7 +114,7 @@ class ContenidoAudio extends React.Component {
           <SectionTitle>
             <h1>Administrar audios</h1>
             <div className='separator'/>
-            <Link to='/dashboard/trivia/new'>Agregar un audio nuevo</Link>
+            <Link to='/dashboard/contenido/audio/new'>Agregar un audio nuevo</Link>
           </SectionTitle>
           <div className='content'>
             <NavColumn>

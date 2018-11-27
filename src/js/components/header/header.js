@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { SectionButton, Button } from '../../utilities/button.js';
+import { Button } from '../../utilities/button.js';
 //Styled components
 import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
@@ -95,18 +95,6 @@ class Header extends React.Component {
               <span>ADMINISTRADOR</span>
             </div>
             <div className='sections'>
-              <SectionButton selected={this.state.currentSection === 'trivia' ? 1 : 0}
-                onClick={() => this.onChangeSectionHandler('trivia')}
-                to='/dashboard/trivia'>
-                <span>Administrar Trivia:</span>
-                <span>preguntas y ganadores</span>
-              </SectionButton>
-              <SectionButton selected={this.state.currentSection === 'contenido' ? 1 : 0}
-                onClick={() => this.onChangeSectionHandler('contenido')}
-                to='/dashboard/contenido'>
-                <span>Administrar Contenido:</span>
-                <span>audios y videos</span>
-              </SectionButton>
             </div>
             <div>
               <Button header onClick={this.logout}>Cerrar sesión</Button>
