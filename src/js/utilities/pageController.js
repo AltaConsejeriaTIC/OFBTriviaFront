@@ -73,7 +73,6 @@ class PageController extends React.Component {
 
 
   render() {
-    console.log(this.state)
     return(
       <PageControllerContainer>
         {this.state.currentPage !== 1 && <PageButton to='#' previus={1} onClick={this.handleClick}>Anterior</PageButton>}

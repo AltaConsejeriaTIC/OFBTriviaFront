@@ -15,9 +15,11 @@ const InfoCardContainer = styled('div')`
   width: 100%;
   height: 110px;
   background-color: ${Constants.INFO_CARD_BACKGROUND_COLOR};
-  border: solid 1px ${Constants.INFO_CARD_BORDER_COLOR};
+  border: solid 1px ${(props) => props.selected ? Constants.SELECTED_INFOCARD_BORDER_COLOR : Constants.INFO_CARD_BORDER_COLOR};
   border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
   margin-bottom: 5px;
+
+
 
   div {
     &.date {
@@ -101,7 +103,7 @@ const InfoCardContainer = styled('div')`
 class InfoCard extends React.Component {
   render() {
     return(
-      <InfoCardContainer>
+      <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='date'>
           <span>Fecha de publicación:</span>
           <span>{this.props.question.startDate}</span>
