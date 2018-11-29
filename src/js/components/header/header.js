@@ -2,7 +2,7 @@
 // header.js - Navigation bar
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '../../utilities/button.js';
 //Styled components
 import styled, {ThemeProvider} from 'styled-components';
@@ -19,34 +19,38 @@ const HeaderContainer = styled('div')`
   flex-direction: row;
   justify-content: space-between;
 
+  .title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 20%;
+    text-decoration: none;
+    color: white;
+    height: 100%;
+    bottom: 15px;
+    
+    h3 {
+      width: 100%;
+      font-family: 'Bitter';
+      font-weight: 800;
+      font-size: 20px;
+      margin: 0;
+    }
+    
+    span {
+      color: ${Constants.PRIMARY_COLOR};
+      font-size: 13px;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+  }
+
   div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-width: 20%;
     height: 100%;
-  
-    &.title {
-      color: white;
-      height: auto;
-      bottom: 15px;
-      
-      h3 {
-        width: 100%;
-        font-family: 'Bitter';
-        font-weight: 800;
-        font-size: 20px;
-        margin: 0;
-      }
-      
-      span {
-        color: ${Constants.PRIMARY_COLOR}
-        margin-top: 5px;
-        font-size: 13px;
-        letter-spacing: 1px;
-        width: 100%;
-      }
-    }
 
     &.sections {
       position: relative;
@@ -65,11 +69,9 @@ const HeaderContainer = styled('div')`
 class Header extends React.Component {
   constructor(props){
     super(props);
-    const currentSection = props.location.pathname.split('/')[2];
     this.state = {
       showUserMenu: 'none',
       showMenu: 'none',
-      currentSection: currentSection,
     }
   }
 
@@ -77,23 +79,14 @@ class Header extends React.Component {
     this.props.onLogout();
   };
 
-  onChangeSectionHandler = (section) => {
-    this.setState({currentSection: section})
-  }
-
   render() {
-    if(this.state.signOut === true){
-      return(
-        <Redirect to='/'/>
-      );
-    };
     return (
       <ThemeProvider theme={theme}>
           <HeaderContainer>
-            <div className='title'>
+            <Link className='title' to='/dashboard/trivia'>
               <h3>Orquesta Fliarmónica de Bogotá</h3>
               <span>ADMINISTRADOR</span>
-            </div>
+            </Link>
             <div className='sections'>
             </div>
             <div>

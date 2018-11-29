@@ -8,8 +8,9 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../constants.js';
 import SectionTitle from '../../utilities/sectionTitle.js';
 import NavColumn from '../../utilities/navColumn.js';
-import InfoCard from '../../utilities/infoCard.js';
+import InfoCard from './infoCard.js';
 import PageController from '../../utilities/pageController.js';
+import * as ServerServices from '../../utilities/serverServices.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -40,6 +41,7 @@ const TriviaList = styled('div')`
 
     span {
       color: ${Constants.LIST_HEADER_TEXT_COLOR};
+      letter-spacing: 1px;
       font-weight: 700;
       font-size: 11px;
 
@@ -79,9 +81,25 @@ class Trivia extends React.Component {
     this.state = {
       currentPage: 1,
       totalQuestions: 17,
-      questions: [questionPrototipe, questionPrototipe, questionPrototipe, questionPrototipe]
+      questions: []
     };
   };
+
+
+  componentDidMount() {
+    this.getTriviaPage(1);
+  }
+
+  getTriviaPage = (page) => {
+    const questions = ServerServices.getTriviaList(null, page);
+    questions.then((questions) => {
+      questions.forEach((question) => {
+        question.startDate = new Date(question.startDate);
+        question.endDate = new Date(question.endDate);
+      })
+      this.setState({questions: questions})
+    })
+  }
 
   PageChange = (page) => {
     this.setState({currentPage: page});
@@ -107,9 +125,18 @@ class Trivia extends React.Component {
               </div>
               {this.state.questions.map((item, index) => {
                 if(index === 1){
-                  return <InfoCard key={index} question={item} selected/>  
+                  return <InfoCard
+                    key={index}
+                    question={item}
+                    id={index}
+                    path={this.props.location.pathname}  
+                    selected={item.status === 'Publicada' ? 1 : 0}/>
                 }
-                return <InfoCard key={index} question={item}/>
+                return <InfoCard 
+                  key={index}
+                  question={item}
+                  id={index}
+                  path={this.props.location.pathname} />
               })}
               <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
             </TriviaList>

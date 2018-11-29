@@ -9,6 +9,9 @@ export const PAGE_CONTROLLER_BORDER_COLOR = '#DBDBDB';
 export const MAIN_TEXT_COLOR = 'black';
 export const STRONG_TEXT_COLOR = '#3F4150';
 export const WEAK_TEXT_COLOR = '#9A9BA3';
+export const TRIVIA_DETAILS_TEXT_COLOR = '#737582';
+export const TRIVIA_DETAILS_STRONG_TEXT_COLOR = '#575A6D';
+export const TRIVIA_DETAILS_SUPER_STRONG_TEXT_COLOR = '#3F4150';
 export const NAV_COLUMN_TEXT_COLOR = '#575A6D';
 export const NAV_COLUMN_STRONG_TEXT_COLOR = '#3F4150';
 export const NAV_COLUMN_WEAK_TEXT_COLOR = '#888B9C';
@@ -22,11 +25,14 @@ export const PAGE_CONTROLLER_STRONG_TEXT_COLOR = '#3F4150';
 export const LIST_HEADER_TEXT_COLOR = '#7C7F92';
 export const UNDEREMPHASIZE_FOOTER_HEADER_TEXT_COLOR = '#8D91AD';
 export const ERROR_TEXT_COLOR = '#C53C3C';
-export const SELECTED_INFOCARD_BORDER_COLOR = '#12D2FF';
+export const SELECTED_INFOCARD_BORDER_COLOR = '#FF4284';
+export const SELECTED_ANSWER_CARD_BORDER_COLOR = '#12D2FF';
 
+export const PRIMARY_BUTTON_TEXT_COLOR = '#161824';
 export const PRIMARY_BORDER_COLOR = '#E0AE0D';
 export const SECONDARY_BORDER_COLOR = '#4A5363';
 export const INPUT_BORDER_COLOR = '#DBDBDB';
+export const WEAK_BORDER_COLOR = '#DBDBDB';
 export const UNIVERSAL_BORDER_RADIUS = '4px';
 
 export const TRIVIA_QUESTION_MAX_CHARACTERS = 140;
@@ -64,6 +70,14 @@ export const TRIVIA_THEME = {
   containerHeight: '77vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   textColor: UNDEREMPHASIZE_FOOTER_HEADER_TEXT_COLOR,
+}
+
+export const DETAILS_TRIVIA_THEME = {
+  containerHeight: '77vh',
+  backgroundColor: MAIN_BACKGROUND_COLOR,
+  normalTextColor: TRIVIA_DETAILS_TEXT_COLOR,
+  strongTextColor: TRIVIA_DETAILS_STRONG_TEXT_COLOR,
+  superStrongTextColor: TRIVIA_DETAILS_SUPER_STRONG_TEXT_COLOR,
 }
 
 export const NEW_TRIVIA_THEME = {

@@ -8,7 +8,7 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../constants.js';
 import SectionTitle from '../../utilities/sectionTitle.js';
 import NavColumn from '../../utilities/navColumn.js';
-import ContentCard from '../../utilities/contentCard.js';
+import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
 
 const theme = Constants.TRIVIA_THEME;

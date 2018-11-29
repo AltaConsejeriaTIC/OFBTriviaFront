@@ -6,8 +6,8 @@ import React from 'react';
 //Styled components
 import styled from 'styled-components';
 //Custom Constants
-import * as Constants from '../../constants.js';
-import { Button } from './button.js';
+import * as Constants from '../../../constants.js';
+import { LinkButton } from '../../utilities/button.js';
 
 const InfoCardContainer = styled('div')`
   display: flex;
@@ -72,7 +72,7 @@ class ContentCard extends React.Component {
           <a href={this.props.item.link}>{this.props.item.link}</a>
         </div>
         <div className='edit-button'>
-          <Button primary border>Editar audio</Button>
+          <LinkButton to='#' primary={1} border={1}>Editar audio</LinkButton>
         </div>
       </InfoCardContainer>
     )

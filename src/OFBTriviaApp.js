@@ -11,7 +11,8 @@ import Header from './js/components/header/header.js';
 import Footer from './js/components/footer/footer.js';
 import Login from './js/components/login/login.js';
 import Trivia from './js/components/trivia/trivia.js';
-import NewTrivia from './js/components/trivia/newTrivia/newTrivia.js';
+import NewTrivia from './js/components/trivia/new/new.js';
+import TriviaDetails from './js/components/trivia/details/details.js';
 import ContenidoAudio from './js/components/contenido/audio.js';
 import NewAudio from './js/components/contenido/newAudio/newAudio.js';
 import ContenidoVideo from './js/components/contenido/video.js';
@@ -60,10 +61,12 @@ class OFBTriviaApp extends React.Component {
             <Route exact path='/' render={(props) => (<Login onLogin={this.onLogin} {...props}/>)}/>
             <Route exact path='/dashboard/trivia' render={(props) => (<Trivia {...props}/>)}/>
             <Route exact path='/dashboard/trivia/new' render={(props) => (<NewTrivia {...props}/>)}/>            
+            <Route exact path='/dashboard/trivia/:triviaId' render={(props) => (<TriviaDetails {...props}/>)}/>            
             <Route exact path='/dashboard/contenido/audio' render={(props) => (<ContenidoAudio {...props}/>)}/>
             <Route exact path='/dashboard/contenido/audio/new' render={(props) => (<NewAudio {...props}/>)}/>
             <Route exact path='/dashboard/contenido/video' render={(props) => (<ContenidoVideo {...props}/>)}/>
             <Route exact path='/dashboard/contenido/video/new' render={(props) => (<NewVideo {...props}/>)}/>
+
           </Switch>
           <Switch>
             <Route exact path='/' render={() => null}/>

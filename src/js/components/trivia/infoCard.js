@@ -6,8 +6,9 @@ import React from 'react';
 //Styled components
 import styled from 'styled-components';
 //Custom Constants
-import * as Constants from '../../constants.js';
-import { Button } from './button.js';
+import * as Constants from '../../../constants.js';
+import { LinkButton } from '../../utilities/button.js';
+import * as Formater from '../../utilities/dateFormater.js';
 
 const InfoCardContainer = styled('div')`
   display: flex;
@@ -93,7 +94,7 @@ const InfoCardContainer = styled('div')`
         margin-bottom: 10px;
       }
 
-      button {
+      a {
         color: white;
       }
     }
@@ -106,19 +107,19 @@ class InfoCard extends React.Component {
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='date'>
           <span>Fecha de publicación:</span>
-          <span>{this.props.question.startDate}</span>
+          <span>{Formater.formatDate(this.props.question.startDate.getDate(), this.props.question.startDate.getMonth(), this.props.question.startDate.getFullYear())}</span>
           <span>Fecha de cierre:</span>
-          <span>{this.props.question.endDate}</span>
+          <span>{Formater.formatDate(this.props.question.endDate.getDate(), this.props.question.endDate.getMonth(), this.props.question.endDate.getFullYear())}</span>
         </div>
         <div className='question-content'>
-          {this.props.question.question}
+          {this.props.question.content}
         </div>
         <div className='status'>
           {this.props.question.status}
         </div>
         <div className='answer-amount'>
           <span>{this.props.question.answers}</span>
-          <Button border>Ver respuestas</Button>
+          <LinkButton to={this.props.path + '/' + this.props.id} border={1}>Ver respuestas</LinkButton>
         </div>
       </InfoCardContainer>
     )
