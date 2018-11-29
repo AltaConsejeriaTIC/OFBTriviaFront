@@ -3,11 +3,12 @@
 // Created by: Alejandro Díaz Vecchio - aldiazve@unal.edu.co
 
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 //Styled components
 import styled from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../constants.js';
-import { LinkButton } from '../../utilities/button.js';
+import { Button } from '../../utilities/button.js';
 import * as Formater from '../../utilities/dateFormater.js';
 
 const InfoCardContainer = styled('div')`
@@ -72,7 +73,8 @@ const InfoCardContainer = styled('div')`
       flex-direction: column;
       justify-content: center;
       font-size: 13px;
-      color ${Constants.INFO_CARD_STRONG_TEXT_COLOR};
+      font-weight: 600;
+      color ${(props) => props.selected ? Constants.SELECTED_INFOCARD_BORDER_COLOR : Constants.INFO_CARD_STRONG_TEXT_COLOR};
       text-align: center;
     }
 
@@ -94,7 +96,7 @@ const InfoCardContainer = styled('div')`
         margin-bottom: 10px;
       }
 
-      a {
+      button {
         color: white;
       }
     }
@@ -102,7 +104,24 @@ const InfoCardContainer = styled('div')`
 `;
 
 class InfoCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mustNavigate: false,
+    }
+  }
+
+  navigateToDetails = () => {
+    this.setState({mustNavigate: true});
+  };
+
   render() {
+    if(this.state.mustNavigate){
+      return <Redirect push to={{
+        pathname: this.props.path + '/' + this.props.id,
+        state: this.props.question
+      }}/>
+    }
     return(
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='date'>
@@ -119,7 +138,7 @@ class InfoCard extends React.Component {
         </div>
         <div className='answer-amount'>
           <span>{this.props.question.answers}</span>
-          <LinkButton to={this.props.path + '/' + this.props.id} border={1}>Ver respuestas</LinkButton>
+          <Button onClick={this.navigateToDetails} border>Ver respuestas</Button>
         </div>
       </InfoCardContainer>
     )

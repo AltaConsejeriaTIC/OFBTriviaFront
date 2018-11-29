@@ -8,6 +8,7 @@ import styled from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 
+
 const InfoCardContainer = styled('div')`
   display: flex;
   flex-direction: row;
@@ -90,7 +91,6 @@ const InfoCardContainer = styled('div')`
 
 class AnswerCard extends React.Component {
   render() {
-    console.log(this.props)
     return(
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='user-info'>

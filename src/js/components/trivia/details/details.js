@@ -2,12 +2,14 @@
 // details.js
 
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import AnswerCard from './answerCard.js';
 import PageController from '../../../utilities/pageController.js';
 import { Button } from '../../../utilities/button.js';
+import * as Formater from '../../../utilities/dateFormater.js';
 
 const theme = Constants.DETAILS_TRIVIA_THEME;
 
@@ -129,7 +131,7 @@ const TriviaDetailsContainer = styled('div')`
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;C
+      justify-content: center;
 
       span {
 
@@ -204,8 +206,8 @@ class TriviaDetails extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentPage: 1,
-      totalQuestions: 17,
+      redirectToEdit: false,
+      question: this.props.location.state,
       answers: [answerPrototipe, answerPrototipe, answerPrototipe, answerPrototipe]
     };
   };
@@ -214,7 +216,17 @@ class TriviaDetails extends React.Component {
     this.setState({currentPage: page});
   };
 
+  goToEdit = () => {
+    this.setState({redirectToEdit: true})
+  }
+
   render() {
+    if(this.state.redirectToEdit){
+      return <Redirect push to={{
+        pathname: '/dashboard/trivia/edit',
+        state: {question: this.state.question, onEdit: true}
+      }}/>
+    } 
     return (
       <ThemeProvider theme={theme}>
         <TriviaDetailsContainer>
@@ -224,9 +236,15 @@ class TriviaDetails extends React.Component {
             <div className='date'>
               <h4>FECHA</h4>
               <span>Fecha de la publicación:</span>
-              <span>2 de Noviembre de 2018</span>
+              <span>{Formater.formatDate(this.state.question.startDate.getDate(),
+                                         this.state.question.startDate.getMonth(),
+                                         this.state.question.startDate.getFullYear())
+              }</span>
               <span>Fecha de cierre:</span>
-              <span>12 de Noviembre de 2018</span>
+              <span>{Formater.formatDate(this.state.question.endDate.getDate(),
+                                         this.state.question.endDate.getMonth(),
+                                         this.state.question.endDate.getFullYear())
+              }</span>
             </div>
             <div>
               <h4>RESPUESTA CORRECTA</h4>
@@ -234,7 +252,7 @@ class TriviaDetails extends React.Component {
             </div>
             <div>
               <h4>PREGUNTA</h4>
-              <h3>¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?</h3>
+              <h3>{this.state.question.content}</h3>
             </div>
           </div>
           <div className='section-header'>
@@ -248,7 +266,8 @@ class TriviaDetails extends React.Component {
             <Button
               primary
               width='auto'
-              border>
+              border
+              onClick={this.goToEdit}>
               Editar Pregunta
             </Button>
             <Button

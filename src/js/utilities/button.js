@@ -11,6 +11,7 @@ export const Button = styled('button')`
   height: ${(props) => props.height ? props.height : '35px'};
   margin: ${(props) => props.margin ? props.margin : '0'};
   font-weight: 700;
+  font-size: 13px;
   color: ${Constants.PRIMARY_BUTTON_TEXT_COLOR};
   background-color: ${(props) => props.primary ? Constants.PRIMARY_COLOR : '#697281'};
   border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};

@@ -23,6 +23,25 @@ const NavColumnContainer = styled('div')`
   }
 `;
 
+const Leyend = styled('div')`
+  display: ${(props) => props.display === 1 ? 'block' : 'none'}
+
+  h5 {
+    color: #7C7F92;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 13px;
+    color: ${Constants.NAV_COLUMN_TEXT_COLOR};
+  
+    span {
+      font-weight: 700;
+      color: ${Constants.SELECTED_INFOCARD_BORDER_COLOR}; 
+    }
+  }
+`; 
+
 const NavLink = styled(Link)`
   width: 80%;
   height: ${(props) => props.single ? '40px' : '80px'};
@@ -68,6 +87,12 @@ class NavColumn extends React.Component {
           single={1}>
           Administrar videos
         </NavLink>
+        <Leyend display={this.props.currentSection === 'trivia' ? 1 : 0}>
+          <h5>NOTA</h5>
+          <p>
+            Las preguntas resaltadas con color <span>rosado</span> son las que se muestran actualmente en la aplicación. 
+          </p>
+        </Leyend>
       </NavColumnContainer>
     )
   }

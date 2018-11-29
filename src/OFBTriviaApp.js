@@ -60,7 +60,8 @@ class OFBTriviaApp extends React.Component {
           <Switch>
             <Route exact path='/' render={(props) => (<Login onLogin={this.onLogin} {...props}/>)}/>
             <Route exact path='/dashboard/trivia' render={(props) => (<Trivia {...props}/>)}/>
-            <Route exact path='/dashboard/trivia/new' render={(props) => (<NewTrivia {...props}/>)}/>            
+            <Route exact path='/dashboard/trivia/new' render={(props) => (<NewTrivia {...props}/>)}/>
+            <Route exact path='/dashboard/trivia/edit' render={(props) => (<NewTrivia {...props}/>)}/>
             <Route exact path='/dashboard/trivia/:triviaId' render={(props) => (<TriviaDetails {...props}/>)}/>            
             <Route exact path='/dashboard/contenido/audio' render={(props) => (<ContenidoAudio {...props}/>)}/>
             <Route exact path='/dashboard/contenido/audio/new' render={(props) => (<NewAudio {...props}/>)}/>

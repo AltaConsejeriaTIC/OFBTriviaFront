@@ -10,6 +10,7 @@ import SectionTitle from '../../utilities/sectionTitle.js';
 import NavColumn from '../../utilities/navColumn.js';
 import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
+import * as ServerServices from '../../utilities/serverServices.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -74,14 +75,23 @@ class ContenidoAudio extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentPage: 1,
-      totalQuestions: 17,
-      questions: [audioPrototipe, audioPrototipe, audioPrototipe, audioPrototipe]
+      audios: []
     };
   };
 
+  componentDidMount() {
+    this.getAudioList();
+  }
+
   onPageChange = (page) => {
     this.setState({currentPage: page});
+  };
+
+  getAudioList = () => {
+    const audios = ServerServices.getAudioList();
+    audios.then((audios) => {
+      this.setState({audios: audios})
+    })
   }
 
   render() {
@@ -96,8 +106,8 @@ class ContenidoAudio extends React.Component {
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
             <AudioList className='item-list'>
-              {this.state.questions.map((item, index) => {
-                return <ContentCard key={index} item={item}/>
+              {this.state.audios.map((item, index) => {
+                return <ContentCard key={index} item={item} type='audio'/>
               })}
               <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
             </AudioList>

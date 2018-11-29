@@ -7,6 +7,7 @@ import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
+import * as ServerServices from '../../../utilities/serverServices.js';
 
 const theme = Constants.NEW_AUDIO_THEME;
 
@@ -53,15 +54,10 @@ const SectionContainer = styled('div')`
         width: 80%;
         width: 100%;
         height: 35px;
-        margin: 15px 0 0 0;
+        margin: 5px 0 15px 0;
         padding-left: 15px;
         border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
         border: solid 1px ${Constants.INPUT_BORDER_COLOR};
-      }
-
-      span {
-        margin-top: 10px;
-        text-align: right;
       }
 
     }
@@ -96,6 +92,13 @@ class NewAudio extends React.Component {
 
   cancel = () => {
     this.setState({mustNavigate: true})
+  };
+
+  uploadAudio = () => {
+    const audios = ServerServices.createAudio(this.state.audioName, this.state.artistName, this.state.link);
+    audios.then((audios) => {
+      this.setState({audios: audios})
+    })
   }
 
   render() { 
@@ -113,17 +116,27 @@ class NewAudio extends React.Component {
                 type='text'
                 name='audioName'
                 placeholder='Nombre del audio'
-                maxLength={Constants.AUDIO_NAME_MAX_CHARACTERS}
                 onChange={this.handleInputChange}/>
-              <span>{this.state.audioName.length + ' DE 40 CARACTERES'}</span>
             </label>
             <label>
-              FECHA LINK DEL AUDIO
-              <input type='text' name='link' placeholder='Link del audio'/>
+              NOMBRE DEL ARTISTA
+              <input
+                type='text'
+                name='artistName'
+                placeholder='Nombre del artista'
+                onChange={this.handleInputChange}/>
+            </label>
+            <label>
+              LINK DEL AUDIO
+              <input
+                type='text'
+                name='link'
+                placeholder='Link del audio'
+                onChange={this.handleInputChange}/>
             </label>
             <div className='control'>
               <Button primary border width='42%'onClick={this.cancel}>Cancelar</Button>
-              <Button primary border width='55%'>Agregar audio</Button>
+              <Button primary border width='55%' onClick={this.uploadAudio}>Agregar audio</Button>
             </div>
           </div>
         </SectionContainer>

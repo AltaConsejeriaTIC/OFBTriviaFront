@@ -3,11 +3,12 @@
 // Created by: Alejandro Díaz Vecchio - aldiazve@unal.edu.co
 
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 //Styled components
 import styled from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../constants.js';
-import { LinkButton } from '../../utilities/button.js';
+import { Button } from '../../utilities/button.js';
 
 const InfoCardContainer = styled('div')`
   display: flex;
@@ -64,15 +65,42 @@ const InfoCardContainer = styled('div')`
 `;
 
 class ContentCard extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      mustNavigate: false
+    }
+  }
+
+  editItem = () => {
+    const itemType = this.props.type;
+    this.setState({
+      itemType: itemType,
+      mustNavigate: true
+    })
+  }
+
   render() {
+    if (this.state.mustNavigate) {
+      return (
+        <Redirect to={{
+          pathname: '/dashboard/contenido/' + this.state.itemType + '/new',
+          state: {
+            item: this.item,
+            onEdit: true,
+          }
+        }}/>
+      )
+    }
+
     return(
       <InfoCardContainer>
         <div className='audio-content'>
-          <h2>{this.props.item.name}</h2>
-          <a href={this.props.item.link}>{this.props.item.link}</a>
+          <h2>{this.props.item.title}</h2>
+          <a href={this.props.item.url}>{this.props.item.url}</a>
         </div>
         <div className='edit-button'>
-          <LinkButton to='#' primary={1} border={1}>Editar audio</LinkButton>
+          <Button onClick={this.editItem} primary={1} border={1}>Editar audio</Button>
         </div>
       </InfoCardContainer>
     )

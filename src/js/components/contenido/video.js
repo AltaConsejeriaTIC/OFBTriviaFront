@@ -10,6 +10,7 @@ import SectionTitle from '../../utilities/sectionTitle.js';
 import NavColumn from '../../utilities/navColumn.js';
 import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
+import * as ServerServices from '../../utilities/serverServices.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -66,8 +67,8 @@ const AudioList = styled('div')`
 `;
 
 const videoPrototipe = {
-  name: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
-  link: 'https://open.spotify.com/track/0j3obufLXq5toSs592dX9U',
+  title: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
+  url: 'https://open.spotify.com/track/0j3obufLXq5toSs592dX9U',
 }
 
 
@@ -75,17 +76,27 @@ class ContenidoVideo extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentPage: 1,
-      totalQuestions: 17,
-      questions: [videoPrototipe, videoPrototipe, videoPrototipe, videoPrototipe]
+      videos: [videoPrototipe, videoPrototipe, videoPrototipe, videoPrototipe]
     };
   };
 
+  componentDidMount() {
+    //this.getVideosList();
+  }
+
   onPageChange = (page) => {
     this.setState({currentPage: page});
+  };
+
+  getVideosList = () => {
+    const videos = ServerServices.getVideoList();
+    videos.then((videos) => {
+      this.setState({videos: videos})
+    })
   }
 
   render() {
+    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -97,8 +108,8 @@ class ContenidoVideo extends React.Component {
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
             <AudioList className='item-list'>
-              {this.state.questions.map((item, index) => {
-                return <ContentCard key={index} item={item}/>
+              {this.state.videos.map((item, index) => {
+                return <ContentCard key={index} item={item} type='video'/>
               })}
               <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
             </AudioList>
