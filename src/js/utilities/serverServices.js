@@ -1,5 +1,8 @@
 // Server services
-const BACKEND_ENDPOINT = 'http://localhost:10011/';
+
+import * as Env from '../../env.js';
+
+const BACKEND_ENDPOINT = Env.SERVICES_ENDPOINT;
 const END_POINTS = {
 	questionsList: 'trivia/questions-list',
 	audioList: 'trivia/get-audios',
