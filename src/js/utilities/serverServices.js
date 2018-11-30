@@ -1,6 +1,6 @@
 // Server services
 
-import * as Env from '../../env.js';
+import * as Env from './../../env.js';
 
 const BACKEND_ENDPOINT = Env.SERVICES_ENDPOINT;
 const END_POINTS = {
