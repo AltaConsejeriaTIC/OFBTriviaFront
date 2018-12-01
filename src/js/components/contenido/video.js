@@ -11,6 +11,7 @@ import NavColumn from '../../utilities/navColumn.js';
 import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
+import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -76,7 +77,7 @@ class ContenidoVideo extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      videos: [videoPrototipe, videoPrototipe, videoPrototipe, videoPrototipe]
+      videos: []
     };
   };
 
@@ -111,7 +112,15 @@ class ContenidoVideo extends React.Component {
               {this.state.videos.map((item, index) => {
                 return <ContentCard key={index} item={item} type='video'/>
               })}
-              <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
+              {this.state.videos.length > 4 &&
+              <PageController
+                items={this.state.videos}
+                currentPage={this.state.currentPage}
+                onPageChange={this.onPageChange}/>
+              }
+              {this.state.videos.length === 0 && 
+                <NoItemsAvailable section='videos'/>
+              }
             </AudioList>
           </div>
         </TriviaContainer>
