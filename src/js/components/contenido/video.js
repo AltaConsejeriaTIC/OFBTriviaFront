@@ -82,7 +82,7 @@ class ContenidoVideo extends React.Component {
   };
 
   componentDidMount() {
-    //this.getVideosList();
+    this.getVideosList();
   }
 
   onPageChange = (page) => {
@@ -92,12 +92,12 @@ class ContenidoVideo extends React.Component {
   getVideosList = () => {
     const videos = ServerServices.getVideoList();
     videos.then((videos) => {
+      console.log(videos)
       this.setState({videos: videos})
     })
   }
 
   render() {
-    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -110,7 +110,7 @@ class ContenidoVideo extends React.Component {
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
             <AudioList className='item-list'>
               {this.state.videos.map((item, index) => {
-                return <ContentCard key={index} item={item} type='video'/>
+                return <ContentCard key={index} item={item} type='video' id={index + 1}/>
               })}
               {this.state.videos.length > 4 &&
               <PageController

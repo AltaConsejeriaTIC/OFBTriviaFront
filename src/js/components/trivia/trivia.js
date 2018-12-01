@@ -81,7 +81,6 @@ class Trivia extends React.Component {
     super(props);
     this.state = {
       currentPage: 1,
-      totalQuestions: 0,
       questions: []
     };
   };
@@ -119,7 +118,7 @@ class Trivia extends React.Component {
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[2]}/>
             <TriviaList className='item-list'>
-              {this.state.totalQuestions > 4 &&
+              {this.state.questions.length > 4 &&
               <div className='list-header'>
                 <span>FECHA</span>
                 <span>PREGUNTA</span>
@@ -142,13 +141,13 @@ class Trivia extends React.Component {
                   id={index}
                   path={this.props.location.pathname} />
               })}
-              {this.state.totalQuestions > 4 &&
+              {this.state.questions.length > 4 &&
               <PageController 
-                items={this.state.totalQuestions}
+                items={this.state.questions.length}
                 currentPage={this.state.currentPage}
                 onPageChange={this.onPageChange}/>
               }
-              {this.state.totalQuestions === 0 && 
+              {this.state.questions.length === 0 && 
                 <NoItemsAvailable section='trivia'/>
               }
             </TriviaList>

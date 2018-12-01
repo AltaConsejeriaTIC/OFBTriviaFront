@@ -53,12 +53,10 @@ const ERROR_PARAGRAPH = {
 }
 
 function NoItemsAvailable(props){
-  console.log(props)
   return(
     <ErrorMessageContainer className='no-items-available'>
       <h2>{ERROR_HEADERS[props.section]}</h2>
       <p>{ERROR_PARAGRAPH[props.section + 'A']}<br/>{ERROR_PARAGRAPH[props.section + 'B']}</p>
-
     </ErrorMessageContainer>
   );
 }

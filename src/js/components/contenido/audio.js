@@ -96,6 +96,7 @@ class ContenidoAudio extends React.Component {
   }
 
   render() {
+      console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -108,9 +109,9 @@ class ContenidoAudio extends React.Component {
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
             <AudioList className='item-list'>
               {this.state.audios.map((item, index) => {
-                return <ContentCard key={index} item={item} type='audio'/>
+                return <ContentCard key={index} item={item} id={index + 1} type='audio'/>
               })}
-              {this.state.audios.lenght > 4 &&
+              {this.state.audios.length > 4 &&
                 <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
               }
               {this.state.audios.length === 0 &&

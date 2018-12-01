@@ -8,6 +8,7 @@ const END_POINTS = {
 	audioList: 'trivia/get-audios',
 	createAudio: 'trivia/upload-audio',
 	videosList: 'trivia/get-videos',
+	createVideo: 'trivia/upload-video',
 }
 
 const fetchHeaders = {
@@ -31,32 +32,47 @@ export const getTriviaList = async (lastId, page) => {
 
 
 //Audio
+export const createAudio = async (title, artist, url, id) => {
+	const composedBody = {
+		title,
+		artist,
+		url,
+		id
+	};
+	const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createAudio']}`, {
+        method: "POST",
+        body: JSON.stringify(composedBody),
+        headers : fetchHeaders.headers
+    }));
+  return json;
+};
+
 export const getAudioList = async () => {
 	const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['audioList']}`
 	const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };
 
-export const createAudio = async (songName, artistName, url) => {
+//Video
+export const createVideo = async (title, url, id) => {
 	const composedBody = {
-		title: songName,
-	  artist: artistName,
-	  url: url,
-	} 
-	const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createAudio']}`, {
+		title,
+		url,
+		id
+	};
+	console.log(composedBody)
+	const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createVideo']}`, {
         method: "POST",
         body: JSON.stringify(composedBody),
-        headers : { 
-			    'Content-Type': 'application/json',
-			    'Accept': 'application/json'
-				}
+        headers : fetchHeaders.headers
     }));
   return json;
 };
 
-//Video
+
 export const getVideoList = async () => {
 	const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['videosList']}`
 	const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };
+

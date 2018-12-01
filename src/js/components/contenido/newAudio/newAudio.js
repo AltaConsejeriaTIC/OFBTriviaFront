@@ -55,7 +55,7 @@ const SectionContainer = styled('div')`
         width: 100%;
         height: 35px;
         margin: 5px 0 15px 0;
-        padding-left: 15px;
+        padding-left: 10px;
         border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
         border: solid 1px ${Constants.INPUT_BORDER_COLOR};
       }
@@ -74,9 +74,21 @@ const SectionContainer = styled('div')`
 class NewAudio extends React.Component {
   constructor(props){
     super(props);
+    const propsState = props.location.state ? props.location.state : {};
+    const {
+      isEditing = false,
+      title = '',
+      artist = '',
+      url,
+      id,
+    } = propsState;
     this.state = {
+      isEditing,
+      title,
+      artist,
+      url,
+      id,
       mustNavigate: false,
-      audioName: '',
     };
   };
 
@@ -90,18 +102,19 @@ class NewAudio extends React.Component {
     });
   };
 
+  uploadAudio = () => {
+    const audios = ServerServices.createAudio(this.state.title, this.state.artist, this.state.url, this.state.id);
+    audios.then((result) => {
+      console.log(result)
+      this.setState({audios: audios})
+    })
+  };
+
   cancel = () => {
     this.setState({mustNavigate: true})
   };
 
-  uploadAudio = () => {
-    const audios = ServerServices.createAudio(this.state.audioName, this.state.artistName, this.state.link);
-    audios.then((audios) => {
-      this.setState({audios: audios})
-    })
-  }
-
-  render() { 
+  render() {
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/contenido/audio'/>
     }
@@ -109,34 +122,49 @@ class NewAudio extends React.Component {
       <ThemeProvider theme={theme}>
         <SectionContainer>
           <div className='content'>
-            <h1>Añadir audio</h1>
+            <h1>{this.state.isEditing ? 'Editar audio' : 'Añadir audio'}</h1>
             <label>
               NOMBRE DEL AUDIO
               <input
                 type='text'
-                name='audioName'
+                name='title'
                 placeholder='Nombre del audio'
+                defaultValue={this.state.title ? this.state.title : ''}
                 onChange={this.handleInputChange}/>
             </label>
             <label>
               NOMBRE DEL ARTISTA
               <input
                 type='text'
-                name='artistName'
+                name='artist'
                 placeholder='Nombre del artista'
+                defaultValue={this.state.artist ? this.state.artist : ''}
                 onChange={this.handleInputChange}/>
             </label>
             <label>
               LINK DEL AUDIO
               <input
                 type='text'
-                name='link'
+                name='url'
                 placeholder='Link del audio'
+                defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>
             <div className='control'>
-              <Button primary border width='42%'onClick={this.cancel}>Cancelar</Button>
-              <Button primary border width='55%' onClick={this.uploadAudio}>Agregar audio</Button>
+              <Button
+                primary
+                border
+                width='42%'
+                onClick={this.cancel}>
+                Cancelar
+              </Button>
+              <Button
+                primary
+                border
+                width='55%'
+                onClick={this.uploadAudio}>
+                {this.state.isEditing ? 'Guardar cambios' : 'Agregar audio'}
+              </Button>
             </div>
           </div>
         </SectionContainer>
