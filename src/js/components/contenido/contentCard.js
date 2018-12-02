@@ -21,7 +21,7 @@ const InfoCardContainer = styled('div')`
   margin-bottom: 5px;
 
   div {
-    &.audio-content {
+    &.item {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
@@ -81,26 +81,29 @@ class ContentCard extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     if (this.state.mustNavigate) {
       return (
         <Redirect to={{
-          pathname: '/dashboard/contenido/' + this.state.itemType + '/new',
+          pathname: `/dashboard/contenido/${this.state.itemType}/edit/${this.props.id}`,
           state: {
-            item: this.item,
-            onEdit: true,
+            title: this.props.item.title,
+            artist: this.props.item.artist,
+            url: this.props.item.url,
+            id: this.props.id,
+            isEditing: true,
           }
         }}/>
       )
     }
-
     return(
       <InfoCardContainer>
-        <div className='audio-content'>
-          <h2>{this.props.item.title}</h2>
-          <a href={this.props.item.url}>{this.props.item.url}</a>
+        <div className='item'>
+          <h2>{`${this.props.item.title}${this.props.item.artist ? ` - ${this.props.item.artist}` : ''}`}</h2>
+          <a target='_blank' rel="noreferrer" rel='noopener' href={this.props.item.url}>{this.props.item.url}</a>
         </div>
         <div className='edit-button'>
-          <Button onClick={this.editItem} primary={1} border={1}>Editar audio</Button>
+          <Button onClick={this.editItem} primary={1} border={1}>{`Editar ${this.props.type}`}</Button>
         </div>
       </InfoCardContainer>
     )

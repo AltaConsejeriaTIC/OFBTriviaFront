@@ -11,6 +11,7 @@ import NavColumn from '../../utilities/navColumn.js';
 import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
+import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -76,12 +77,12 @@ class ContenidoVideo extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      videos: [videoPrototipe, videoPrototipe, videoPrototipe, videoPrototipe]
+      videos: []
     };
   };
 
   componentDidMount() {
-    //this.getVideosList();
+    this.getVideosList();
   }
 
   onPageChange = (page) => {
@@ -91,12 +92,12 @@ class ContenidoVideo extends React.Component {
   getVideosList = () => {
     const videos = ServerServices.getVideoList();
     videos.then((videos) => {
+      console.log(videos)
       this.setState({videos: videos})
     })
   }
 
   render() {
-    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -109,9 +110,17 @@ class ContenidoVideo extends React.Component {
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
             <AudioList className='item-list'>
               {this.state.videos.map((item, index) => {
-                return <ContentCard key={index} item={item} type='video'/>
+                return <ContentCard key={index} item={item} type='video' id={index + 1}/>
               })}
-              <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
+              {this.state.videos.length > 4 &&
+              <PageController
+                items={this.state.videos}
+                currentPage={this.state.currentPage}
+                onPageChange={this.onPageChange}/>
+              }
+              {this.state.videos.length === 0 && 
+                <NoItemsAvailable section='videos'/>
+              }
             </AudioList>
           </div>
         </TriviaContainer>

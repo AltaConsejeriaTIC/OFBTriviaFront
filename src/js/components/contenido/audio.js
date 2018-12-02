@@ -11,6 +11,7 @@ import NavColumn from '../../utilities/navColumn.js';
 import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
+import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -95,6 +96,7 @@ class ContenidoAudio extends React.Component {
   }
 
   render() {
+      console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -107,9 +109,14 @@ class ContenidoAudio extends React.Component {
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
             <AudioList className='item-list'>
               {this.state.audios.map((item, index) => {
-                return <ContentCard key={index} item={item} type='audio'/>
+                return <ContentCard key={index} item={item} id={index + 1} type='audio'/>
               })}
-              <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
+              {this.state.audios.length > 4 &&
+                <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
+              }
+              {this.state.audios.length === 0 &&
+                <NoItemsAvailable section='audios'/>
+              }
             </AudioList>
           </div>
         </TriviaContainer>

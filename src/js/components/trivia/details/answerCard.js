@@ -7,7 +7,8 @@ import React from 'react';
 import styled from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
-
+import * as Formater from '../../../utilities/dateFormater.js';
+import CheckedIcon from '../../../../assets/img/trivia/checkedIcon.svg'
 
 const InfoCardContainer = styled('div')`
   display: flex;
@@ -32,7 +33,7 @@ const InfoCardContainer = styled('div')`
       padding-left: 20px;
 
       span {
-
+        margin-top: 3px;
         &:first-child {
           font-size: 13px;
           font-weight: 700;
@@ -89,26 +90,90 @@ const InfoCardContainer = styled('div')`
   }
 `;
 
+const CheckboxInput = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 10%;
+  height: 100%;
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 25px;
+    width: 25px;
+    padding: 2px;
+    cursor: pointer;
+    background-color: ${(props) => props.checked ? Constants.CHECKED_ANSWER_CHECKBOX_BACKGROUND_COLOR : Constants.UNCHECKED_ANSWER_CHECKBOX_BACKGROUND_COLOR};
+    border: solid 1px ${(props) => props.checked ? Constants.CHECKED_ANSWER_CHECKBOX_BORDER_COLOR : Constants.UNCHECKED_ANSWER_CHECKBOX_BORDER_COLOR};
+    border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+  }
+
+  .checkmark {
+      display: none;
+      top: 0;
+      left: 0;
+      height: 80%;
+      width: 80%;
+  }
+
+  .container input:checked ~ .checkmark {
+      display: block;
+  }
+`;
+
 class AnswerCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checked: false
+    }
+  }
+
+  handleInputChange = (event) => {
+    this.setState((prevState, props) => {
+      return {checked: !prevState.checked}
+    }, () => this.props.onScoring(this.props.answer.userId, this.state.checked))
+  }
+
   render() {
     return(
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='user-info'>
-          <span>{this.props.answer.username}</span>
-          <span>{this.props.answer.phone}</span>
-          <span>{this.props.answer.email}</span>
+          <span>{this.props.answer.username ? this.props.answer.username : 'Alejandro Díaz Vecchio'}</span>
+          <span>{this.props.answer.phone ? this.props.answer.phone : 'xxx-xxx-xxxx'}</span>
+          <span>{this.props.answer.email ? this.props.answer.email : 'aldiazve@unal.edu.co'}</span>
         </div>
         <div className='answer-body'>
-          {this.props.answer.body}
+          {this.props.answer.content}
         </div>
-        <div className='answer-body'>
-          {this.props.answer.body}
-        </div>
+        {this.props.scoring &&
+          <CheckboxInput checked={this.state.checked}>
+            <label className="container">
+              <input type="checkbox" onChange={this.handleInputChange}/>
+              <img src={CheckedIcon} alt='checkmark' className="checkmark"/>
+            </label>
+          </CheckboxInput>
+        }
         <div className='date'>
           <span>Hora:</span>
-          <span>{this.props.answer.hour}</span>
+          <span>{Formater.hourFromDate(new Date(this.props.answer.date))}</span>
           <span>Fecha:</span>
-          <span>{this.props.answer.date}</span>
+          <span>{Formater.dayAndMonthFromDate(new Date(this.props.answer.date))}</span>
         </div>
       </InfoCardContainer>
     )

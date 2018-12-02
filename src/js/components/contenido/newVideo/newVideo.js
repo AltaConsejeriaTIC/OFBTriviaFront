@@ -7,6 +7,7 @@ import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
+import * as ServerServices from '../../../utilities/serverServices.js';
 
 const theme = Constants.NEW_VIDEO_THEME;
 
@@ -53,7 +54,7 @@ const SectionContainer = styled('div')`
         width: 80%;
         width: 100%;
         height: 35px;
-        margin: 15px 0 0 0;
+        margin: 5px 0 15px 0;
         padding-left: 15px;
         border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
         border: solid 1px ${Constants.INPUT_BORDER_COLOR};
@@ -78,9 +79,19 @@ const SectionContainer = styled('div')`
 class NewAudio extends React.Component {
   constructor(props){
     super(props);
+    const propsState = props.location.state ? props.location.state : {};
+    const {
+      isEditing = false,
+      title = '',
+      url,
+      id,
+    } = propsState;
     this.state = {
+      isEditing,
+      title,
+      url,
+      id,
       mustNavigate: false,
-      videoName: '',
     };
   };
 
@@ -94,11 +105,19 @@ class NewAudio extends React.Component {
     });
   };
 
+  uploadVideo = () => {
+    const response = ServerServices.createVideo(this.state.title, this.state.url, this.state.id);
+    response.then((result) => {
+      console.log(result)
+    })
+  };
+
   cancel = () => {
     this.setState({mustNavigate: true})
-  }
+  };
 
-  render() { 
+  render() {
+    console.log(this.state)
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/contenido/video'/>
     }
@@ -106,24 +125,39 @@ class NewAudio extends React.Component {
       <ThemeProvider theme={theme}>
         <SectionContainer>
           <div className='content'>
-            <h1>Añadir video</h1>
+            <h1>{this.state.isEditing ? 'Editar video' : 'Añadir video'}</h1>
             <label>
               NOMBRE DEL VIDEO
               <input
                 type='text'
-                name='videoName'
+                name='title'
                 placeholder='Nombre del video'
-                maxLength={Constants.VIDEO_NAME_MAX_CHARACTERS}
+                defaultValue={this.state.title ? this.state.title : ''}
                 onChange={this.handleInputChange}/>
-              <span>{this.state.videoName.length + ' DE 40 CARACTERES'}</span>
             </label>
             <label>
               LINK DEL VIDEO
-              <input type='text' name='link' placeholder='Link del video'/>
+              <input 
+                type='text'
+                name='url'
+                placeholder='Link del video'
+                onChange={this.handleInputChange}/>
             </label>
             <div className='control'>
-              <Button primary border width='42%'onClick={this.cancel}>Cancelar</Button>
-              <Button primary border width='55%'>Agregar video</Button>
+              <Button
+                primary
+                border
+                width='42%'
+                onClick={this.cancel}>
+                Cancelar
+              </Button>
+              <Button
+                primary
+                border
+                width='55%'
+                onClick={this.uploadVideo}>
+                {this.state.isEditing ? 'Guardar cambios' : 'Agregar video'}
+              </Button>
             </div>
           </div>
         </SectionContainer>

@@ -11,6 +11,7 @@ import NavColumn from '../../utilities/navColumn.js';
 import InfoCard from './infoCard.js';
 import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
+import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -80,7 +81,6 @@ class Trivia extends React.Component {
     super(props);
     this.state = {
       currentPage: 1,
-      totalQuestions: 17,
       questions: []
     };
   };
@@ -117,12 +117,14 @@ class Trivia extends React.Component {
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[2]}/>
             <TriviaList className='item-list'>
+              {this.state.questions.length > 0 &&
               <div className='list-header'>
                 <span>FECHA</span>
                 <span>PREGUNTA</span>
                 <span>ESTADO</span>
                 <span>RESPUESTA</span>
               </div>
+              }
               {this.state.questions.map((item, index) => {
                 if(index === 1){
                   return <InfoCard
@@ -138,7 +140,15 @@ class Trivia extends React.Component {
                   id={index}
                   path={this.props.location.pathname} />
               })}
-              <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
+              {this.state.questions.length > 4 &&
+              <PageController 
+                items={this.state.questions.length}
+                currentPage={this.state.currentPage}
+                onPageChange={this.onPageChange}/>
+              }
+              {this.state.questions.length === 0 && 
+                <NoItemsAvailable section='trivia'/>
+              }
             </TriviaList>
           </div>
         </TriviaContainer>

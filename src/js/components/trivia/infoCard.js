@@ -126,9 +126,9 @@ class InfoCard extends React.Component {
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='date'>
           <span>Fecha de publicación:</span>
-          <span>{Formater.formatDate(this.props.question.startDate.getDate(), this.props.question.startDate.getMonth(), this.props.question.startDate.getFullYear())}</span>
+          <span>{Formater.fullDateString(this.props.question.startDate)}</span>
           <span>Fecha de cierre:</span>
-          <span>{Formater.formatDate(this.props.question.endDate.getDate(), this.props.question.endDate.getMonth(), this.props.question.endDate.getFullYear())}</span>
+          <span>{Formater.fullDateString(this.props.question.endDate)}</span>
         </div>
         <div className='question-content'>
           {this.props.question.content}

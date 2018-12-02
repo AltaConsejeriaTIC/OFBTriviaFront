@@ -14,7 +14,14 @@ const MONTHS = {
 	12: 'Diciembre',
 }
 
+export const fullDateString = (date) => {
+	return `${date.getDate()} ${MONTHS[date.getMonth()]} de ${date.getFullYear()}`;
+};
 
-export const formatDate = (day, month, year) => {
-	return `${day} ${MONTHS[month]} de ${year}`;
-}
+export const hourFromDate = (date) => {
+	return `${date.getHours()}:${date.getMinutes()}`;
+};
+
+export const dayAndMonthFromDate = (date) => {
+	return `${date.getDate()} de ${MONTHS[date.getMonth()]}`;
+};
