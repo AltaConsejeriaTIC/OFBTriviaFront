@@ -28,10 +28,16 @@ export const ERROR_TEXT_COLOR = '#C53C3C';
 export const SELECTED_INFOCARD_BORDER_COLOR = '#FF4284';
 export const SELECTED_ANSWER_CARD_BORDER_COLOR = '#12D2FF';
 export const NO_ITEMS_AVAILABLE_TEXT_COLOR = '#838595';
+export const CHECKED_ANSWER_CHECKBOX_BACKGROUND_COLOR = '#87C677';
+export const CHECKED_ANSWER_CHECKBOX_BORDER_COLOR = '#70A663';
+export const UNCHECKED_ANSWER_CHECKBOX_BACKGROUND_COLOR = '#FFFFFF';
+export const UNCHECKED_ANSWER_CHECKBOX_BORDER_COLOR = '#CECECE';
 
 export const PRIMARY_BUTTON_TEXT_COLOR = '#161824';
 export const PRIMARY_BORDER_COLOR = '#E0AE0D';
 export const SECONDARY_BORDER_COLOR = '#4A5363';
+export const PUBLISH_WINNERS_BUTTON_BACKGROUND_COLOR = '#E75252';
+export const PUBLISH_WINNERS_BUTTON_BORDER_COLOR = '#C53C3C';
 export const INPUT_BORDER_COLOR = '#DBDBDB';
 export const WEAK_BORDER_COLOR = '#DBDBDB';
 export const UNIVERSAL_BORDER_RADIUS = '4px';
@@ -112,3 +118,12 @@ export const LOGIN_ERROR_MESSAGES = {
 }
 
 
+// SWAL CONTENT CONSTANTS
+export const SAVE_WINNERS_ALERT_CONTENT = {
+  title: '¿Estás seguro de que deseas seleccionar estos ganadores?',
+  text: 'Esta acción no se puede deshacer ni modificar.',
+  showCancelButton: true,
+  cancelButtonText: 'CANCELAR',
+  confirmButtonText: 'SELECCIONAR',
+  customClass: 'swal-winners',
+}

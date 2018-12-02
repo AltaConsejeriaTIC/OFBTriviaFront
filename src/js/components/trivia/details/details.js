@@ -4,12 +4,17 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import styled, {ThemeProvider} from 'styled-components';
+//Sweet Alert 2
+import swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import AnswerCard from './answerCard.js';
 import PageController from '../../../utilities/pageController.js';
 import { Button } from '../../../utilities/button.js';
 import * as Formater from '../../../utilities/dateFormater.js';
+import * as ServerServices from '../../../utilities/serverServices.js';
+import NoItemsAvailable from '../../../utilities/noItemsAvailable.js';
 
 const theme = Constants.DETAILS_TRIVIA_THEME;
 
@@ -193,32 +198,74 @@ const AnswersList = styled('div')`
   }
 `;
 
-const answerPrototipe = {
-  username: 'Alejandro Díaz Vecchio',
-  hour: '23:59',
-  date: '12 de Noviembre',
-  body: 'El solista del próximo concierto es el violinista Samuel Jiménez',
-  email: 'aldiazve@unal.edu.co',
-  phone: 'xxx-xxx-xxxx'
-}
-
 class TriviaDetails extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       redirectToEdit: false,
       question: this.props.location.state,
-      answers: [answerPrototipe, answerPrototipe, answerPrototipe, answerPrototipe]
+      scoring: false,
+      answers: [],
+      winners: [],
     };
   };
 
-  PageChange = (page) => {
+  componentDidMount() {
+    this.getAnswersList();
+  }
+
+  getAnswersList = () => {
+    const answers = ServerServices.getAnswersList(this.state.question.id);
+    answers.then((answers) => {
+      this.setState({answers: answers})
+    })
+  };
+
+  onPageChange = (page) => {
     this.setState({currentPage: page});
+  };
+
+  startScoring = () => {
+    this.setState((prevState, props) => {
+      return {scoring: !prevState.scoring};
+    });
+  };
+
+  onScoringHandler = (userId, scored) => {
+    if(scored) {
+      this.setState((prevState, props) => {
+        prevState.winners.push(userId);
+        return prevState;
+      })
+    } else {
+      this.setState((prevState, props) => {
+        const winnersToRemove = [userId];
+        prevState.winners = prevState.winners.filter(item => !winnersToRemove.includes(item));
+        return prevState;
+      })
+    }
+  };
+
+  saveWinners = () => {
+    swal(Constants.SAVE_WINNERS_ALERT_CONTENT)
+    .then((dismiss) => {
+      if (dismiss.dismiss) {
+        return;
+      }else {
+        console.log(this.state.question.id)
+        const result = ServerServices.saveWinners(this.state.winners, this.state.question.id);
+        result.then((response) => {
+          if(response.status === 200) {
+            this.setState({scoring: false});
+          }
+        })
+      }
+    })
   };
 
   goToEdit = () => {
     this.setState({redirectToEdit: true})
-  }
+  };
 
   render() {
     if(this.state.redirectToEdit){
@@ -227,6 +274,7 @@ class TriviaDetails extends React.Component {
         state: {question: this.state.question, onEdit: true}
       }}/>
     } 
+      console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaDetailsContainer>
@@ -236,14 +284,10 @@ class TriviaDetails extends React.Component {
             <div className='date'>
               <h4>FECHA</h4>
               <span>Fecha de la publicación:</span>
-              <span>{Formater.formatDate(this.state.question.startDate.getDate(),
-                                         this.state.question.startDate.getMonth(),
-                                         this.state.question.startDate.getFullYear())
+              <span>{Formater.fullDateString(this.state.question.startDate)
               }</span>
               <span>Fecha de cierre:</span>
-              <span>{Formater.formatDate(this.state.question.endDate.getDate(),
-                                         this.state.question.endDate.getMonth(),
-                                         this.state.question.endDate.getFullYear())
+              <span>{Formater.fullDateString(this.state.question.endDate)
               }</span>
             </div>
             <div>
@@ -263,37 +307,72 @@ class TriviaDetails extends React.Component {
             <p>
               Las respuestas resaltadas con color <span>azul</span> son las respuestas que segun nuestro algoritmo se parecen más a la respuesta correcta.
             </p>
+            {!this.state.scoring &&
             <Button
               primary
               width='auto'
+              height='40px'
               border
               onClick={this.goToEdit}>
               Editar Pregunta
             </Button>
+            }
+            {!this.state.scoring &&
             <Button
               primary
               width='auto'
-              border>
+              height='40px'
+              border
+              onClick={this.startScoring}>
               Seleccionar Ganadores
             </Button>
+            }
+            {this.state.scoring &&
+            <Button
+              cancel
+              width='auto'
+              height='40px'
+              border
+              onClick={this.startScoring}>
+              CANCELAR
+            </Button>
+            }
+            {this.state.scoring &&
+            <Button
+              winners
+              width='auto'
+              height='40px'
+              border
+              onClick={this.saveWinners}>
+              PUBLICAR GANADORES
+            </Button>
+            }
           </div>
           <AnswersList>
-            <div className='answers-list-header'>
-              <span>USUARIO</span>
-              <span>RESPUESTA</span>
-              <span>FECHA Y HORA</span>
-            </div>
+            {this.state.answers.length > 0 &&
+              <div className='answers-list-header'>
+                <span>USUARIO</span>
+                <span>RESPUESTA</span>
+                <span>FECHA Y HORA</span>
+              </div>
+            }
             {this.state.answers.map((item, index) => {
-              if(index === 1){
-                return <AnswerCard
-                  key={index}
-                  answer={item}
-                  path={this.props.location.pathname}
-                  selected/>  
-              }
-              return <AnswerCard key={index} answer={item}/>
+              return <AnswerCard
+                key={index}
+                answer={item}
+                scoring={this.state.scoring}
+                onScoring={this.onScoringHandler}
+                selected={item.score}/>
             })}
-            <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
+            {this.state.answers.length > 4 &&
+            <PageController
+              items={this.state.totalQuestions}
+              currentPage={this.state.currentPage}
+              onPageChange={this.onPageChange}/>
+            }
+            {this.state.answers.length === 0 &&
+              <NoItemsAvailable section='details'/>
+            }
           </AnswersList>
         </TriviaDetailsContainer>
       </ThemeProvider>

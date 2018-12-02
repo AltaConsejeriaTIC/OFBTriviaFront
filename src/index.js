@@ -11,7 +11,7 @@ import OFBTriviaApp from './OFBTriviaApp.js';
 import { BrowserRouter } from 'react-router-dom' // Router
 
 //Main CSS
-import './main.css';
+import './main.scss';
 
 ReactDOM.render((
   <BrowserRouter>

@@ -28,6 +28,16 @@ export const Button = styled('button')`
   ${(props) => props.border && css`
     border: solid 1px ${(props) => props.primary ? Constants.PRIMARY_BORDER_COLOR : Constants.SECONDARY_BORDER_COLOR};
   `}
+
+  ${(props) => props.cancel && css`
+    color: white;
+  `}
+
+  ${(props) => props.winners && css`
+    color: white;
+    background-color: ${Constants.PUBLISH_WINNERS_BUTTON_BACKGROUND_COLOR};
+    border: solid 1px ${Constants.PUBLISH_WINNERS_BUTTON_BORDER_COLOR};
+  `}
 `;
 
 export const LinkButton = styled(Link)`

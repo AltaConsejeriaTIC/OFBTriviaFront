@@ -106,7 +106,6 @@ class Trivia extends React.Component {
   };
 
   render() {
-    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -118,7 +117,7 @@ class Trivia extends React.Component {
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[2]}/>
             <TriviaList className='item-list'>
-              {this.state.questions.length > 4 &&
+              {this.state.questions.length > 0 &&
               <div className='list-header'>
                 <span>FECHA</span>
                 <span>PREGUNTA</span>

@@ -5,6 +5,8 @@ import * as Env from './../../env.js';
 const BACKEND_ENDPOINT = Env.SERVICES_ENDPOINT;
 const END_POINTS = {
 	questionsList: 'trivia/questions-list',
+	answersList: 'trivia/users-answers',
+	saveWinners: 'trivia/select-winners',
 	audioList: 'trivia/get-audios',
 	createAudio: 'trivia/upload-audio',
 	videosList: 'trivia/get-videos',
@@ -18,18 +20,34 @@ const fetchHeaders = {
 	}
 };
 
+//Trivia
 export const getTriviaList = async (lastId, page) => {
-	const composedURL = `
-		${BACKEND_ENDPOINT}		
-		${END_POINTS['questionsList']}
-		?
-		${lastId ? 'lastId=' + lastId : ''}
-		${page ? 'page=' + page : ''}`
-
+	const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['questionsList']}?${lastId ? 'lastId=' + lastId : ''}${page ? 'page=' + page : ''}`
 	const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };
 
+export const getAnswersList = async (questionId) => {
+	const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['answersList']}?${'questionId=' + questionId}`;
+	const json = await (await fetch(composedURL, fetchHeaders)).json();
+  return json;
+};
+
+export const saveWinners = async (winnersIds, questionId) => {
+	const composedBody = [];
+	winnersIds.forEach((winnerId) => {
+		composedBody.push({
+			questionId: questionId,
+			userId: winnerId
+		})
+	})
+	const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['saveWinners']}`, {
+        method: "POST",
+        body: JSON.stringify(composedBody),
+        headers : fetchHeaders.headers
+    }));
+	return json;
+};
 
 //Audio
 export const createAudio = async (title, artist, url, id) => {
@@ -68,7 +86,6 @@ export const createVideo = async (title, url, id) => {
     }));
   return json;
 };
-
 
 export const getVideoList = async () => {
 	const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['videosList']}`
