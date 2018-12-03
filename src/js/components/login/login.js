@@ -8,7 +8,8 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../constants.js';
 import { Button } from '../../utilities/button.js';
 //IMG
-import violinImage from '../../../assets/img/login/violin.svg';
+import LogoAlcaldia from '../../../assets/img/login/logoAlcaldia.svg';
+import FooterImage from '../../../assets/img/login/footerImage.svg';
 
 const theme = Constants.LOGIN_THEME;
 
@@ -33,58 +34,46 @@ const LoginContainer = styled('div')`
   background-color: white;
 
   div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     position: relative;
     height: 100%;
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 60px;
+    padding: 0;
 
+    h3 {
+      margin-top: 25%;
+      font-family: 'Bitter';
+      font-weight: 500;
+      font-size: 45px;
+      color: white;
+      
+      @media (max-width: 1300px) {
+        font-size: 25px;
+      }
+    }
 
     &:first-child {
       position: relative;
-      background-color:  ${Constants.PRIMARY_COLOR};
+      padding: 0;
+      background-color:  ${Constants.LOGIN_BACKGROUND_COLOR};
 
       img {
-        height: 60%;
-        margin-top: 10%;
-      }
-
-      .footer {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        position: absolute;
-        width: 100%;
-        background-color: transparent;
-        height: auto;
-        bottom: 15px;
-        
-        h3 {
-          position: relative;
-          width: 100%;
-          font-family: 'Bitter';
-          font-weight: 800;
-          font-size: 20px;
-          margin-top: 70px;
-          margin-bottom: 0px;
-
-          &:after {
-            position: absolute;
-            content: '';
-            width: 20%;
-            height: 2px;
-            left: 0;
-            top: -10px;
-            background-color: #E6B923;
-          }
+        &.logo-alcaldia {
+          position: absolute;
+          bottom: 23%;
+          width: 22%;
+          height: auto;
 
         }
-        
-        span {
-          font-size: 13px;
-          letter-spacing: 1px;
+
+        &:last-child {
+          position: absolute;
+          bottom: 0;
           width: 100%;
         }
       }
@@ -99,15 +88,14 @@ const LoginContainer = styled('div')`
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         width: 100%;
-        height 90%;
-        padding: 0px 18%;
+        height 100%;
+        padding: 0px 20%;
         display: flex;
         flex-direction: column;
         align-items: left;
-        justify-content: center;
 
         h2 {
-          margin: 0 0 15px 0;
+          margin: 42% 0 15px 0;
           font-family: 'Bitter';
           font-weight: 800;
         }
@@ -149,9 +137,6 @@ class Login extends React.Component {
       loginError: false,
       loginErrorType: 'FIELDS_EMPTY',
     };
-  };
-
-  componentDidMount(){
   };
 
   handleInputChange = (event) => {
@@ -197,11 +182,9 @@ class Login extends React.Component {
         <SectionContainer>
           <LoginContainer>
             <div>
-              <img src={violinImage} alt='violin_image'/>
-              <div className='footer'>
-                <h3>Orquesta Filarmónica de Bogotá</h3>
-                <span>ADMINISTRADOR</span>
-              </div>
+              <h3>Orquesta<br/>Filarmónica<br/>de Bogotá</h3>
+              <img className='logo-alcaldia' src={LogoAlcaldia} alt='logo_Alcaldia'/>
+              <img src={FooterImage} alt='footer_image'/>
             </div>
             <div>
               <form>

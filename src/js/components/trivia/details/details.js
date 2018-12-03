@@ -15,24 +15,17 @@ import { Button } from '../../../utilities/button.js';
 import * as Formater from '../../../utilities/dateFormater.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
 import NoItemsAvailable from '../../../utilities/noItemsAvailable.js';
+import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 
 const theme = Constants.DETAILS_TRIVIA_THEME;
 
 const TriviaDetailsContainer = styled('div')`
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: ${props => props.theme.containerHeight};
   background-color: ${props => props.theme.backgroundColor};
   padding: 0 5%;
-
-  .nav-header {
-    position: absolute;
-    width: 100%;
-    height: 35px;
-    margin-left: -5%;
-    background-color: white;
-    border-bottom: solid 1px ${Constants.WEAK_BORDER_COLOR};
-  }
 
   .section-header {
     display: flex;
@@ -268,18 +261,17 @@ class TriviaDetails extends React.Component {
   };
 
   render() {
+    console.log(this.props)
     if(this.state.redirectToEdit){
       return <Redirect push to={{
         pathname: '/dashboard/trivia/edit',
-        state: {question: this.state.question, onEdit: true}
+        state: {question: this.state.question, isEditing: true}
       }}/>
-    } 
-      console.log(this.state)
+    }
     return (
       <ThemeProvider theme={theme}>
         <TriviaDetailsContainer>
-          <div className='nav-header'>
-          </div>
+          <BreadCrumbs mainSection='details' margin/>
           <div className='trivia-info'>
             <div className='date'>
               <h4>FECHA</h4>

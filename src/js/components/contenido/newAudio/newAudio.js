@@ -8,6 +8,7 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
+import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 
 const theme = Constants.NEW_AUDIO_THEME;
 
@@ -121,6 +122,7 @@ class NewAudio extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <SectionContainer>
+          <BreadCrumbs mainSection={this.state.isEditing ? 'editAudio' : 'newAudio'}/>
           <div className='content'>
             <h1>{this.state.isEditing ? 'Editar audio' : 'Añadir audio'}</h1>
             <label>

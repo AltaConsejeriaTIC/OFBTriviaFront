@@ -1,6 +1,7 @@
 //CSS color constants
 export const PRIMARY_COLOR = '#F7C933';
 export const MAIN_BACKGROUND_COLOR = '#EAEAEC';
+export const LOGIN_BACKGROUND_COLOR = '#292B3C';
 export const SECONDARY_BACKGROUND_COLOR = '#161824';
 export const INFO_CARD_BACKGROUND_COLOR = '#F9F9F9';
 export const INFO_CARD_BORDER_COLOR = '#DBDBDB';
@@ -32,6 +33,7 @@ export const CHECKED_ANSWER_CHECKBOX_BACKGROUND_COLOR = '#87C677';
 export const CHECKED_ANSWER_CHECKBOX_BORDER_COLOR = '#70A663';
 export const UNCHECKED_ANSWER_CHECKBOX_BACKGROUND_COLOR = '#FFFFFF';
 export const UNCHECKED_ANSWER_CHECKBOX_BORDER_COLOR = '#CECECE';
+export const BREAD_CRUMBS_TEXT_COLOR= '#575A6D';
 
 export const PRIMARY_BUTTON_TEXT_COLOR = '#161824';
 export const PRIMARY_BORDER_COLOR = '#E0AE0D';
@@ -61,7 +63,7 @@ export const LOADER_THEME = {
 }
 //HEADER
 export const HEADER_THEME = {
-  containerHeight: '10vh',
+  containerHeight: '12vh',
   backgroundColor: SECONDARY_BACKGROUND_COLOR,
 }
 
@@ -74,13 +76,13 @@ export const FOOTER_THEME = {
 
 //TRIVIA
 export const TRIVIA_THEME = {
-  containerHeight: '77vh',
+  containerHeight: '75vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   textColor: UNDEREMPHASIZE_FOOTER_HEADER_TEXT_COLOR,
 }
 
 export const DETAILS_TRIVIA_THEME = {
-  containerHeight: '77vh',
+  containerHeight: '75vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   normalTextColor: TRIVIA_DETAILS_TEXT_COLOR,
   strongTextColor: TRIVIA_DETAILS_STRONG_TEXT_COLOR,
@@ -88,19 +90,19 @@ export const DETAILS_TRIVIA_THEME = {
 }
 
 export const NEW_TRIVIA_THEME = {
-  containerHeight: '77vh',
+  containerHeight: '75vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   textColor: '#737582',
 }
 
 export const NEW_AUDIO_THEME = {
-  containerHeight: '77vh',
+  containerHeight: '75vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   textColor: '#737582',
 }
 
 export const NEW_VIDEO_THEME = {
-  containerHeight: '77vh',
+  containerHeight: '75vh',
   backgroundColor: MAIN_BACKGROUND_COLOR,
   textColor: '#737582',
 }

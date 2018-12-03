@@ -7,6 +7,7 @@ import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
+import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 
 const theme = Constants.NEW_TRIVIA_THEME;
 
@@ -24,7 +25,7 @@ const SectionContainer = styled('div')`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.textColor};
-  padding: 0 50px;
+  padding: 0 5%;
 
   h1 {
     color: ${Constants.STRONG_TEXT_COLOR};
@@ -126,11 +127,16 @@ const SectionContainer = styled('div')`
 class NewTrivia extends React.Component {
   constructor(props){
     super(props);
+    const propsState = props.location.state ? props.location.state : {};
+    const {
+      isEditing = false,
+      question = {content: '', answer: ''},
+    } = propsState;
     this.state = {
-      onEdit: this.props.location.state ? this.props.location.state.onEdit : false,
+      isEditing,
+      question,
       mustNavigate: false,
-      questionContent: this.props.location.state ? this.props.location.state.question.content : '',
-      questionAnswer: this.props.location.state ? this.props.location.state.question.content : '',
+      returnToDetails: false,
     };
   };
 
@@ -144,19 +150,33 @@ class NewTrivia extends React.Component {
     });
   };
 
+  returnToDetails = () => {
+    this.setState({returnToDetails: true});
+  };
+
   cancel = () => {
     this.setState({mustNavigate: true})
-  }
+  };
 
   render() {
-    console.log(this.state)
+    if(this.state.returnToDetails){
+      return <Redirect push to={{
+        pathname: `/dashboard/trivia/${this.state.question.id}`,
+        state: this.state.question
+      }}/>
+    }
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/trivia'/>
     }
     return (
       <ThemeProvider theme={theme}>
         <SectionContainer>
-          <h1>{this.state.onEdit ? 'Editar Pregunta' : 'Añadir pregunta'}</h1>
+          <BreadCrumbs
+            mainSection={this.state.isEditing ? 'editTrivia' : 'newTrivia'}
+            questionId={this.state.question.id}
+            returnToDetails={this.returnToDetails}
+            margin/>
+          <h1>{this.state.isEditing ? 'Editar Pregunta' : 'Añadir pregunta'}</h1>
           <div className='content'>
             <div className='dates'>
               <label>
@@ -184,8 +204,8 @@ class NewTrivia extends React.Component {
                   placeholder='Escribe aquí la pregunta.'
                   onChange={this.handleInputChange}
                   maxLength={Constants.TRIVIA_QUESTION_MAX_CHARACTERS}
-                  value={this.state.questionContent}/>
-                <span>{this.state.questionContent.length + ' DE 140 CARACTERES'}</span>
+                  value={this.state.question.content}/>
+                <span>{this.state.question.content.length + ' DE 140 CARACTERES'}</span>
               </label>
               <label>
                 RESPUESTA
@@ -194,8 +214,8 @@ class NewTrivia extends React.Component {
                   placeholder='Escribe aquí la respuesta.'
                   onChange={this.handleInputChange}
                   maxLength={Constants.TRIVIA_ANSWER_MAX_CHARACTERS}
-                  value={this.state.questionAnswer}/>
-                <span>{this.state.questionAnswer.length + ' DE 140 CARACTERES'}</span>
+                  value={this.state.question.content}/>
+                <span>{this.state.question.content.length + ' DE 140 CARACTERES'}</span>
               </label>
             </div>
           </div>

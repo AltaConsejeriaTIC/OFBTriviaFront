@@ -8,6 +8,7 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
+import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 
 const theme = Constants.NEW_VIDEO_THEME;
 
@@ -117,13 +118,14 @@ class NewAudio extends React.Component {
   };
 
   render() {
-    console.log(this.state)
+    console.log(this.state, this.props)
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/contenido/video'/>
     }
     return (
       <ThemeProvider theme={theme}>
         <SectionContainer>
+          <BreadCrumbs mainSection={this.state.isEditing ? 'editVideo' : 'newVideo'}/>
           <div className='content'>
             <h1>{this.state.isEditing ? 'Editar video' : 'Añadir video'}</h1>
             <label>
@@ -141,6 +143,7 @@ class NewAudio extends React.Component {
                 type='text'
                 name='url'
                 placeholder='Link del video'
+                defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>
             <div className='control'>
