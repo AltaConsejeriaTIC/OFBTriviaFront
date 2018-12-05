@@ -4,6 +4,8 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import styled, {ThemeProvider} from 'styled-components';
+import swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
@@ -29,12 +31,14 @@ const SectionContainer = styled('div')`
   padding: 0 50px;
 
   .content {
-    margin-top: -50px;
     display: flex;
     flex-direction: column;
     width: 30%;
 
     h1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       color: ${Constants.STRONG_TEXT_COLOR};
       font-size: 20px;
     }
@@ -59,6 +63,10 @@ const SectionContainer = styled('div')`
         padding-left: 10px;
         border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
         border: solid 1px ${Constants.INPUT_BORDER_COLOR};
+      
+        &.red {
+          border: 1px solid red;
+        }
       }
 
     }
@@ -69,7 +77,13 @@ const SectionContainer = styled('div')`
       margin-top: 20px;
     }
   }
+`;
 
+const ErrorMessage = styled('p')`
+  display: ${(props) => props.display ? 'block' : 'none'};
+  font-size: 13px;
+  color: #C53C3C;
+  margin: 10px 0;
 `;
 
 class NewAudio extends React.Component {
@@ -90,6 +104,7 @@ class NewAudio extends React.Component {
       url,
       id,
       mustNavigate: false,
+      emptyFields: false,
     };
   };
 
@@ -104,12 +119,36 @@ class NewAudio extends React.Component {
   };
 
   uploadAudio = () => {
-    const audios = ServerServices.createAudio(this.state.title, this.state.artist, this.state.url, this.state.id);
-    audios.then((result) => {
-      console.log(result)
-      this.setState({audios: audios})
-    })
+    if(this.validateFields()){
+      this.setState({loading: true});
+      const audios = ServerServices.createAudio(this.state.title, this.state.artist, this.state.url, this.state.id);
+      audios.then((result) => {
+        if(result.status === 201 || result.status === 200){
+          this.setState({mustNavigate: true});
+          //Success
+        }else{
+          //Some error happened.
+        }
+      })
+    } else {
+      this.setState({emptyFields: true});
+    }
   };
+
+  validateFields = () => {
+    if (this.state.title === '' || this.state.artist === '' || this.state.url === '') {
+      return false;
+    }else{
+      return true;
+    }
+  };
+
+  deleteItem = () => {
+    swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
+    .then((dismiss) => {
+      swal(Constants.SERVICE_NOT_AVAILABLE_ON_BACKEND)
+    })
+  }
 
   cancel = () => {
     this.setState({mustNavigate: true})
@@ -124,12 +163,24 @@ class NewAudio extends React.Component {
         <SectionContainer>
           <BreadCrumbs mainSection={this.state.isEditing ? 'editAudio' : 'newAudio'}/>
           <div className='content'>
-            <h1>{this.state.isEditing ? 'Editar audio' : 'Añadir audio'}</h1>
+            <h1>
+              {this.state.isEditing ? 'Editar audio' : 'Añadir audio'}
+              {this.state.isEditing &&
+                <Button
+                  delete
+                  border
+                  width='30%'
+                  onClick={this.deleteItem}>
+                  Eliminar
+                </Button>
+              }
+            </h1>
             <label>
               NOMBRE DEL AUDIO
               <input
                 type='text'
                 name='title'
+                className={this.state.emptyFields && this.state.title === '' ? 'red' : ''}
                 placeholder='Nombre del audio'
                 defaultValue={this.state.title ? this.state.title : ''}
                 onChange={this.handleInputChange}/>
@@ -139,6 +190,7 @@ class NewAudio extends React.Component {
               <input
                 type='text'
                 name='artist'
+                className={this.state.emptyFields && this.state.artist === '' ? 'red' : ''}
                 placeholder='Nombre del artista'
                 defaultValue={this.state.artist ? this.state.artist : ''}
                 onChange={this.handleInputChange}/>
@@ -148,10 +200,14 @@ class NewAudio extends React.Component {
               <input
                 type='text'
                 name='url'
+                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
                 placeholder='Link del audio'
                 defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>
+            <ErrorMessage display={this.state.emptyFields ? 1 : 0}>
+              {Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.FIELDS_EMPTY}
+            </ErrorMessage>
             <div className='control'>
               <Button
                 primary

@@ -4,6 +4,8 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import styled, {ThemeProvider} from 'styled-components';
+import swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
@@ -35,6 +37,9 @@ const SectionContainer = styled('div')`
     width: 30%;
 
     h1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       color: ${Constants.STRONG_TEXT_COLOR};
       font-size: 20px;
     }
@@ -59,6 +64,10 @@ const SectionContainer = styled('div')`
         padding-left: 15px;
         border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
         border: solid 1px ${Constants.INPUT_BORDER_COLOR};
+
+        &.red {
+          border: 1px solid red;
+        }
       }
 
       span {
@@ -74,8 +83,15 @@ const SectionContainer = styled('div')`
       margin-top: 20px;
     }
   }
-
 `;
+
+const ErrorMessage = styled('p')`
+  display: ${(props) => props.display ? 'block' : 'none'};
+  font-size: 13px;
+  color: #C53C3C;
+  margin: 10px 0;
+`;
+
 
 class NewAudio extends React.Component {
   constructor(props){
@@ -107,11 +123,36 @@ class NewAudio extends React.Component {
   };
 
   uploadVideo = () => {
-    const response = ServerServices.createVideo(this.state.title, this.state.url, this.state.id);
-    response.then((result) => {
-      console.log(result)
-    })
+    if(this.validateFields()){
+      this.setState({loading: true});
+      const response = ServerServices.createVideo(this.state.title, this.state.url, this.state.id);
+      response.then((result) => {
+        if(result.status === 201 || result.status === 200){
+          this.setState({mustNavigate: true});
+          //Success
+        }else{
+          //Some error happened.
+        }
+      })
+    } else {
+      this.setState({emptyFields: true});
+    }
   };
+
+  validateFields = () => {
+    if (this.state.title === '' || this.state.url === '') {
+      return false;
+    }else{
+      return true;
+    }
+  };
+
+  deleteItem = () => {
+    swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
+    .then((dismiss) => {
+      swal(Constants.SERVICE_NOT_AVAILABLE_ON_BACKEND)
+    })
+  }
 
   cancel = () => {
     this.setState({mustNavigate: true})
@@ -127,12 +168,24 @@ class NewAudio extends React.Component {
         <SectionContainer>
           <BreadCrumbs mainSection={this.state.isEditing ? 'editVideo' : 'newVideo'}/>
           <div className='content'>
-            <h1>{this.state.isEditing ? 'Editar video' : 'Añadir video'}</h1>
+            <h1>
+              {this.state.isEditing ? 'Editar video' : 'Añadir video'}
+              {this.state.isEditing &&
+                <Button
+                  delete
+                  border
+                  width='30%'
+                  onClick={this.deleteItem}>
+                  Eliminar
+                </Button>
+              }
+            </h1>
             <label>
               NOMBRE DEL VIDEO
               <input
                 type='text'
                 name='title'
+                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
                 placeholder='Nombre del video'
                 defaultValue={this.state.title ? this.state.title : ''}
                 onChange={this.handleInputChange}/>
@@ -142,10 +195,14 @@ class NewAudio extends React.Component {
               <input 
                 type='text'
                 name='url'
+                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
                 placeholder='Link del video'
                 defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>
+            <ErrorMessage display={this.state.emptyFields ? 1 : 0}>
+              {Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.FIELDS_EMPTY}
+            </ErrorMessage>
             <div className='control'>
               <Button
                 primary

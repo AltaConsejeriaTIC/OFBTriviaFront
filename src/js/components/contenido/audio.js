@@ -67,11 +67,6 @@ const AudioList = styled('div')`
   }
 `;
 
-const audioPrototipe = {
-  name: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
-  link: 'https://open.spotify.com/track/0j3obufLXq5toSs592dX9U',
-}
-
 class ContenidoAudio extends React.Component {
   constructor(props){
     super(props);
@@ -96,7 +91,6 @@ class ContenidoAudio extends React.Component {
   }
 
   render() {
-      console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>

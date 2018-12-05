@@ -100,7 +100,7 @@ class ContentCard extends React.Component {
       <InfoCardContainer>
         <div className='item'>
           <h2>{`${this.props.item.title}${this.props.item.artist ? ` - ${this.props.item.artist}` : ''}`}</h2>
-          <a target='_blank' rel="noreferrer" rel='noopener' href={this.props.item.url}>{this.props.item.url}</a>
+          <a target='_blank' rel="noopener noreferrer" href={this.props.item.url}>{this.props.item.url}</a>
         </div>
         <div className='edit-button'>
           <Button onClick={this.editItem} primary={1} border={1}>{`Editar ${this.props.type}`}</Button>

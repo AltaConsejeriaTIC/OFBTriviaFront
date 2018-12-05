@@ -67,12 +67,6 @@ const AudioList = styled('div')`
   }
 `;
 
-const videoPrototipe = {
-  title: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
-  url: 'https://open.spotify.com/track/0j3obufLXq5toSs592dX9U',
-}
-
-
 class ContenidoVideo extends React.Component {
   constructor(props){
     super(props);

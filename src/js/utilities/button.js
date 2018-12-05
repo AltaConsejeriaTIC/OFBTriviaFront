@@ -38,6 +38,12 @@ export const Button = styled('button')`
     background-color: ${Constants.PUBLISH_WINNERS_BUTTON_BACKGROUND_COLOR};
     border: solid 1px ${Constants.PUBLISH_WINNERS_BUTTON_BORDER_COLOR};
   `}
+
+  ${(props) => props.delete && css`
+    color: white;
+    background-color: ${Constants.DELETE_BUTTON_BACKGROUND_COLOR};
+    border: solid 1px ${Constants.DELETE_BUTTON_BORDER_COLOR};
+  `}
 `;
 
 export const LinkButton = styled(Link)`

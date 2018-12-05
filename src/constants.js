@@ -40,6 +40,8 @@ export const PRIMARY_BORDER_COLOR = '#E0AE0D';
 export const SECONDARY_BORDER_COLOR = '#4A5363';
 export const PUBLISH_WINNERS_BUTTON_BACKGROUND_COLOR = '#E75252';
 export const PUBLISH_WINNERS_BUTTON_BORDER_COLOR = '#C53C3C';
+export const DELETE_BUTTON_BACKGROUND_COLOR = '#E75252';
+export const DELETE_BUTTON_BORDER_COLOR = '#C53C3C';
 export const INPUT_BORDER_COLOR = '#DBDBDB';
 export const WEAK_BORDER_COLOR = '#DBDBDB';
 export const UNIVERSAL_BORDER_RADIUS = '4px';
@@ -119,6 +121,10 @@ export const LOGIN_ERROR_MESSAGES = {
   WRONG_USERNAME_OR_PASSWORD: 'El usuario o la contraseña ingresados no son correctos.',
 }
 
+export const CREATE_UPDATE_CONTENT_ERROR_MESSAGES = {
+  FIELDS_EMPTY: 'Los campos no pueden estar vacíos.',
+  SERVER_ERROR: 'Tenemos problemas relizando esta petición, por favor intenta más tarde.',
+}
 
 // SWAL CONTENT CONSTANTS
 export const SAVE_WINNERS_ALERT_CONTENT = {
@@ -127,5 +133,25 @@ export const SAVE_WINNERS_ALERT_CONTENT = {
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
   confirmButtonText: 'SELECCIONAR',
+  customClass: 'swal-winners',
+}
+
+// SWAL CONTENT CONSTANTS
+export const CONFIRM_DELETE_ACTION_ALERT_CONTENT = {
+  title: '¿Estás seguro de que deseas eliminar este elemento?',
+  text: 'Esta acción no se puede deshacer ni modificar.',
+  showCancelButton: true,
+  cancelButtonText: 'CANCELAR',
+  confirmButtonText: 'BORRE ESA MIERDA!',
+  customClass: 'swal-winners',
+}
+
+// SWAL CONTENT CONSTANTS
+export const SERVICE_NOT_AVAILABLE_ON_BACKEND = {
+  title: 'Pues cagada porque esto no está implementado en el back',
+  text: 'Ja! jaque mate ateos!',
+  showCancelButton: true,
+  cancelButtonText: 'CANCELAR',
+  confirmButtonText: ":'V",
   customClass: 'swal-winners',
 }

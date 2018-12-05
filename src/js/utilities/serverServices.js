@@ -57,6 +57,7 @@ export const createAudio = async (title, artist, url, id) => {
 		url,
 		id
 	};
+	console.log(composedBody)
 	const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createAudio']}`, {
         method: "POST",
         body: JSON.stringify(composedBody),

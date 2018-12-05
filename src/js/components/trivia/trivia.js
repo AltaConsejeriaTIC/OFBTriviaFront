@@ -68,14 +68,6 @@ const TriviaList = styled('div')`
   }
 `;
 
-const questionPrototipe = {
-  startDate: '19 Noviembre de 2018',
-  endDate: '21 Noviembre de 2018',
-  question: '¿Quién será el solista del concierto de la Orquesta Filarmónica de Bogotá este sábado 3 de noviembre?',
-  status: 'Programada',
-  answers: 13
-}
-
 class Trivia extends React.Component {
   constructor(props){
     super(props);
