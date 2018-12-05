@@ -5,13 +5,13 @@ import * as Env from './../../env.js';
 const BACKEND_ENDPOINT = Env.SERVICES_ENDPOINT;
 const END_POINTS = {
 	login: 'login',
-	questionsList: 'questions-list',
-	answersList: 'users-answers',
-	saveWinners: 'select-winners',
-	audioList: 'get-audios',
-	createAudio: 'upload-audio',
-	videosList: 'get-videos',
-	createVideo: 'upload-video',
+	questionsList: 'trivia/questions-list',
+	answersList: 'trivia/users-answers',
+	saveWinners: 'trivia/select-winners',
+	audioList: 'trivia/get-audios',
+	createAudio: 'trivia/upload-audio',
+	videosList: 'trivia/get-videos',
+	createVideo: 'trivia/upload-video',
 }
 
 const fetchHeaders = {
