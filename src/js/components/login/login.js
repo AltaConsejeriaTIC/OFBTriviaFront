@@ -7,6 +7,7 @@ import styled, {ThemeProvider} from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../constants.js';
 import { Button } from '../../utilities/button.js';
+import * as ServerServices from '../../utilities/serverServices.js';
 //IMG
 import LogoAlcaldia from '../../../assets/img/login/logoAlcaldia.svg';
 import FooterImage from '../../../assets/img/login/footerImage.svg';
@@ -152,7 +153,7 @@ class Login extends React.Component {
   onLoginClick = (event) => {
     event.preventDefault()
     if(this.state.username && this.state.password){
-      this.loging();
+      this.login();
     }else{
       this.setState({
         loginError: true,
@@ -161,16 +162,19 @@ class Login extends React.Component {
     }
   };
 
-  loging = () => {
-    if(this.state.username === 'admin' && this.state.password === '1234'){
-      this.props.onLogin();
-      this.setState({mustNavigate: true});
-    }else{
-      this.setState({
-        loginError: true,
-        loginErrorType: 'WRONG_USERNAME_OR_PASSWORD',
-      });
-    }
+  login = () => {
+    const login = ServerServices.login({userName: this.state.username, password: this.state.password});
+    login.then((response) => {
+      if(response.status === 200) {
+        this.props.onLogin();
+        this.setState({mustNavigate: true});
+      } else {
+        this.setState({
+          loginError: true,
+          loginErrorType: 'WRONG_USERNAME_OR_PASSWORD',
+        });
+      }
+    })
   }
 
   render() { 

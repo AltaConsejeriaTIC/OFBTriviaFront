@@ -3,8 +3,7 @@
 
 import React from 'react';
 import { Switch, Route, Redirect} from "react-router-dom";
-//Styled components
-//import styled from 'styled-components';
+import { withCookies } from 'react-cookie';
 // Custom Components
 import Loader from './js/utilities/loader.js';
 import Header from './js/components/header/header.js';
@@ -22,27 +21,25 @@ import NewVideo from './js/components/contenido/newVideo/newVideo.js';
 class OFBTriviaApp extends React.Component {
   constructor(props) {
     super(props);
+    const { cookies } = props;
     this.state = {
-      user: true,
+      user: cookies.get('user') || null,
       mustNavigate: false,
     };
   };
 
   componentDidMount(){
-    this.isUserConected();
-  };
-
-  isUserConected = () => {
-    
   };
 
   onLogin = () => {
+    const { cookies } = this.props;
+    cookies.set('user', true, {expires: new Date(new Date().getTime()+(60*1000))})
     this.setState({user: true})
-  }
+  };
 
   onLogout = () => {
-    this.setState({user: false})
-  }
+    //this.setState({user: false})
+  };
 
   render() {
     if(this.state.mustNavigate){
@@ -81,4 +78,4 @@ class OFBTriviaApp extends React.Component {
   };
 }
 
-export default OFBTriviaApp;
+export default withCookies(OFBTriviaApp);

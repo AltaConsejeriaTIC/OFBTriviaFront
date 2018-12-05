@@ -4,6 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { CookiesProvider } from 'react-cookie';
 import serviceWorker from './serviceWorker';
 
 import OFBTriviaApp from './OFBTriviaApp.js';
@@ -14,9 +15,11 @@ import { BrowserRouter } from 'react-router-dom' // Router
 import './main.scss';
 
 ReactDOM.render((
-  <BrowserRouter>
-    <OFBTriviaApp/>
-  </BrowserRouter>
+  <CookiesProvider>
+  	<BrowserRouter>
+    	<OFBTriviaApp/>
+  	</BrowserRouter>
+  </CookiesProvider>
 ), document.getElementById('root'));
 
 serviceWorker();

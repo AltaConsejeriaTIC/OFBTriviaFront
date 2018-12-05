@@ -4,13 +4,14 @@ import * as Env from './../../env.js';
 
 const BACKEND_ENDPOINT = Env.SERVICES_ENDPOINT;
 const END_POINTS = {
-	questionsList: 'trivia/questions-list',
-	answersList: 'trivia/users-answers',
-	saveWinners: 'trivia/select-winners',
-	audioList: 'trivia/get-audios',
-	createAudio: 'trivia/upload-audio',
-	videosList: 'trivia/get-videos',
-	createVideo: 'trivia/upload-video',
+	login: 'login',
+	questionsList: 'questions-list',
+	answersList: 'users-answers',
+	saveWinners: 'select-winners',
+	audioList: 'get-audios',
+	createAudio: 'upload-audio',
+	videosList: 'get-videos',
+	createVideo: 'upload-video',
 }
 
 const fetchHeaders = {
@@ -19,6 +20,17 @@ const fetchHeaders = {
     'Accept': 'application/json'
 	}
 };
+
+//Login
+
+export const login = async (credentials) => {
+	const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['login']}`, {
+        method: "POST",
+        body: JSON.stringify(credentials),
+        headers : fetchHeaders.headers
+    }));
+  return json;
+}
 
 //Trivia
 export const getTriviaList = async (lastId, page) => {

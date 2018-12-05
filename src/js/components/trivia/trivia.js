@@ -73,13 +73,19 @@ class Trivia extends React.Component {
     super(props);
     this.state = {
       currentPage: 1,
-      questions: []
+      questions: [],
+      isMounted: false
     };
   };
 
 
   componentDidMount() {
+    this.setState({isMounted: true})
     this.getTriviaPage(1);
+  }
+
+  compoenentWillUnmount() {
+    this.setState({isMounted: false})
   }
 
   getTriviaPage = (page) => {
@@ -89,7 +95,9 @@ class Trivia extends React.Component {
         question.startDate = new Date(question.startDate);
         question.endDate = new Date(question.endDate);
       })
-      this.setState({questions: questions})
+      if(this.state.isMounted) {
+        this.setState({questions: questions})
+      }
     })
   }
 
