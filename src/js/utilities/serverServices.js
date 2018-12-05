@@ -4,7 +4,7 @@ import * as Env from './../../env.js';
 
 const BACKEND_ENDPOINT = Env.SERVICES_ENDPOINT;
 const END_POINTS = {
-	login: 'login',
+	login: 'trivia/login',
 	questionsList: 'trivia/questions-list',
 	answersList: 'trivia/users-answers',
 	saveWinners: 'trivia/select-winners',

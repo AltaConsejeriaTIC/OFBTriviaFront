@@ -38,7 +38,7 @@ class OFBTriviaApp extends React.Component {
   };
 
   onLogout = () => {
-    //this.setState({user: false})
+    //this.setState({user: falhahah se})
   };
 
   render() {
