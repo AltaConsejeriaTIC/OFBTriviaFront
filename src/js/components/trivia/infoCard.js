@@ -118,7 +118,7 @@ class InfoCard extends React.Component {
   render() {
     if(this.state.mustNavigate){
       return <Redirect push to={{
-        pathname: this.props.path + '/' + this.props.id,
+        pathname: this.props.path + '/' + this.props.question.id,
         state: this.props.question
       }}/>
     }

@@ -8,6 +8,7 @@ import styled from 'styled-components';
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import * as Formater from '../../../utilities/dateFormater.js';
+import * as ServerServices from '../../../utilities/serverServices.js';
 import CheckedIcon from '../../../../assets/img/trivia/checkedIcon.svg'
 
 const InfoCardContainer = styled('div')`
@@ -144,19 +145,30 @@ class AnswerCard extends React.Component {
     }
   }
 
+  componentDidMount(){
+    this.getUserData();
+  }
+
   handleInputChange = (event) => {
     this.setState((prevState, props) => {
       return {checked: !prevState.checked}
     }, () => this.props.onScoring(this.props.answer.userId, this.state.checked))
+  };
+
+  getUserData = () => {
+    const response = ServerServices.getUserData(this.props.answer.userId);
+    response.then((userData) => {
+      this.setState({userData: userData})
+    })
   }
 
   render() {
     return(
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='user-info'>
-          <span>{this.props.answer.username ? this.props.answer.username : 'Alejandro Díaz Vecchio'}</span>
-          <span>{this.props.answer.phone ? this.props.answer.phone : 'xxx-xxx-xxxx'}</span>
-          <span>{this.props.answer.email ? this.props.answer.email : 'aldiazve@unal.edu.co'}</span>
+          <span>{this.state.userData ? `${this.state.userData.name} ${this.state.userData.lastName}` : 'Cargando...'}</span>
+          <span>{this.state.userData ? this.state.userData.cellphone : 'Cargando...'}</span>
+          <span>{this.state.userData ? this.state.userData.email : 'Cargando...'}</span>
         </div>
         <div className='answer-body'>
           {this.props.answer.content}

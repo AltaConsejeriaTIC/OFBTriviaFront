@@ -7,12 +7,14 @@ const END_POINTS = {
   login: 'trivia/login',
   questionsList: 'trivia/questions-list',
   createQuestion: 'trivia/upload-question',
+  getQuestionById: 'trivia/get-question',
   answersList: 'trivia/users-answers',
   saveWinners: 'trivia/select-winners',
   audioList: 'trivia/get-audios',
   createAudio: 'trivia/upload-audio',
   videosList: 'trivia/get-videos',
   createVideo: 'trivia/upload-video',
+  getUserData: 'trivia/get-user'
 }
 
 const fetchHeaders = {
@@ -40,6 +42,12 @@ export const getTriviaList = async (lastId, page) => {
   return json;
 };
 
+export const getQuestionById = async (id) => {
+  const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['getQuestionById']}?id=${id}`
+  const json = await (await fetch(composedURL, fetchHeaders)).json();
+  return json;
+};
+
 export const getAnswersList = async (questionId) => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['answersList']}?${'questionId=' + questionId}`;
   const json = await (await fetch(composedURL, fetchHeaders)).json();
@@ -53,7 +61,7 @@ export const createQuestion = async (questionObject, id) => {
     method: "POST",
     body: JSON.stringify(questionObject),
     headers : fetchHeaders.headers
-  }));
+  })).json();
   return json;
 }
 
@@ -117,3 +125,10 @@ export const getVideoList = async () => {
   return json;
 };
 
+//USERS
+
+export const getUserData = async (userId) => {
+  const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['getUserData']}?id=${userId}`
+  const json = await (await fetch(composedURL, fetchHeaders)).json();
+  return json;
+}

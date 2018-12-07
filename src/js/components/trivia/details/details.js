@@ -204,10 +204,26 @@ class TriviaDetails extends React.Component {
   };
 
   componentDidMount() {
-    this.getAnswersList();
+    if(this.state.question) {
+      this.getAnswersList();
+    } else {
+      this.getQuestion();
+    }
   }
 
+  getQuestion = () => {
+    const response = ServerServices.getQuestionById(this.props.match.params.triviaId);
+    response.then((json) => {
+      this.setState((prevState, props) => {
+        prevState.question = json;
+        console.log(prevState)
+        return prevState;
+      })
+    })
+  };
+
   getAnswersList = () => {
+    console.log(this.state.question)
     const answers = ServerServices.getAnswersList(this.state.question.id);
     answers.then((answers) => {
       this.setState({answers: answers})
@@ -261,7 +277,7 @@ class TriviaDetails extends React.Component {
   };
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     if(this.state.redirectToEdit){
       return <Redirect push to={{
         pathname: '/dashboard/trivia/edit',
@@ -276,19 +292,21 @@ class TriviaDetails extends React.Component {
             <div className='date'>
               <h4>FECHA</h4>
               <span>Fecha de la publicación:</span>
-              <span>{Formater.fullDateString(this.state.question.startDate)
-              }</span>
+              <span>
+                {this.state.question && Formater.fullDateString(new Date(this.state.question.startDate))}
+              </span>
               <span>Fecha de cierre:</span>
-              <span>{Formater.fullDateString(this.state.question.endDate)
-              }</span>
+              <span>
+                {this.state.question && Formater.fullDateString(new Date(this.state.question.endDate))}
+              </span>
             </div>
             <div>
               <h4>RESPUESTA CORRECTA</h4>
-              <h2>Samuel Jímenez, violín (Colombia)</h2>
+              <h2>{this.state.question && this.state.question.answer}</h2>
             </div>
             <div>
               <h4>PREGUNTA</h4>
-              <h3>{this.state.question.content}</h3>
+              <h3>{this.state.question && this.state.question.content}</h3>
             </div>
           </div>
           <div className='section-header'>

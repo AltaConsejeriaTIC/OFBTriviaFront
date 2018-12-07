@@ -199,6 +199,16 @@ class NewAudio extends React.Component {
                 defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>
+            <label>
+              imagensita aspera
+              <input 
+                type='file'
+                name='img'
+                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
+                placeholder='Link del video'
+                defaultValue={this.state.url ? this.state.url : ''}
+                onChange={this.handleInputChange}/>
+            </label>
             <ErrorMessage display={this.state.emptyFields ? 1 : 0}>
               {Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.FIELDS_EMPTY}
             </ErrorMessage>

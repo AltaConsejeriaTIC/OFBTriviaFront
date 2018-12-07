@@ -136,7 +136,6 @@ class Trivia extends React.Component {
                     return <InfoCard
                       key={index}
                       question={item}
-                      id={index}
                       path={this.props.location.pathname}  
                       selected={item.status === 'Publicada' ? 1 : 0}/>
                   }
