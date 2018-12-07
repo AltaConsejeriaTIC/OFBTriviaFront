@@ -8,6 +8,7 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
 import BreadCrumbs from '../../../utilities/breadCrumbs.js';
+import * as ServerServices from '../../../utilities/serverServices.js';
 
 const theme = Constants.NEW_TRIVIA_THEME;
 
@@ -48,6 +49,10 @@ const SectionContainer = styled('div')`
       padding-left: 15px;
       border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
       border: solid 1px ${Constants.INPUT_BORDER_COLOR};
+
+      &.red {
+        border: 1px solid red;
+      }
     }
 
     textarea {
@@ -62,6 +67,10 @@ const SectionContainer = styled('div')`
       padding 10px;
       border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
       border: solid 1px ${Constants.INPUT_BORDER_COLOR};
+
+      &.red {
+        border: 1px solid red;
+      }
     }
 
     span {
@@ -135,8 +144,13 @@ class NewTrivia extends React.Component {
     this.state = {
       isEditing,
       question,
+      startDate: '',
+      endDate: '',
+      content: '',
+      answer: '',
       mustNavigate: false,
       returnToDetails: false,
+      emptyFields: false,
     };
   };
 
@@ -152,6 +166,42 @@ class NewTrivia extends React.Component {
 
   returnToDetails = () => {
     this.setState({returnToDetails: true});
+  };
+
+  saveQuestion = () => {
+    if(this.validateFields()){
+      this.setState({loading: true});
+      const questionData = {
+        startDate: this.state.startDate,
+        endDate: this.state.endDate,
+        content: this.state.content,
+        answer: this.state.answer,
+      }
+      if (this.state.isEditing) {questionData.id = this.question.id}
+      const response = ServerServices.createQuestion(questionData);
+      response.then((result) => {
+        console.log(result)
+        if(result.status === 201 || result.status === 200){
+          //this.setState({mustNavigate: true});
+          //Success
+        }else{
+          //Some error happened.
+        }
+      })
+    } else {
+      this.setState({emptyFields: true});
+    }
+  };
+
+  validateFields = () => {
+    if (this.state.startDate === '' ||
+        this.state.endDate === '' ||
+        this.state.content === '' ||
+        this.state.answer === '') {
+      return false;
+    }else{
+      return true;
+    }
   };
 
   cancel = () => {
@@ -184,7 +234,8 @@ class NewTrivia extends React.Component {
                 <input 
                   type='text'
                   name='startDate'
-                  placeholder='dd/mm/aaaa'
+                  className={this.state.emptyFields && this.state.startDate === '' ? 'red' : ''}
+                  placeholder='aaaa-mm-dd'
                   onChange={this.handleInputChange}/>
               </label>
               <label>
@@ -192,7 +243,8 @@ class NewTrivia extends React.Component {
                 <input
                   type='text'
                   name='endDate'
-                  placeholder='dd/mm/aaaa'
+                  className={this.state.emptyFields && this.state.endDate === '' ? 'red' : ''}
+                  placeholder='aaaa-mm-dd'
                   onChange={this.handleInputChange}/>
               </label>
             </div>
@@ -200,21 +252,23 @@ class NewTrivia extends React.Component {
               <label>
                 PREGUNTA
                 <textarea
-                  name='questionContent'
+                  name='content'
+                  className={this.state.emptyFields && this.state.content === '' ? 'red' : ''}
                   placeholder='Escribe aquí la pregunta.'
                   onChange={this.handleInputChange}
                   maxLength={Constants.TRIVIA_QUESTION_MAX_CHARACTERS}
-                  value={this.state.question.content}/>
+                  defaultValue={this.state.question.content}/>
                 <span>{this.state.question.content.length + ' DE 140 CARACTERES'}</span>
               </label>
               <label>
                 RESPUESTA
                 <textarea
-                  name='questionAnswer'
+                  name='answer'
+                  className={this.state.emptyFields && this.state.answer === '' ? 'red' : ''}
                   placeholder='Escribe aquí la respuesta.'
                   onChange={this.handleInputChange}
                   maxLength={Constants.TRIVIA_ANSWER_MAX_CHARACTERS}
-                  value={this.state.question.content}/>
+                  defaultValue={this.state.question.content}/>
                 <span>{this.state.question.content.length + ' DE 140 CARACTERES'}</span>
               </label>
             </div>
@@ -222,8 +276,8 @@ class NewTrivia extends React.Component {
           <div className='footer'>
             <span>Recuerda que no puedes publicar una trivia hasta que hayan pasado al menos dos días desde la finalización de la anterios. Así, habrá tiempo para mostrar los ganadores.</span>
             <div className='separator'/>
-            <Button primary border width='100px'onClick={this.cancel}>Cancelar</Button>
-            <Button primary border width='150px'>Guardar Trivia</Button>
+            <Button primary border width='100px' onClick={this.cancel}>Cancelar</Button>
+            <Button primary border width='150px' onClick={this.saveQuestion}>Guardar Trivia</Button>
           </div>
         </SectionContainer>
       </ThemeProvider>

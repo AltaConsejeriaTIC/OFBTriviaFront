@@ -12,6 +12,7 @@ import ContentCard from './contentCard.js';
 import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
 import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
+import Loader from '../../utilities/loader.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -23,9 +24,11 @@ const TriviaContainer = styled('div')`
   padding: 0 5%;
 
   .content {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+    padding-bottom: 15px;
   }
 `;
 
@@ -71,7 +74,8 @@ class ContenidoVideo extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      videos: []
+      videos: [],
+      loading: true,
     };
   };
 
@@ -87,11 +91,15 @@ class ContenidoVideo extends React.Component {
     const videos = ServerServices.getVideoList();
     videos.then((videos) => {
       console.log(videos)
-      this.setState({videos: videos})
+      this.setState({
+        videos: videos,
+        loading: false
+      })
     })
   }
 
   render() {
+    
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -102,20 +110,25 @@ class ContenidoVideo extends React.Component {
           </SectionTitle>
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>
-            <AudioList className='item-list'>
-              {this.state.videos.map((item, index) => {
-                return <ContentCard key={index} item={item} type='video' id={index + 1}/>
-              })}
-              {this.state.videos.length > 4 &&
-              <PageController
-                items={this.state.videos}
-                currentPage={this.state.currentPage}
-                onPageChange={this.onPageChange}/>
-              }
-              {this.state.videos.length === 0 && 
-                <NoItemsAvailable section='videos'/>
-              }
-            </AudioList>
+            { this.state.loading &&
+              <Loader/>
+            }
+            { !this.state.loading &&
+              <AudioList className='item-list'>
+                {this.state.videos.map((item, index) => {
+                  return <ContentCard key={index} item={item} type='video' id={index + 1}/>
+                })}
+                {this.state.videos.length > 4 &&
+                <PageController
+                  items={this.state.videos}
+                  currentPage={this.state.currentPage}
+                  onPageChange={this.onPageChange}/>
+                }
+                {this.state.videos.length === 0 && 
+                  <NoItemsAvailable section='videos'/>
+                }
+              </AudioList>
+            }
           </div>
         </TriviaContainer>
       </ThemeProvider>

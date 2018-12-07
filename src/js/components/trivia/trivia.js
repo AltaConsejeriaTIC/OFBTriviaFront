@@ -12,6 +12,7 @@ import InfoCard from './infoCard.js';
 import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
 import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
+import Loader from '../../utilities/loader.js';
 
 const theme = Constants.TRIVIA_THEME;
 
@@ -106,6 +107,7 @@ class Trivia extends React.Component {
   };
 
   render() {
+    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -116,40 +118,45 @@ class Trivia extends React.Component {
           </SectionTitle>
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[2]}/>
-            <TriviaList className='item-list'>
-              {this.state.questions.length > 0 &&
-              <div className='list-header'>
-                <span>FECHA</span>
-                <span>PREGUNTA</span>
-                <span>ESTADO</span>
-                <span>RESPUESTA</span>
-              </div>
-              }
-              {this.state.questions.map((item, index) => {
-                if(index === 1){
-                  return <InfoCard
+            { this.state.loading &&
+              <Loader/>
+            }
+            { !this.state.loading &&
+              <TriviaList className='item-list'>
+                {this.state.questions.length > 0 &&
+                <div className='list-header'>
+                  <span>FECHA</span>
+                  <span>PREGUNTA</span>
+                  <span>ESTADO</span>
+                  <span>RESPUESTA</span>
+                </div>
+                }
+                {this.state.questions.map((item, index) => {
+                  if(index === 1){
+                    return <InfoCard
+                      key={index}
+                      question={item}
+                      id={index}
+                      path={this.props.location.pathname}  
+                      selected={item.status === 'Publicada' ? 1 : 0}/>
+                  }
+                  return <InfoCard 
                     key={index}
                     question={item}
                     id={index}
-                    path={this.props.location.pathname}  
-                    selected={item.status === 'Publicada' ? 1 : 0}/>
+                    path={this.props.location.pathname} />
+                })}
+                {this.state.questions.length > 4 &&
+                <PageController 
+                  items={this.state.questions.length}
+                  currentPage={this.state.currentPage}
+                  onPageChange={this.onPageChange}/>
                 }
-                return <InfoCard 
-                  key={index}
-                  question={item}
-                  id={index}
-                  path={this.props.location.pathname} />
-              })}
-              {this.state.questions.length > 4 &&
-              <PageController 
-                items={this.state.questions.length}
-                currentPage={this.state.currentPage}
-                onPageChange={this.onPageChange}/>
-              }
-              {this.state.questions.length === 0 && 
-                <NoItemsAvailable section='trivia'/>
-              }
-            </TriviaList>
+                {this.state.questions.length === 0 && 
+                  <NoItemsAvailable section='trivia'/>
+                }
+              </TriviaList>
+            }
           </div>
         </TriviaContainer>
       </ThemeProvider>

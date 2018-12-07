@@ -4,61 +4,59 @@
 
 import React from 'react';
 //Styled components
-import styled, {ThemeProvider} from 'styled-components';
+import styled from 'styled-components';
 //Custom Constants
-import * as Constants from '../../constants.js';
-
-const theme = Constants.LOADER_THEME;
+import LoaderSprites from '../../assets/img/loader/footerImage.svg';
 
 //Section container
 const SectionContainer = styled('div')`
   width: 100%;
-  height: ${props => props.small ? '50%' : '100%'};
-  background-color: ${props => {
-    if(props.backgroundColor){
-      return props.backgroundColor;
-    }else{
-      return props.theme.sectionBackgroundColor;
-    }
-  }};
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+  background-color: #292B3C;
+  opacity: 0.9;
 
-const Spinner = styled('div')`
-  border: ${props => props.small ? '8px' : '16px'} solid ${props => props.theme.loaderBackgroundColor};
-  border-radius: 50%;
-  border-top: ${props => props.small ? '8px' : '16px'} solid ${props => props.dark ? props.theme.loaderFrontColorDark : props.theme.loaderFrontColor };
-  width: ${props => props.small ? '40px' : '120px'};
-  height: ${props => props.small ? '40px' : '120px'};
-  -webkit-animation: spin 1s linear infinite; /* Safari */
-  animation: spin 1s linear infinite;
-
-  /* Safari */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
+  .sprites {
+    width: 200px;
+    height: 165px;
+    background: url(${LoaderSprites});
+    animation: 4s infinite run;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    z-index: 3;
   }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  h1 {
+    color: white;
+    margin-left: 20px;
+    font-family: Bitter;
+    font-weight: 500;
+    z-index: 3;
+  }
+
+  @keyframes run {
+    0% {
+      background-position: 0%;
+    }
+
+    100% {
+      background-position: 152%; 
+    }
   }
 `;
+
 class Loader extends React.Component {
 
   render() {
     return(
-      <ThemeProvider theme={theme}>
-        <SectionContainer backgroundColor={this.props.backgroundColor ? this.props.backgroundColor : null} small={this.props.small}>
-          <Spinner
-            dark={this.props.dark}
-            small={this.props.small}/>
-        </SectionContainer>
-      </ThemeProvider>
+      <SectionContainer>
+        <div className='sprites'/>
+        <h1>Orquesta<br/>Filarmónica<br/>de Bogotá</h1>
+      </SectionContainer>
     )
   }
 }
 
-export default Loader;
+export default Loader;  

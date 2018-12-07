@@ -155,3 +155,5 @@ export const SERVICE_NOT_AVAILABLE_ON_BACKEND = {
   confirmButtonText: ":'V",
   customClass: 'swal-winners',
 }
+
+//export const DATE_FORMAT_APPENDIX = 'T00:00:00.0Z';

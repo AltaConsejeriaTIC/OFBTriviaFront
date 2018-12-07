@@ -33,7 +33,7 @@ class OFBTriviaApp extends React.Component {
 
   onLogin = () => {
     const { cookies } = this.props;
-    cookies.set('user', true, {expires: new Date(new Date().getTime()+(60*1000))})
+    cookies.set('user', true, {expires: new Date(new Date().getTime()+(60*60*1000))})
     this.setState({user: true})
   };
 
