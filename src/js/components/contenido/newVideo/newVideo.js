@@ -9,6 +9,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
+import YoutubeHelper from 'youtubeHelper.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
 import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 
