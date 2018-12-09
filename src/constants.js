@@ -123,6 +123,7 @@ export const LOGIN_ERROR_MESSAGES = {
 
 export const CREATE_UPDATE_CONTENT_ERROR_MESSAGES = {
   FIELDS_EMPTY: 'Los campos no pueden estar vacíos.',
+  INVALID_URL: 'URL inválida.',
   SERVER_ERROR: 'Tenemos problemas relizando esta petición, por favor intenta más tarde.',
 }
 

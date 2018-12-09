@@ -44,6 +44,11 @@ export const Button = styled('button')`
     background-color: ${Constants.DELETE_BUTTON_BACKGROUND_COLOR};
     border: solid 1px ${Constants.DELETE_BUTTON_BORDER_COLOR};
   `}
+
+  &:disabled {
+    cursor: default;
+    color: #575A6D;
+  }
 `;
 
 export const LinkButton = styled(Link)`

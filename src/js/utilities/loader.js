@@ -5,22 +5,22 @@
 import React from 'react';
 //Styled components
 import styled from 'styled-components';
-//Custom Constants
 import LoaderSprites from '../../assets/img/loader/footerImage.svg';
 
 //Section container
 const SectionContainer = styled('div')`
-  width: 100%;
-  min-height: 100%;
+  width: 120px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #292B3C;
   opacity: 0.9;
+  border-radius: 4px;
 
   .sprites {
-    width: 200px;
-    height: 165px;
+    width: 100%;
+    height: 100%;
     background: url(${LoaderSprites});
     animation: 4s infinite run;
     animation-timing-function: linear;
@@ -42,21 +42,17 @@ const SectionContainer = styled('div')`
     }
 
     100% {
-      background-position: 152%; 
+      background-position: 125%; 
     }
   }
 `;
 
-class Loader extends React.Component {
-
-  render() {
-    return(
-      <SectionContainer>
-        <div className='sprites'/>
-        <h1>Orquesta<br/>Filarmónica<br/>de Bogotá</h1>
-      </SectionContainer>
+function Loader(props){
+  return(
+    <SectionContainer width={props.width} height={props.height}>
+      <div className='sprites'/>
+    </SectionContainer>
     )
-  }
 }
 
 export default Loader;  

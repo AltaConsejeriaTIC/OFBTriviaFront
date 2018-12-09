@@ -9,9 +9,9 @@ import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
-import YoutubeHelper from 'youtubeHelper.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
 import BreadCrumbs from '../../../utilities/breadCrumbs.js';
+import Loader from '../../../utilities/loader.js';
 
 const theme = Constants.NEW_VIDEO_THEME;
 
@@ -21,7 +21,7 @@ const SectionContainer = styled('div')`
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   width: 100%;
-  height: ${(props) => props.theme.containerHeight};
+  min-height: ${(props) => props.theme.containerHeight};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,13 +29,16 @@ const SectionContainer = styled('div')`
   position: relative;
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.textColor};
-  padding: 0 50px;
+  padding: 45px 50px;
+  margin-top: 1px;
 
   .content {
-    margin-top: -50px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 40%;
 
     h1 {
       display: flex;
@@ -86,6 +89,39 @@ const SectionContainer = styled('div')`
   }
 `;
 
+const LoaderContainer = styled('div')`
+  margin: 30px 0; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+
+  span {
+    margin-top: 15px;
+  }
+`;
+
+const Preview = styled('div')`
+  margin: 15px 0; 
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+
+  span {
+    margin-top: 15px;
+  }
+
+  img {
+    width: 50%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
 const ErrorMessage = styled('p')`
   display: ${(props) => props.display ? 'block' : 'none'};
   font-size: 13px;
@@ -100,7 +136,7 @@ class NewAudio extends React.Component {
     const {
       isEditing = false,
       title = '',
-      url,
+      url = '',
       id,
     } = propsState;
     this.state = {
@@ -109,6 +145,9 @@ class NewAudio extends React.Component {
       url,
       id,
       mustNavigate: false,
+      loadingPreview: false,
+      showingPreview: false,
+      errorMessage: '', 
     };
   };
 
@@ -119,7 +158,8 @@ class NewAudio extends React.Component {
     
     this.setState({
       [name]: value
-    });
+    }, this.validateFields);
+
   };
 
   uploadVideo = () => {
@@ -140,12 +180,53 @@ class NewAudio extends React.Component {
   };
 
   validateFields = () => {
-    if (this.state.title === '' || this.state.url === '') {
-      return false;
+    if (this.state.url === '') {
+      this.setState({
+        loadingPreview: false,
+        emptyFields: true,
+        errorMessage: Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.FIELDS_EMPTY,
+      });
+    }else if(!this.youtubeParser(this.state.url)){
+      this.setState({
+        loadingPreview: false,
+        invalidUrl: true,
+        errorMessage: Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.INVALID_URL,
+      });
     }else{
-      return true;
+      this.setState({
+        loadingPreview: true,
+        invalidUrl: false,
+        emptyFields: false,
+        errorMessage: '',
+      }, this.getYoutubeVideoData);
     }
   };
+
+  getYoutubeVideoData = () => {
+    const response = ServerServices.getYoutubeData(this.state.url);
+    response.then((youtubeData) => {
+      console.log(youtubeData);
+      this.setState({
+        loadingPreview: false,
+        showingPreview: true,
+        videoData: youtubeData.items[0],
+      })
+    })
+  }
+
+  // Esta función extrae el ID de un video de youtube desde la URL: url soportadas:
+  // http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
+  // http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
+  // http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
+  // http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+  // http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+  // http://www.youtube.com/watch?v=0zM3nApSvMg
+  // http://youtu.be/0zM3nApSvMg
+  youtubeParser = (url) => {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11) ? match[7] : false;
+  }
 
   deleteItem = () => {
     swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
@@ -181,38 +262,36 @@ class NewAudio extends React.Component {
               }
             </h1>
             <label>
-              NOMBRE DEL VIDEO
-              <input
-                type='text'
-                name='title'
-                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
-                placeholder='Nombre del video'
-                defaultValue={this.state.title ? this.state.title : ''}
-                onChange={this.handleInputChange}/>
-            </label>
-            <label>
               LINK DEL VIDEO
               <input 
                 type='text'
                 name='url'
-                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
+                className={
+                  `${this.state.emptyFields && this.state.url === '' ? 'red' : ''}
+                   ${this.state.invalidUrl ? 'red' : ''}
+                  `}
                 placeholder='Link del video'
                 defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>
-            <label>
-              imagensita aspera
-              <input 
-                type='file'
-                name='img'
-                className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
-                placeholder='Link del video'
-                defaultValue={this.state.url ? this.state.url : ''}
-                onChange={this.handleInputChange}/>
-            </label>
-            <ErrorMessage display={this.state.emptyFields ? 1 : 0}>
-              {Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.FIELDS_EMPTY}
+            <ErrorMessage display={this.state.emptyFields || this.state.invalidUrl ? 1 : 0}>
+              {this.state.errorMessage}
             </ErrorMessage>
+            {this.state.loadingPreview && 
+              <LoaderContainer>
+                <Loader width='50%' height='100px'/>
+                <span>Cargando previsualización...</span>
+              </LoaderContainer>
+            }
+            {this.state.showingPreview && 
+              <Preview>
+                <img src={this.state.videoData.snippet.thumbnails.standard.url}/>
+                <div className='videoData'>
+                  <h4>{this.state.videoData.snippet.title}</h4>
+                  <span>Duración: {this.state.videoData.contentDetails.duration}</span>
+                </div>
+              </Preview>
+            }
             <div className='control'>
               <Button
                 primary
@@ -224,6 +303,7 @@ class NewAudio extends React.Component {
               <Button
                 primary
                 border
+                disabled={this.state.url === '' ? true : false}
                 width='55%'
                 onClick={this.uploadVideo}>
                 {this.state.isEditing ? 'Guardar cambios' : 'Agregar video'}
