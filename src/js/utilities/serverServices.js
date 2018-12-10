@@ -105,10 +105,11 @@ export const getAudioList = async () => {
 };
 
 //Video
-export const createVideo = async (title, url, id) => {
+export const createVideo = async (title, url, thumbnail, id) => {
   const composedBody = {
     title,
     url,
+    thumbnail,
     id
   };
   console.log(composedBody)

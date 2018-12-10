@@ -84,7 +84,7 @@ class ContentCard extends React.Component {
     console.log(this.props)
     if (this.state.mustNavigate) {
       return (
-        <Redirect to={{
+        <Redirect push to={{
           pathname: `/dashboard/contenido/${this.state.itemType}/edit/${this.props.id}`,
           state: {
             title: this.props.item.title,

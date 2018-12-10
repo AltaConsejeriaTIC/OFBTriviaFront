@@ -150,7 +150,7 @@ const AditionalInfo = styled('div')`
   p {
     margin-top: 0;
     margin-bottom: 15px;
-    text-align: justify;
+    white-space: pre-line;
 
     b {
       color: ${Constants.STRONG_TEXT_COLOR};
@@ -201,6 +201,7 @@ class NewAudio extends React.Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     if(this.state.isEditing){
       this.setState({loadingPreview: true});
       this.getYoutubeVideoData();
@@ -219,20 +220,18 @@ class NewAudio extends React.Component {
   };
 
   uploadVideo = () => {
-    if(this.validateFields()){
-      this.setState({loading: true});
-      const response = ServerServices.createVideo(this.state.title, this.state.url, this.state.id);
-      response.then((result) => {
-        if(result.status === 201 || result.status === 200){
-          this.setState({mustNavigate: true});
-          //Success
-        }else{
-          //Some error happened.
-        }
-      })
-    } else {
-      this.setState({emptyFields: true});
-    }
+    this.setState({loading: true});
+    const response = ServerServices.createVideo(this.state.videoData.snippet.title, this.state.url, this.state.selectedThumbnail.url, this.state.id);
+    response.then((result) => {
+      console.log(result);
+      if(result.status === 201 || result.status === 200){
+        this.setState({mustNavigate: true});
+        //Success
+      }else{
+
+        //Some error happened.
+      }
+    });
   };
 
   validateFields = () => {
@@ -263,12 +262,14 @@ class NewAudio extends React.Component {
   getYoutubeVideoData = () => {
     const response = ServerServices.getYoutubeData(this.state.url);
     response.then((youtubeData) => {
+      console.log(youtubeData.items[0])
       this.setState({
         loadingPreview: false,
         showingPreview: true,
         videoData: youtubeData.items[0],
         selectedThumbnail: this.selectThumbnail(youtubeData.items[0]),
-        videoDuration: DateFormater.youtubeTime(youtubeData.items[0].contentDetails.duration)
+        videoDuration: DateFormater.youtubeTime(youtubeData.items[0].contentDetails.duration),
+        title: youtubeData.items[0].snippet.title
       })
     })
   };
@@ -374,7 +375,7 @@ class NewAudio extends React.Component {
                 <AditionalInfo>
                   <h2>Información adicional</h2>
                   <p><b>Canal:</b><br/> {this.state.videoData.snippet.channelTitle}</p>
-                  <p><b>Descripción:</b><br/>{this.state.videoData.snippet.description}</p>
+                  <p><b>Descripción:</b><br/>{`${this.state.videoData.snippet.description}`}</p>
                   <span><b>Fecha de publicación:</b><br/>{`${DateFormater.fullDateString(new Date(this.state.videoData.snippet.publishedAt))}`}</span>
                 </AditionalInfo>
               </React.Fragment>
