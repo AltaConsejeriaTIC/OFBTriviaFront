@@ -137,6 +137,19 @@ const CheckboxInput = styled('div')`
   }
 `;
 
+const CardStatus = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 10%;
+  height: 100%;
+
+  span {
+    color: #009DC2;
+    font-weight: 600;
+  }
+`;
+
 class AnswerCard extends React.Component {
   constructor(props) {
     super(props);
@@ -180,6 +193,11 @@ class AnswerCard extends React.Component {
               <img src={CheckedIcon} alt='checkmark' className="checkmark"/>
             </label>
           </CheckboxInput>
+        }
+        {this.props.answer.winner === 1 &&
+          <CardStatus checked={this.state.checked}>
+            <span>Ganador</span>
+          </CardStatus>
         }
         <div className='date'>
           <span>Hora:</span>

@@ -226,7 +226,17 @@ class TriviaDetails extends React.Component {
     console.log(this.state.question)
     const answers = ServerServices.getAnswersList(this.state.question.id);
     answers.then((answers) => {
-      this.setState({answers: answers})
+      const winners = [];
+      answers.map((answer) => {
+        if (answer.winner === 1) {
+          winners.push(answer);
+        }
+      })
+      this.setState({
+        answers: answers,
+        winners: winners,
+        lockUI: winners.length > 0 ? true : false,
+      });
     })
   };
 
@@ -276,6 +286,10 @@ class TriviaDetails extends React.Component {
     this.setState({redirectToEdit: true})
   };
 
+  checkForWinners = () => {
+
+  }
+
   render() {
     console.log(this.state)
     if(this.state.redirectToEdit){
@@ -317,7 +331,7 @@ class TriviaDetails extends React.Component {
             <p>
               Las respuestas resaltadas con color <span>azul</span> son las respuestas que segun nuestro algoritmo se parecen más a la respuesta correcta.
             </p>
-            {!this.state.scoring &&
+            {!this.state.scoring && !this.state.lockUI && (new Date() < new Date(this.state.question.startDate)) &&
             <Button
               primary
               width='auto'
@@ -327,7 +341,7 @@ class TriviaDetails extends React.Component {
               Editar Pregunta
             </Button>
             }
-            {!this.state.scoring &&
+            {!this.state.scoring && !this.state.lockUI &&
             <Button
               primary
               width='auto'
@@ -372,7 +386,7 @@ class TriviaDetails extends React.Component {
                 answer={item}
                 scoring={this.state.scoring}
                 onScoring={this.onScoringHandler}
-                selected={item.score}/>
+                selected={item.winner}/>
             })}
             {this.state.answers.length > 4 &&
             <PageController
