@@ -12,6 +12,7 @@ import { Button } from '../../../utilities/button.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
 import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 import Loader from '../../../utilities/loader.js';
+import * as DateFormater from '../../../utilities/dateFormater.js';
 
 const theme = Constants.NEW_VIDEO_THEME;
 
@@ -104,22 +105,70 @@ const LoaderContainer = styled('div')`
 `;
 
 const Preview = styled('div')`
-  margin: 15px 0; 
-  display: flex;
-  justify-content: left;
-  align-items: center;
   width: 100%;
-  height: 150px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+
+  h2, h3 {
+    color: ${Constants.STRONG_TEXT_COLOR};
+  }
+
+  h3 {
+    margin-bottom: 0;
+  }
 
   span {
+    font-size: 14px;
     margin-top: 15px;
+
+    b {
+      color: ${Constants.STRONG_TEXT_COLOR};
+    }
   }
 
   img {
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    height: auto;
     object-fit: contain;
   }
+`;
+
+const AditionalInfo = styled('div')`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+
+  h2 {
+    color: ${Constants.STRONG_TEXT_COLOR};
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: justify;
+
+    b {
+      color: ${Constants.STRONG_TEXT_COLOR};
+    }
+  }
+
+  span {
+    b {
+      color: ${Constants.STRONG_TEXT_COLOR};
+    }
+  }
+`;
+
+const Separator = styled('div')`
+  width: 100%;
+  height: 1px;
+  background-color: ${(props) => props.theme.textColor};
+  margin-top: 10px;
 `;
 
 const ErrorMessage = styled('p')`
@@ -150,6 +199,13 @@ class NewAudio extends React.Component {
       errorMessage: '', 
     };
   };
+
+  componentDidMount() {
+    if(this.state.isEditing){
+      this.setState({loadingPreview: true});
+      this.getYoutubeVideoData();
+    }
+  }
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -183,12 +239,14 @@ class NewAudio extends React.Component {
     if (this.state.url === '') {
       this.setState({
         loadingPreview: false,
+        showingPreview: false,
         emptyFields: true,
         errorMessage: Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.FIELDS_EMPTY,
       });
     }else if(!this.youtubeParser(this.state.url)){
       this.setState({
         loadingPreview: false,
+        showingPreview: false,
         invalidUrl: true,
         errorMessage: Constants.CREATE_UPDATE_CONTENT_ERROR_MESSAGES.INVALID_URL,
       });
@@ -205,13 +263,32 @@ class NewAudio extends React.Component {
   getYoutubeVideoData = () => {
     const response = ServerServices.getYoutubeData(this.state.url);
     response.then((youtubeData) => {
-      console.log(youtubeData);
       this.setState({
         loadingPreview: false,
         showingPreview: true,
         videoData: youtubeData.items[0],
+        selectedThumbnail: this.selectThumbnail(youtubeData.items[0]),
+        videoDuration: DateFormater.youtubeTime(youtubeData.items[0].contentDetails.duration)
       })
     })
+  };
+
+  selectThumbnail = (youtubeData) => {
+    if(youtubeData.snippet.thumbnails.maxres) {
+      return youtubeData.snippet.thumbnails.maxres
+    }
+    if(youtubeData.snippet.thumbnails.standard) {
+      return youtubeData.snippet.thumbnails.standard
+    }
+    if(youtubeData.snippet.thumbnails.high) {
+      return youtubeData.snippet.thumbnails.high
+    }
+    if(youtubeData.snippet.thumbnails.medium) {
+      return youtubeData.snippet.thumbnails.medium
+    }
+    if(youtubeData.snippet.thumbnails.default) {
+      return youtubeData.snippet.thumbnails.default
+    }
   }
 
   // Esta función extrae el ID de un video de youtube desde la URL: url soportadas:
@@ -223,9 +300,9 @@ class NewAudio extends React.Component {
   // http://www.youtube.com/watch?v=0zM3nApSvMg
   // http://youtu.be/0zM3nApSvMg
   youtubeParser = (url) => {
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
-    return (match&&match[7].length==11) ? match[7] : false;
+    return (match && match[7].length === 11) ? match[7] : false;
   }
 
   deleteItem = () => {
@@ -283,14 +360,24 @@ class NewAudio extends React.Component {
                 <span>Cargando previsualización...</span>
               </LoaderContainer>
             }
-            {this.state.showingPreview && 
-              <Preview>
-                <img src={this.state.videoData.snippet.thumbnails.standard.url}/>
-                <div className='videoData'>
-                  <h4>{this.state.videoData.snippet.title}</h4>
-                  <span>Duración: {this.state.videoData.contentDetails.duration}</span>
-                </div>
-              </Preview>
+            {this.state.showingPreview &&
+              <React.Fragment>
+                <Preview>
+                  <h2>Previsualización</h2>
+                  <img src={this.state.selectedThumbnail.url} alt='video_thumbnail'/>
+                  <div className='videoData'>
+                    <h3>{this.state.videoData.snippet.title}</h3>
+                    <span><b>Duración:</b> {this.state.videoDuration}</span>
+                  </div>
+                </Preview>
+                <Separator/>
+                <AditionalInfo>
+                  <h2>Información adicional</h2>
+                  <p><b>Canal:</b><br/> {this.state.videoData.snippet.channelTitle}</p>
+                  <p><b>Descripción:</b><br/>{this.state.videoData.snippet.description}</p>
+                  <span><b>Fecha de publicación:</b><br/>{`${DateFormater.fullDateString(new Date(this.state.videoData.snippet.publishedAt))}`}</span>
+                </AditionalInfo>
+              </React.Fragment>
             }
             <div className='control'>
               <Button
