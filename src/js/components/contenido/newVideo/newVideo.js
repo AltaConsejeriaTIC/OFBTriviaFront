@@ -141,6 +141,15 @@ const AditionalInfo = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: left;
+  font-size: 14px;
+
+  span {
+    margin-bottom: 15px;
+
+    b {
+      color: ${Constants.STRONG_TEXT_COLOR};
+    }
+  }
 
   h2 {
     color: ${Constants.STRONG_TEXT_COLOR};
@@ -157,11 +166,6 @@ const AditionalInfo = styled('div')`
     }
   }
 
-  span {
-    b {
-      color: ${Constants.STRONG_TEXT_COLOR};
-    }
-  }
 `;
 
 const Separator = styled('div')`
@@ -371,13 +375,6 @@ class NewAudio extends React.Component {
                     <span><b>Duración:</b> {this.state.videoDuration}</span>
                   </div>
                 </Preview>
-                <Separator/>
-                <AditionalInfo>
-                  <h2>Información adicional</h2>
-                  <p><b>Canal:</b><br/> {this.state.videoData.snippet.channelTitle}</p>
-                  <p><b>Descripción:</b><br/>{`${this.state.videoData.snippet.description}`}</p>
-                  <span><b>Fecha de publicación:</b><br/>{`${DateFormater.fullDateString(new Date(this.state.videoData.snippet.publishedAt))}`}</span>
-                </AditionalInfo>
               </React.Fragment>
             }
             <div className='control'>

@@ -331,9 +331,10 @@ class TriviaDetails extends React.Component {
             <p>
               Las respuestas resaltadas con color <span>azul</span> son las respuestas que segun nuestro algoritmo se parecen más a la respuesta correcta.
             </p>
-            {!this.state.scoring && !this.state.lockUI && (new Date() < new Date(this.state.question.startDate)) &&
+            {!this.state.scoring &&
             <Button
               primary
+              disabled={this.state.lockUI || (new Date() < new Date(this.state.question.startDate)) ? 1 : 0}
               width='auto'
               height='40px'
               border
@@ -341,9 +342,10 @@ class TriviaDetails extends React.Component {
               Editar Pregunta
             </Button>
             }
-            {!this.state.scoring && !this.state.lockUI &&
+            {!this.state.scoring && 
             <Button
               primary
+              disabled={this.state.lockUI ? 1 : 0}
               width='auto'
               height='40px'
               border

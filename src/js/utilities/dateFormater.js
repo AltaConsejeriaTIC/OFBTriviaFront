@@ -43,7 +43,7 @@ export const youtubeTime = (time) => {
 	console.log(duration)
 
 	const hours = duration.hours ? duration.hours.slice(0, -1) + ':' : '';
-	const minutes = duration.minutes ? duration.minutes.slice(0, -1) + ':' : '';
+	const minutes = duration.minutes ? duration.minutes.slice(0, -1) + ':' : '0:';
 	let seconds = duration.seconds ? duration.seconds.slice(0, -1) : '';
 	if (seconds.length === 1) {seconds = '0' + seconds};
 

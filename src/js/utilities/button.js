@@ -47,7 +47,9 @@ export const Button = styled('button')`
 
   &:disabled {
     cursor: default;
-    color: #575A6D;
+    color: #737582;
+    background-color: #cccccc;
+    border: none;
   }
 `;
 
