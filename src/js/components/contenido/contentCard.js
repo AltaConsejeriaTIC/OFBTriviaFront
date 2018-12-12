@@ -22,9 +22,6 @@ const InfoCardContainer = styled('div')`
 
   div {
     &.item {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       height: 100%;
       flex-grow: 1;
       display: flex;
@@ -50,9 +47,6 @@ const InfoCardContainer = styled('div')`
     }
 
     &.edit-button {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       min-width: 20%;
       height: 100%;
       display: flex;

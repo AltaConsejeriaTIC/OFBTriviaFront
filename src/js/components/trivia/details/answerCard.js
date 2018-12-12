@@ -23,9 +23,6 @@ const InfoCardContainer = styled('div')`
 
   div {
     &.user-info {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       min-width: 20%;
       height: 100%;
       display: flex;
@@ -49,9 +46,6 @@ const InfoCardContainer = styled('div')`
     }
 
     &.date {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       min-width: 20%;
       height: 100%;
       display: flex;

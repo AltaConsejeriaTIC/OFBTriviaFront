@@ -4,19 +4,21 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import styled, {ThemeProvider} from 'styled-components';
+import swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
 import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
 
+//Calendar
+import Calendar from './calendar.js';
+
 const theme = Constants.NEW_TRIVIA_THEME;
 
 //Section container
 const SectionContainer = styled('div')`
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   width: 100%;
   height: ${(props) => props.theme.containerHeight};
   display: flex;
@@ -27,6 +29,7 @@ const SectionContainer = styled('div')`
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.textColor};
   padding: 0 5%;
+  overflow: scroll;
 
   h1 {
     color: ${Constants.STRONG_TEXT_COLOR};
@@ -56,9 +59,6 @@ const SectionContainer = styled('div')`
     }
 
     textarea {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       font-family: 'Open Sans';
       width 100%;
       height: 100px;
@@ -86,14 +86,12 @@ const SectionContainer = styled('div')`
       width: 100%;
 
       .dates {
+        position: relative;
         height: 80%;
         width: 25%;
       }
 
       .trivia-content {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         height: 80%;
         width: 75%;
         display: flex;
@@ -102,6 +100,10 @@ const SectionContainer = styled('div')`
         label {
           width: 40%;
           margin-left: 5%;
+
+          p {
+            color: red;
+          }
         }
       }
     }
@@ -133,24 +135,59 @@ const SectionContainer = styled('div')`
   }
 `;
 
+const CalendarContainer = styled('div')`
+  position: absolute;
+  top: 0;
+  left: 75%;
+  background-color: white;
+  border: solid 1px ${Constants.WEAK_BORDER_COLOR}
+  border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
+
+  .Range .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #f0f8ff !important;
+    color: #4a90e2;
+  }
+
+  .Range .DayPicker-Day {
+    border-radius: 0;
+  }
+
+  .Selectable .DayPicker-Day {
+    border-radius: 0;
+  }
+
+  .Selectable .DayPicker-Day--start {
+    border-top-left-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+  }
+
+  .Selectable .DayPicker-Day--end {
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+  }
+  
+  .DayPicker-Months, .DayPicker-NavBar {
+    color: ${Constants.SECONDARY_BACKGROUND_COLOR};
+    font-size: 11px;
+  }
+`;
+
+
 class NewTrivia extends React.Component {
   constructor(props){
     super(props);
     const propsState = props.location.state ? props.location.state : {};
     const {
       isEditing = false,
-      question = {content: '', answer: ''},
+      question = {content: '', answer: '', endDate: '', startDate: ''},
     } = propsState;
     this.state = {
       isEditing,
       question,
-      startDate: '',
-      endDate: '',
-      content: '',
-      answer: '',
       mustNavigate: false,
       returnToDetails: false,
       emptyFields: false,
+      showCalendar: false,
     };
   };
 
@@ -159,8 +196,9 @@ class NewTrivia extends React.Component {
     const value = event.target.value;
     const name = target.name;
     
-    this.setState({
-      [name]: value
+    this.setState((prevState, props) => {
+      prevState.question[name] = value
+      return prevState;
     });
   };
 
@@ -169,23 +207,21 @@ class NewTrivia extends React.Component {
   };
 
   saveQuestion = () => {
+    this.setState({showCalendar: false})
     if(this.validateFields()){
       this.setState({loading: true});
-      const questionData = {
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        content: this.state.content,
-        answer: this.state.answer,
-      }
+      const questionData = this.state.question;
       if (this.state.isEditing) {questionData.id = this.question.id}
       const response = ServerServices.createQuestion(questionData);
       response.then((result) => {
-        console.log(result)
-        if(result.status === 201 || result.status === 200){
-          //this.setState({mustNavigate: true});
+        if(result.id){
+          this.setState({
+            newId: result.id,
+            mustNavigate: true
+          });
           //Success
         }else{
-          //Some error happened.
+          swal(Constants.ERROR_TRIVIA_ALERT_CONTENT);
         }
       })
     } else {
@@ -194,14 +230,37 @@ class NewTrivia extends React.Component {
   };
 
   validateFields = () => {
-    if (this.state.startDate === '' ||
-        this.state.endDate === '' ||
-        this.state.content === '' ||
-        this.state.answer === '') {
+    if (this.state.question.startDate === '' ||
+        this.state.question.endDate === '' ||
+        this.state.question.content === '' ||
+        this.state.question.answer === '') {
       return false;
     }else{
       return true;
     }
+  };
+
+  onStartDateSelection = (day) => {
+    this.setState((prevState, props) => {
+      prevState.question.startDate = day;
+      return prevState;
+    });
+  };
+
+  onEndDateSelection = (day) => {
+    this.setState((prevState, props) => {
+      prevState.question.endDate = day;
+      prevState.showCalendar = false
+      return prevState;
+    });
+  };
+
+  showCalendar = () => {
+    this.setState({showCalendar: true})
+  };
+
+  hideCalendar = () => {
+    this.setState({showCalendar: false})
   };
 
   cancel = () => {
@@ -216,7 +275,7 @@ class NewTrivia extends React.Component {
       }}/>
     }
     if(this.state.mustNavigate){
-      return <Redirect push to='/dashboard/trivia'/>
+      return <Redirect push to={`/dashboard/trivia/${this.state.newId}`}/>
     }
     return (
       <ThemeProvider theme={theme}>
@@ -234,47 +293,68 @@ class NewTrivia extends React.Component {
                 <input 
                   type='text'
                   name='startDate'
-                  className={this.state.emptyFields && this.state.startDate === '' ? 'red' : ''}
+                  readOnly
+                  className={this.state.emptyFields && this.state.question.startDate === '' ? 'red' : ''}
                   placeholder='aaaa-mm-dd'
-                  onChange={this.handleInputChange}/>
+                  defaultValue={this.state.question.startDate}
+                  onClick={this.showCalendar}/>
               </label>
               <label>
                 FECHA DE CIERRE
                 <input
+                  readOnly
                   type='text'
                   name='endDate'
-                  className={this.state.emptyFields && this.state.endDate === '' ? 'red' : ''}
+                  className={this.state.emptyFields && this.state.question.endDate === '' ? 'red' : ''}
                   placeholder='aaaa-mm-dd'
-                  onChange={this.handleInputChange}/>
+                  defaultValue={this.state.question.endDate}
+                  onClick={this.showCalendar}/>
               </label>
+              {this.state.showCalendar &&
+                <CalendarContainer>
+                  <Calendar 
+                    from={this.state.question.startDate}
+                    to={this.state.question.endDate}
+                    onStartDateSelection={this.onStartDateSelection}
+                    onEndDateSelection={this.onEndDateSelection}/>
+                </CalendarContainer>
+              }
             </div>
             <div className='trivia-content'>
               <label>
                 PREGUNTA
                 <textarea
                   name='content'
-                  className={this.state.emptyFields && this.state.content === '' ? 'red' : ''}
+                  className={this.state.emptyFields && this.state.question.content === '' ? 'red' : ''}
                   placeholder='Escribe aquí la pregunta.'
                   onChange={this.handleInputChange}
                   maxLength={Constants.TRIVIA_QUESTION_MAX_CHARACTERS}
-                  defaultValue={this.state.question.content}/>
+                  defaultValue={this.state.question.content}
+                  onFocus={this.hideCalendar}/>
                 <span>{this.state.question.content.length + ' DE 140 CARACTERES'}</span>
+                {this.state.emptyFields && this.state.question.content === '' && 
+                  <p>{Constants.CREATE_UPDATE_TRIVIA_ERROR_MESSAGES.CONTENT_FIELD_EMPTY}</p>
+                }
               </label>
               <label>
                 RESPUESTA
                 <textarea
                   name='answer'
-                  className={this.state.emptyFields && this.state.answer === '' ? 'red' : ''}
+                  className={this.state.emptyFields && this.state.question.answer === '' ? 'red' : ''}
                   placeholder='Escribe aquí la respuesta.'
                   onChange={this.handleInputChange}
                   maxLength={Constants.TRIVIA_ANSWER_MAX_CHARACTERS}
-                  defaultValue={this.state.question.content}/>
-                <span>{this.state.question.content.length + ' DE 140 CARACTERES'}</span>
+                  defaultValue={this.state.question.answer}
+                  onFocus={this.hideCalendar}/>
+                <span>{this.state.question.answer.length + ' DE 140 CARACTERES'}</span>
+                {this.state.emptyFields && this.state.question.answer === '' && 
+                  <p>{Constants.CREATE_UPDATE_TRIVIA_ERROR_MESSAGES.ANSWER_FIELD_EMPTY}</p>
+                }
               </label>
             </div>
           </div>
           <div className='footer'>
-            <span>Recuerda que no puedes publicar una trivia hasta que hayan pasado al menos dos días desde la finalización de la anterios. Así, habrá tiempo para mostrar los ganadores.</span>
+            <span>Recuerda que no puedes publicar una trivia hasta que hayan pasado al menos dos días desde la finalización de la anterior. Así, habrá tiempo para mostrar los ganadores.</span>
             <div className='separator'/>
             <Button primary border width='100px' onClick={this.cancel}>Cancelar</Button>
             <Button primary border width='150px' onClick={this.saveQuestion}>Guardar Trivia</Button>

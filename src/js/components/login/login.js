@@ -35,9 +35,6 @@ const LoginContainer = styled('div')`
   background-color: white;
 
   div {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     position: relative;
     height: 100%;
     width: 50%;
@@ -85,9 +82,6 @@ const LoginContainer = styled('div')`
       background-color:  ${Constants.MAIN_BACKGROUND_COLOR};
 
       form {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         width: 100%;
         height 100%;
         padding: 0px 20%;

@@ -10,9 +10,6 @@ import styled from 'styled-components';
 import * as Constants from '../../constants.js';
 
 const Container = styled('div')`
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   position: absolute;
   top: 0;
   display: flex;

@@ -18,9 +18,6 @@ const theme = Constants.NEW_VIDEO_THEME;
 
 //Section container
 const SectionContainer = styled('div')`
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   width: 100%;
   min-height: ${(props) => props.theme.containerHeight};
   display: flex;
@@ -34,9 +31,6 @@ const SectionContainer = styled('div')`
   margin-top: 1px;
 
   .content {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: 40%;
@@ -57,9 +51,6 @@ const SectionContainer = styled('div')`
       font-weight: 700;
 
       input {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         font-family: 'Open Sans';
         font-size: 13px;
         width: 80%;

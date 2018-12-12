@@ -8,20 +8,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 button {
   font-family: 'Open Sans', sans-serif,'Bitter', serif;
 }
 
-.swal-winners {
+.swal-custom {
   width: auto;
   padding: 0;
   border-radius: 4px;
 
   h2 {
     &.swal2-title {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       max-width: 450px;
       margin-top: 35px;
       padding: 0 35px;
@@ -34,10 +37,7 @@ button {
 
   .swal2-content {
     #swal2-content {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      width: 100%;
+      max-width: 450px;
       margin-bottom: 25px;
       padding: 0 35px;
       font-size: 14px;
@@ -47,9 +47,6 @@ button {
   }
 
   .swal2-actions {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;

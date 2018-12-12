@@ -16,9 +16,6 @@ const theme = Constants.NEW_AUDIO_THEME;
 
 //Section container
 const SectionContainer = styled('div')`
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   width: 100%;
   height: ${(props) => props.theme.containerHeight};
   display: flex;
@@ -51,9 +48,6 @@ const SectionContainer = styled('div')`
       font-weight: 700;
 
       input {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         font-family: 'Open Sans';
         font-size: 13px;
         width: 80%;

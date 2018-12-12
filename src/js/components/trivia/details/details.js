@@ -53,9 +53,6 @@ const TriviaDetailsContainer = styled('div')`
     }
 
     p {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
       flex-grow: 1;
       width: 400px;
       padding: 15px;
@@ -84,10 +81,6 @@ const TriviaDetailsContainer = styled('div')`
     margin: 40px 0 20px 0;
 
     div {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-
       &:nth-child(2) {
         padding-left: 40px;
         min-width: 40%; 
@@ -180,9 +173,6 @@ const AnswersList = styled('div')`
       }
 
       &:nth-child(3) {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         padding-left: 20px;
         text-align: left;
         width: 20%;
@@ -216,7 +206,7 @@ class TriviaDetails extends React.Component {
     response.then((json) => {
       this.setState((prevState, props) => {
         prevState.question = json;
-        console.log(prevState)
+        prevState.lockUI =  (new Date() < new Date(this.state.question.startDate)) ? true : false;
         return prevState;
       })
     })
@@ -334,7 +324,7 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring &&
             <Button
               primary
-              disabled={this.state.lockUI || (new Date() < new Date(this.state.question.startDate)) ? 1 : 0}
+              disabled={this.state.lockUI}
               width='auto'
               height='40px'
               border

@@ -83,6 +83,7 @@ class Trivia extends React.Component {
   componentDidMount() {
     this.setState({isMounted: true})
     this.getTriviaPage(1);
+    this.getTriviaPage(2);
   }
 
   compoenentWillUnmount() {
@@ -97,7 +98,11 @@ class Trivia extends React.Component {
         question.endDate = new Date(question.endDate);
       })
       if(this.state.isMounted) {
-        this.setState({questions: questions})
+        this.setState((prevState, props) => {
+          console.log(questions)
+          prevState.questions = prevState.questions.concat(questions);
+          return prevState;
+        })
       }
     })
   }

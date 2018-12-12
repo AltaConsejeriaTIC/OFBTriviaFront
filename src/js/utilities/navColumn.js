@@ -8,9 +8,6 @@ import styled, { css } from 'styled-components';
 import * as Constants from '../../constants.js';
 
 const NavColumnContainer = styled('div')`
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 25%;

@@ -121,6 +121,13 @@ export const LOGIN_ERROR_MESSAGES = {
   WRONG_USERNAME_OR_PASSWORD: 'El usuario o la contraseña ingresados no son correctos.',
 }
 
+export const CREATE_UPDATE_TRIVIA_ERROR_MESSAGES = {
+  CONTENT_FIELD_EMPTY: 'Este campo es obligatorio.',
+  ANSWER_FIELD_EMPTY: 'Este campo es obligatorio.',
+  INVALID_DATE: '',
+  SERVER_ERROR: 'Tenemos problemas relizando esta petición, por favor intenta más tarde.',
+}
+
 export const CREATE_UPDATE_CONTENT_ERROR_MESSAGES = {
   FIELDS_EMPTY: 'Los campos no pueden estar vacíos.',
   INVALID_URL: 'URL inválida.',
@@ -128,13 +135,21 @@ export const CREATE_UPDATE_CONTENT_ERROR_MESSAGES = {
 }
 
 // SWAL CONTENT CONSTANTS
+export const ERROR_TRIVIA_ALERT_CONTENT = {
+  title: 'Error al crear trivia',
+  text: 'La fecha seleccionada no es válida, recuerda que la fecha de inicio de una trivia debe ser al menos dos días después de la finalización de la trivia inmediatamente anterior.',
+  showCancelButton: false,
+  confirmButtonText: 'OK',
+  customClass: 'swal-custom',
+}
+
 export const SAVE_WINNERS_ALERT_CONTENT = {
   title: '¿Estás seguro de que deseas seleccionar estos ganadores?',
   text: 'Esta acción no se puede deshacer ni modificar.',
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
   confirmButtonText: 'SELECCIONAR',
-  customClass: 'swal-winners',
+  customClass: 'swal-custom',
 }
 
 // SWAL CONTENT CONSTANTS
@@ -143,18 +158,18 @@ export const CONFIRM_DELETE_ACTION_ALERT_CONTENT = {
   text: 'Esta acción no se puede deshacer ni modificar.',
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
-  confirmButtonText: 'BORRE ESA MIERDA!',
-  customClass: 'swal-winners',
+  confirmButtonText: 'ELIMINAR',
+  customClass: 'swal-custom',
 }
 
 // SWAL CONTENT CONSTANTS
 export const SERVICE_NOT_AVAILABLE_ON_BACKEND = {
-  title: 'Pues cagada porque esto no está implementado en el back',
-  text: 'Ja! jaque mate ateos!',
+  title: 'Función actualmente no disponible.',
+  text: 'Lamentamos los inconvenientes.',
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
-  confirmButtonText: ":'V",
-  customClass: 'swal-winners',
+  confirmButtonText: "OK",
+  customClass: 'swal-custom',
 }
 
 //export const DATE_FORMAT_APPENDIX = 'T00:00:00.0Z';
