@@ -13,7 +13,7 @@ const END_POINTS = {
   audioList: 'trivia/get-audios',
   createAudio: 'trivia/upload-audio',
   videosList: 'trivia/get-videos',
-  youtubeData: 'trivia/getVideoData',
+  youtubeData: 'trivia/get-video-data',
   createVideo: 'trivia/upload-video',
   getUserData: 'trivia/get-user'
 }
@@ -128,7 +128,7 @@ export const getVideoList = async () => {
 };
 
 export const getYoutubeData = async (url) => {
-  const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['youtubeData']}?id=${url}`
+  const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['youtubeData']}?url=${url}`
   const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };
