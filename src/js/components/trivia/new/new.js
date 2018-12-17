@@ -249,8 +249,7 @@ class NewTrivia extends React.Component {
 
   onEndDateSelection = (day) => {
     this.setState((prevState, props) => {
-      prevState.question.endDate = day;
-      prevState.showCalendar = false
+      prevState.question.endDate = day; 
       return prevState;
     });
   };

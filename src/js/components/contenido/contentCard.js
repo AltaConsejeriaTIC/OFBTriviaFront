@@ -84,7 +84,7 @@ class ContentCard extends React.Component {
             title: this.props.item.title,
             artist: this.props.item.artist,
             url: this.props.item.url,
-            id: this.props.id,
+            id: this.props.item.id,
             isEditing: true,
           }
         }}/>

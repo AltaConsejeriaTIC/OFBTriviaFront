@@ -98,6 +98,20 @@ export const createAudio = async (title, artist, url, id) => {
   return json;
 };
 
+export const deleteAudio = async (id) => {
+  console.log(id)
+  const composedBody = {
+    id,
+    'active': false,
+  };
+  const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createAudio']}`, {
+    method: "POST",
+    body: JSON.stringify(composedBody),
+    headers : fetchHeaders.headers
+  }));
+  return json;
+};
+
 export const getAudioList = async () => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['audioList']}`
   const json = await (await fetch(composedURL, fetchHeaders)).json();

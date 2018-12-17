@@ -152,7 +152,6 @@ export const SAVE_WINNERS_ALERT_CONTENT = {
   customClass: 'swal-custom',
 }
 
-// SWAL CONTENT CONSTANTS
 export const CONFIRM_DELETE_ACTION_ALERT_CONTENT = {
   title: '¿Estás seguro de que deseas eliminar este elemento?',
   text: 'Esta acción no se puede deshacer ni modificar.',
@@ -162,7 +161,16 @@ export const CONFIRM_DELETE_ACTION_ALERT_CONTENT = {
   customClass: 'swal-custom',
 }
 
-// SWAL CONTENT CONSTANTS
+export const ITEM_DELETE_ALERT_CONTENT = (itemType) => {
+  return {
+    title: 'Exito',
+    text: `El ${itemType} fue eliminado.`,
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    customClass: 'swal-custom',
+  }
+}
+
 export const SERVICE_NOT_AVAILABLE_ON_BACKEND = {
   title: 'Función actualmente no disponible.',
   text: 'Lamentamos los inconvenientes.',

@@ -108,7 +108,7 @@ class ContenidoAudio extends React.Component {
             { !this.state.loading &&
               <AudioList className='item-list'>
                 {this.state.audios.map((item, index) => {
-                  return <ContentCard key={index} item={item} id={index + 1} type='audio'/>
+                  return <ContentCard key={index} item={item} type='audio'/>
                 })}
                 {this.state.audios.length > 4 &&
                   <PageController items={this.state.totalQuestions} currentPage={this.state.currentPage} onPageChange={this.onPageChange}/>
