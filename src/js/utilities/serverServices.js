@@ -104,6 +104,7 @@ export const createAudio = async (title, artist, url, id) => {
     url,
     id
   };
+  console.log(composedBody)
   const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createAudio']}`, {
     method: "POST",
     body: JSON.stringify(composedBody),
@@ -133,11 +134,13 @@ export const getAudioList = async () => {
 };
 
 //Video
-export const createVideo = async (title, url, thumbnail, id) => {
+export const createVideo = async (title, channel, url, thumbnail, time, id) => {
   const composedBody = {
     title,
+    channel,
     url,
     thumbnail,
+    time,
     id
   };
   console.log(composedBody)

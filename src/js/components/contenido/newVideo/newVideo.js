@@ -216,7 +216,7 @@ class NewAudio extends React.Component {
 
   uploadVideo = () => {
     this.setState({loading: true});
-    const response = ServerServices.createVideo(this.state.videoData.snippet.title, this.state.url, this.state.selectedThumbnail.url, this.state.id);
+    const response = ServerServices.createVideo(this.state.videoData.snippet.title, this.state.channel, this.state.url, this.state.selectedThumbnail.url, this.state.videoDuration, this.state.id);
     response.then((result) => {
       console.log(result);
       if(result.status === 201 || result.status === 200){
@@ -264,7 +264,8 @@ class NewAudio extends React.Component {
         videoData: youtubeData.items[0],
         selectedThumbnail: this.selectThumbnail(youtubeData.items[0]),
         videoDuration: DateFormater.youtubeTime(youtubeData.items[0].contentDetails.duration),
-        title: youtubeData.items[0].snippet.title
+        title: youtubeData.items[0].snippet.title,
+        channel: youtubeData.items[0].snippet.channelTitle,
       })
     })
   };
@@ -322,7 +323,6 @@ class NewAudio extends React.Component {
   };
 
   render() {
-    console.log(this.state, this.props)
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/contenido/video'/>
     }
