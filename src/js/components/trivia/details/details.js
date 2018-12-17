@@ -213,7 +213,6 @@ class TriviaDetails extends React.Component {
   };
 
   getAnswersList = () => {
-    console.log(this.state.question)
     const answers = ServerServices.getAnswersList(this.state.question.id);
     answers.then((answers) => {
       const winners = [];
@@ -278,10 +277,9 @@ class TriviaDetails extends React.Component {
 
   checkForWinners = () => {
 
-  }
+  };
 
   render() {
-    console.log(this.state)
     if(this.state.redirectToEdit){
       return <Redirect push to={{
         pathname: '/dashboard/trivia/edit',
@@ -335,7 +333,7 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring && 
             <Button
               primary
-              disabled={this.state.lockUI ? 1 : 0}
+              disabled={this.state.lockUI || this.state.answers.length === 0}
               width='auto'
               height='40px'
               border

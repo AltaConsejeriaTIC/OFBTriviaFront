@@ -49,6 +49,20 @@ export const getQuestionById = async (id) => {
   return json;
 };
 
+export const deleteTrivia = async (id) => {
+  console.log(id)
+  const composedBody = {
+    id,
+    'active': false,
+  };
+  const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createQuestion']}`, {
+    method: "POST",
+    body: JSON.stringify(composedBody),
+    headers : fetchHeaders.headers
+  }));
+  return json;
+};
+
 export const getAnswersList = async (questionId) => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['answersList']}?${'questionId=' + questionId}`;
   const json = await (await fetch(composedURL, fetchHeaders)).json();

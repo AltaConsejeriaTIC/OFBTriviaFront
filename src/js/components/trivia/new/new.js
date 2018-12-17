@@ -31,10 +31,18 @@ const SectionContainer = styled('div')`
   padding: 0 5%;
   overflow: scroll;
 
-  h1 {
-    color: ${Constants.STRONG_TEXT_COLOR};
-    font-size: 22px;
+  .top-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    h1 {
+      color: ${Constants.STRONG_TEXT_COLOR};
+      font-size: 22px;
+    }
   }
+
 
   label {
     display: flex;
@@ -241,6 +249,7 @@ class NewTrivia extends React.Component {
   };
 
   onStartDateSelection = (day) => {
+    console.log(day)
     this.setState((prevState, props) => {
       prevState.question.startDate = day;
       return prevState;
@@ -266,7 +275,29 @@ class NewTrivia extends React.Component {
     this.setState({mustNavigate: true})
   };
 
+  deleteItem = () => {
+    swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
+    .then((result) => {
+      if(result.value) {
+        this.setState({loading: true});
+        ServerServices.deleteTrivia(this.state.question.id)
+        .then((response) => {
+          if (response) {
+            swal(Constants.ITEM_DELETE_ALERT_CONTENT('trivia'))
+            .then(() => {
+              this.setState({mustNavigate: true});
+            })
+          }
+        }) 
+      }
+    })
+  }
+
   render() {
+    if(this.state.mustNavigate){
+      return <Redirect push to='/dashboard/trivia'/>
+    }
+
     if(this.state.returnToDetails){
       return <Redirect push to={{
         pathname: `/dashboard/trivia/${this.state.question.id}`,
@@ -284,7 +315,18 @@ class NewTrivia extends React.Component {
             questionId={this.state.question.id}
             returnToDetails={this.returnToDetails}
             margin/>
-          <h1>{this.state.isEditing ? 'Editar Pregunta' : 'Añadir pregunta'}</h1>
+          <div className='top-control'>
+            <h1>{this.state.isEditing ? 'Editar Pregunta' : 'Añadir pregunta'}</h1>
+            {this.state.isEditing &&
+              <Button
+                delete
+                border
+                width='140px'
+                onClick={this.deleteItem}>
+                Eliminar
+              </Button>
+            }
+          </div>
           <div className='content'>
             <div className='dates'>
               <label>

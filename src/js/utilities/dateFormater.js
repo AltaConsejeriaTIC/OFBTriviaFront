@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 // Date Formater
 const MONTHS = {
 	0: 'Enero',
@@ -50,6 +52,10 @@ export const youtubeTime = (time) => {
 	const composedDuration = hours + minutes + seconds;
 	return composedDuration;
 }
+
+export const triviaFormFormat = (date) => {
+	return moment(date).format('YYYY-MM-DD');
+} 
 
 // Esta función extrae el ID de un video de youtube desde la URL: url soportadas:
   // http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index

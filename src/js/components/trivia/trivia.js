@@ -99,7 +99,6 @@ class Trivia extends React.Component {
       })
       if(this.state.isMounted) {
         this.setState((prevState, props) => {
-          console.log(questions)
           prevState.questions = prevState.questions.concat(questions);
           return prevState;
         })
@@ -112,7 +111,6 @@ class Trivia extends React.Component {
   };
 
   render() {
-    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>

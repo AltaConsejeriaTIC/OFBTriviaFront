@@ -1,6 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import styled from 'styled-components';
+import * as Formater from '../../../utilities/dateFormater.js';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 // Include the locale utils designed for moment
@@ -42,13 +42,14 @@ export default class Calendar extends React.Component {
         to: null,
         enteredTo: null,
       });
-      this.props.onStartDateSelection(moment(day).format('YYYY-MM-DD'));
+      this.props.onStartDateSelection(Formater.triviaFormFormat(day));
     } else {
       this.setState({
         to: day,
         enteredTo: day,
       });
-      this.props.onEndDateSelection(moment(day).format('YYYY-MM-DD'));
+      console.log('first day')
+      this.props.onEndDateSelection(Formater.triviaFormFormat(day));
     }
   };
 

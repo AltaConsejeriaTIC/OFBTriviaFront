@@ -140,6 +140,7 @@ export const ERROR_TRIVIA_ALERT_CONTENT = {
   text: 'La fecha seleccionada no es válida, recuerda que la fecha de inicio de una trivia debe ser al menos dos días después de la finalización de la trivia inmediatamente anterior.',
   showCancelButton: false,
   confirmButtonText: 'OK',
+  allowOutsideClick: false,
   customClass: 'swal-custom',
 }
 
@@ -149,6 +150,7 @@ export const SAVE_WINNERS_ALERT_CONTENT = {
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
   confirmButtonText: 'SELECCIONAR',
+  allowOutsideClick: false,
   customClass: 'swal-custom',
 }
 
@@ -158,6 +160,7 @@ export const CONFIRM_DELETE_ACTION_ALERT_CONTENT = {
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
   confirmButtonText: 'ELIMINAR',
+  allowOutsideClick: false,
   customClass: 'swal-custom',
 }
 
@@ -168,6 +171,7 @@ export const ITEM_DELETE_ALERT_CONTENT = (itemType) => {
     showCancelButton: true,
     confirmButtonText: 'OK',
     customClass: 'swal-custom',
+    allowOutsideClick: false,
   }
 }
 
@@ -177,6 +181,7 @@ export const SERVICE_NOT_AVAILABLE_ON_BACKEND = {
   showCancelButton: true,
   cancelButtonText: 'CANCELAR',
   confirmButtonText: "OK",
+  allowOutsideClick: false,
   customClass: 'swal-custom',
 }
 
