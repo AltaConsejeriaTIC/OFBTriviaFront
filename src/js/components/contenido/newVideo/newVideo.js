@@ -306,9 +306,8 @@ class NewAudio extends React.Component {
     .then((dismiss) => {
       this.setState({loading: true});
       ServerServices.deleteVideo(this.state.id)
-      .then((response) => {
-        console.log(response)
-        if (response) {
+      .then((result) => {
+        if(result.value) {
           swal(Constants.ITEM_DELETE_ALERT_CONTENT('video'))
           .then(() => {
             this.setState({mustNavigate: true});
