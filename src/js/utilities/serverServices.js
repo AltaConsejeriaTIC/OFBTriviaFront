@@ -135,6 +135,20 @@ export const createVideo = async (title, url, thumbnail, id) => {
   return json;
 };
 
+export const deleteVideo = async (id) => {
+  console.log(id)
+  const composedBody = {
+    id,
+    'active': false,
+  };
+  const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createVideo']}`, {
+    method: "POST",
+    body: JSON.stringify(composedBody),
+    headers : fetchHeaders.headers
+  }));
+  return json;
+};
+
 export const getVideoList = async () => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['videosList']}`
   const json = await (await fetch(composedURL, fetchHeaders)).json();

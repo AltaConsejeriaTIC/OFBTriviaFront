@@ -285,7 +285,7 @@ class NewAudio extends React.Component {
     if(youtubeData.snippet.thumbnails.default) {
       return youtubeData.snippet.thumbnails.default
     }
-  }
+  };
 
   // Esta función extrae el ID de un video de youtube desde la URL: url soportadas:
   // http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
@@ -299,12 +299,22 @@ class NewAudio extends React.Component {
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
     return (match && match[7].length === 11) ? match[7] : false;
-  }
+  };
 
   deleteItem = () => {
     swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
     .then((dismiss) => {
-      swal(Constants.SERVICE_NOT_AVAILABLE_ON_BACKEND)
+      this.setState({loading: true});
+      ServerServices.deleteVideo(this.state.id)
+      .then((response) => {
+        console.log(response)
+        if (response) {
+          swal(Constants.ITEM_DELETE_ALERT_CONTENT('video'))
+          .then(() => {
+            this.setState({mustNavigate: true});
+          })
+        }
+      }) 
     })
   }
 
