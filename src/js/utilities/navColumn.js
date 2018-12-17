@@ -87,7 +87,7 @@ class NavColumn extends React.Component {
         <Leyend display={this.props.currentSection === 'trivia' ? 1 : 0}>
           <h5>NOTA</h5>
           <p>
-            Las preguntas resaltadas con color <span>rosado</span> son las que se muestran actualmente en la aplicación. 
+            La pregunta resaltada con color <span>rosado</span> son las que se muestran actualmente en la aplicación. 
           </p>
         </Leyend>
       </NavColumnContainer>
