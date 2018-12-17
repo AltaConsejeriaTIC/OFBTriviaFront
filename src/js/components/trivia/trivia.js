@@ -148,12 +148,6 @@ class Trivia extends React.Component {
                     id={index}
                     path={this.props.location.pathname} />
                 })}
-                {this.state.questions.length > 4 &&
-                <PageController 
-                  items={this.state.questions.length}
-                  currentPage={this.state.currentPage}
-                  onPageChange={this.onPageChange}/>
-                }
                 {this.state.questions.length === 0 && 
                   <NoItemsAvailable section='trivia'/>
                 }

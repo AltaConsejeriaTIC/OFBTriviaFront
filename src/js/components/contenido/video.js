@@ -118,12 +118,6 @@ class ContenidoVideo extends React.Component {
                 {this.state.videos.map((item, index) => {
                   return <ContentCard key={index} item={item} type='video' id={index + 1}/>
                 })}
-                {this.state.videos.length > 4 &&
-                <PageController
-                  items={this.state.videos}
-                  currentPage={this.state.currentPage}
-                  onPageChange={this.onPageChange}/>
-                }
                 {this.state.videos.length === 0 && 
                   <NoItemsAvailable section='videos'/>
                 }
