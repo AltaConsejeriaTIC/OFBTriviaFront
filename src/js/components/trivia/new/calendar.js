@@ -67,6 +67,7 @@ export default class Calendar extends React.Component {
   };
 
   render() {
+    console.log(this.state)
     const { from, to, enteredTo } = this.state;
     const modifiers = { start: from, end: to };
     const disabledDays = { before: this.state.from ? this.state.from : new Date()};

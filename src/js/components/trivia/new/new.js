@@ -11,6 +11,7 @@ import * as Constants from '../../../../constants.js';
 import { Button } from '../../../utilities/button.js';
 import BreadCrumbs from '../../../utilities/breadCrumbs.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
+import * as DateFormater from '../../../utilities/dateFormater.js';
 
 //Calendar
 import Calendar from './calendar.js';
@@ -189,6 +190,10 @@ class NewTrivia extends React.Component {
       isEditing = false,
       question = {content: '', answer: '', endDate: '', startDate: ''},
     } = propsState;
+    if (question.startDate !== '') {
+      question.startDate = DateFormater.triviaFormFormat(question.startDate);
+      question.endDate = DateFormater.triviaFormFormat(question.endDate);
+    }
     this.state = {
       isEditing,
       question,
@@ -249,7 +254,6 @@ class NewTrivia extends React.Component {
   };
 
   onStartDateSelection = (day) => {
-    console.log(day)
     this.setState((prevState, props) => {
       prevState.question.startDate = day;
       return prevState;
@@ -294,6 +298,9 @@ class NewTrivia extends React.Component {
   }
 
   render() {
+    console.log(this.state.question.startDate);
+    console.log(this.state.question.endDate);
+
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/trivia'/>
     }
@@ -337,7 +344,7 @@ class NewTrivia extends React.Component {
                   readOnly
                   className={this.state.emptyFields && this.state.question.startDate === '' ? 'red' : ''}
                   placeholder='aaaa-mm-dd'
-                  defaultValue={this.state.question.startDate}
+                  value={this.state.question.startDate}
                   onClick={this.showCalendar}/>
               </label>
               <label>
@@ -348,7 +355,7 @@ class NewTrivia extends React.Component {
                   name='endDate'
                   className={this.state.emptyFields && this.state.question.endDate === '' ? 'red' : ''}
                   placeholder='aaaa-mm-dd'
-                  defaultValue={this.state.question.endDate}
+                  value={this.state.question.endDate}
                   onClick={this.showCalendar}/>
               </label>
               {this.state.showCalendar &&
