@@ -83,7 +83,6 @@ class Trivia extends React.Component {
   componentDidMount() {
     this.setState({isMounted: true})
     this.getTriviaPage(1);
-    this.getTriviaPage(2);
   }
 
   compoenentWillUnmount() {
@@ -111,6 +110,7 @@ class Trivia extends React.Component {
   };
 
   render() {
+    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -135,17 +135,11 @@ class Trivia extends React.Component {
                 </div>
                 }
                 {this.state.questions.map((item, index) => {
-                  if(index === 1){
-                    return <InfoCard
-                      key={index}
-                      question={item}
-                      path={this.props.location.pathname}  
-                      selected={item.status === 'Publicada' ? 1 : 0}/>
-                  }
                   return <InfoCard 
                     key={index}
                     question={item}
                     id={index}
+                    selected={item.status === 'Publicada' ? 1 : 0}
                     path={this.props.location.pathname} />
                 })}
                 {this.state.questions.length === 0 && 

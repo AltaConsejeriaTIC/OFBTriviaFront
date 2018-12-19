@@ -131,7 +131,7 @@ class InfoCard extends React.Component {
           {this.props.question.status}
         </div>
         <div className='answer-amount'>
-          <span>{this.props.question.answers}</span>
+          <span>{`${this.props.question.answersCount} respuestas`}</span>
           <Button onClick={this.navigateToDetails} border>Ver detalle</Button>
         </div>
       </InfoCardContainer>

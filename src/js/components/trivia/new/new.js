@@ -201,6 +201,7 @@ class NewTrivia extends React.Component {
       returnToDetails: false,
       emptyFields: false,
       showCalendar: false,
+      selectingDateType: null,
     };
   };
 
@@ -359,7 +360,7 @@ class NewTrivia extends React.Component {
                   onClick={this.showCalendar}/>
               </label>
               {this.state.showCalendar &&
-                <CalendarContainer>
+                <CalendarContainer currentType={this.state.selectingDateType}>
                   <Calendar 
                     from={this.state.question.startDate}
                     to={this.state.question.endDate}
