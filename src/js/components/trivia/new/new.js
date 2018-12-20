@@ -217,7 +217,18 @@ class NewTrivia extends React.Component {
       showCalendar: false,
       selectingDateType: null,
     };
+
+    this.calendarRef = React.createRef();
   };
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  };
+
 
   handleInputChange = (event) => {
     const target = event.target;
@@ -239,7 +250,7 @@ class NewTrivia extends React.Component {
     if(this.validateFields()){
       this.setState({loading: true});
       const questionData = this.state.question;
-      if (this.state.isEditing) {questionData.id = this.question.id}
+      if (this.state.isEditing) {questionData.id = this.state.question.id}
       const response = ServerServices.createQuestion(questionData);
       response.then((result) => {
         if(result.id){
@@ -271,13 +282,15 @@ class NewTrivia extends React.Component {
   onStartDateSelection = (day) => {
     this.setState((prevState, props) => {
       prevState.question.startDate = day;
+      prevState.showCalendar = false;
       return prevState;
     });
   };
 
   onEndDateSelection = (day) => {
     this.setState((prevState, props) => {
-      prevState.question.endDate = day; 
+      prevState.question.endDate = day;
+      prevState.showCalendar = false;
       return prevState;
     });
   };
@@ -294,7 +307,10 @@ class NewTrivia extends React.Component {
   };
 
   hideCalendar = () => {
-    this.setState({showCalendar: false})
+    this.setState({
+      showCalendar: false,
+      selectingDateType: null
+    })
   };
 
   cancel = () => {
@@ -317,10 +333,16 @@ class NewTrivia extends React.Component {
         }) 
       }
     })
+  };
+
+  handleClickOutside = (event) => {
+    const ref = this.calendarRef.current;
+    if (ref && !ref.contains(event.target)) {
+      this.hideCalendar();
+    }
   }
 
   render() {
-    console.log(this.state.selectingDateType === 'startDate' ? 'selected' : '')
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/trivia'/>
     }
@@ -379,7 +401,8 @@ class NewTrivia extends React.Component {
                   onClick={this.handleDateInput}/>
               </label>
               {this.state.showCalendar &&
-                <CalendarContainer currentType={this.state.selectingDateType}>
+                <CalendarContainer currentType={this.state.selectingDateType} 
+                    ref={this.calendarRef}>
                   <Calendar 
                     currentType={this.state.selectingDateType}
                     from={this.state.question.startDate}

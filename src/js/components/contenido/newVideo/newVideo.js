@@ -126,46 +126,6 @@ const Preview = styled('div')`
   }
 `;
 
-const AditionalInfo = styled('div')`
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  font-size: 14px;
-
-  span {
-    margin-bottom: 15px;
-
-    b {
-      color: ${Constants.STRONG_TEXT_COLOR};
-    }
-  }
-
-  h2 {
-    color: ${Constants.STRONG_TEXT_COLOR};
-    margin-bottom: 15px;
-  }
-
-  p {
-    margin-top: 0;
-    margin-bottom: 15px;
-    white-space: pre-line;
-
-    b {
-      color: ${Constants.STRONG_TEXT_COLOR};
-    }
-  }
-
-`;
-
-const Separator = styled('div')`
-  width: 100%;
-  height: 1px;
-  background-color: ${(props) => props.theme.textColor};
-  margin-top: 10px;
-`;
-
 const ErrorMessage = styled('p')`
   display: ${(props) => props.display ? 'block' : 'none'};
   font-size: 13px;

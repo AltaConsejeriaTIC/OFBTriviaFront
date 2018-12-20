@@ -9,7 +9,6 @@ import * as Constants from '../../../constants.js';
 import SectionTitle from '../../utilities/sectionTitle.js';
 import NavColumn from '../../utilities/navColumn.js';
 import InfoCard from './infoCard.js';
-import PageController from '../../utilities/pageController.js';
 import * as ServerServices from '../../utilities/serverServices.js';
 import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
 import Loader from '../../utilities/loader.js';

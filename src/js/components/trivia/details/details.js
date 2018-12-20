@@ -216,11 +216,12 @@ class TriviaDetails extends React.Component {
     const answers = ServerServices.getAnswersList(this.state.question.id);
     answers.then((answers) => {
       const winners = [];
-      answers.map((answer) => {
+      answers.forEach((answer) => {
         if (answer.winner === 1) {
           winners.push(answer);
+
         }
-      })
+      });
       this.setState({
         answers: answers,
         winners: winners,
