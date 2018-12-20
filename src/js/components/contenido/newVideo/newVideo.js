@@ -269,7 +269,7 @@ class NewAudio extends React.Component {
       ServerServices.deleteVideo(this.state.id)
       .then((response) => {
         console.log(response)
-        if(response) {
+        if(response.status === 200) {
           swal(Constants.ITEM_DELETE_ALERT_CONTENT('video'))
           .then(() => {
             console.log("test")

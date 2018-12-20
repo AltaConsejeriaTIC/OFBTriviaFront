@@ -24,14 +24,19 @@ const InfoCardContainer = styled('div')`
   div {
     &.user-info {
       min-width: 20%;
+      width: 20%;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-left: 20px;
+      padding: 0 20px;
 
       span {
+        width: 100%;
         margin-top: 3px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         &:first-child {
           font-size: 13px;
           font-weight: 700;

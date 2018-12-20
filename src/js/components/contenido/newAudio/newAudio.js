@@ -53,7 +53,7 @@ const SectionContainer = styled('div')`
         width: 80%;
         width: 100%;
         height: 35px;
-        margin: 5px 0 15px 0;
+        margin: 5px 0 0 0;
         padding-left: 10px;
         border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
         border: solid 1px ${Constants.INPUT_BORDER_COLOR};
@@ -61,8 +61,13 @@ const SectionContainer = styled('div')`
         &.red {
           border: 1px solid red;
         }
+
       }
 
+      span {
+        margin: 5px 0 0 0;
+        text-align: right;
+      }
     }
     
     .control {
@@ -143,7 +148,8 @@ class NewAudio extends React.Component {
       this.setState({loading: true});
       ServerServices.deleteAudio(this.state.id)
       .then((result) => {
-        if(result.value) {
+        console.log(result)
+        if(result.status === 200) {
           swal(Constants.ITEM_DELETE_ALERT_CONTENT('audio'))
           .then(() => {
             this.setState({mustNavigate: true});
@@ -186,8 +192,10 @@ class NewAudio extends React.Component {
                 name='title'
                 className={this.state.emptyFields && this.state.title === '' ? 'red' : ''}
                 placeholder='Nombre del audio'
+                maxLength={Constants.AUDIO_NAME_MAX_CHARACTERS}
                 defaultValue={this.state.title ? this.state.title : ''}
                 onChange={this.handleInputChange}/>
+                <span>{`${this.state.title.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
             </label>
             <label>
               NOMBRE DEL ARTISTA
@@ -196,8 +204,10 @@ class NewAudio extends React.Component {
                 name='artist'
                 className={this.state.emptyFields && this.state.artist === '' ? 'red' : ''}
                 placeholder='Nombre del artista'
+                maxLength={Constants.AUDIO_NAME_MAX_CHARACTERS}
                 defaultValue={this.state.artist ? this.state.artist : ''}
                 onChange={this.handleInputChange}/>
+              <span>{`${this.state.title.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
             </label>
             <label>
               LINK DEL AUDIO
