@@ -18,7 +18,7 @@ const theme = Constants.TRIVIA_THEME;
 const TriviaContainer = styled('div')`
   display: flex;
   flex-direction: column;
-  min-height: ${props => props.theme.containerHeight};
+  height: ${props => props.theme.containerHeight};
   background-color: ${props => props.theme.backgroundColor};
   padding: 0 5%;
 
@@ -32,13 +32,15 @@ const TriviaContainer = styled('div')`
 const TriviaList = styled('div')`
   display: flex;
   flex-direction: column;
+  max-height: 100%;
   width: 75%;
 
   .list-header {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 30px;
+    min-height: 30px;
+    margin-top: 10px;
 
     span {
       color: ${Constants.LIST_HEADER_TEXT_COLOR};
@@ -66,6 +68,11 @@ const TriviaList = styled('div')`
       }
     }
   }
+
+  .cards-container {
+    overflow: auto;
+    flex-grow: 1;
+  }
 `;
 
 class Trivia extends React.Component {
@@ -74,21 +81,21 @@ class Trivia extends React.Component {
     this.state = {
       currentPage: 1,
       questions: [],
-      isMounted: false
+      isMounted: false,
     };
   };
 
-
   componentDidMount() {
     this.setState({isMounted: true})
-    this.getTriviaPage(1);
+    this.getTriviaPage();
   }
 
   compoenentWillUnmount() {
     this.setState({isMounted: false})
   }
 
-  getTriviaPage = (page) => {
+  getTriviaPage = () => {
+    const page = this.state.currentPage;
     const questions = ServerServices.getTriviaList(null, page);
     questions.then((questions) => {
       questions.forEach((question) => {
@@ -98,18 +105,24 @@ class Trivia extends React.Component {
       if(this.state.isMounted) {
         this.setState((prevState, props) => {
           prevState.questions = prevState.questions.concat(questions);
+          prevState.currentPage += 1;
           return prevState;
         })
       }
     })
-  }
+  };
 
   PageChange = (page) => {
     this.setState({currentPage: page});
   };
 
+  trackScrolling = (event) => {
+    if (event.target.scrollTop + 1 > event.target.scrollHeight - event.target.getBoundingClientRect().height) {
+      this.getTriviaPage();
+    }
+  };
+
   render() {
-    console.log(this.state)
     return (
       <ThemeProvider theme={theme}>
         <TriviaContainer>
@@ -124,7 +137,7 @@ class Trivia extends React.Component {
               <Loader/>
             }
             { !this.state.loading &&
-              <TriviaList className='item-list'>
+              <TriviaList>
                 {this.state.questions.length > 0 &&
                 <div className='list-header'>
                   <span>FECHA</span>
@@ -133,14 +146,18 @@ class Trivia extends React.Component {
                   <span>RESPUESTA</span>
                 </div>
                 }
-                {this.state.questions.map((item, index) => {
-                  return <InfoCard 
-                    key={index}
-                    question={item}
-                    id={index}
-                    selected={item.status === 'Publicada' ? 1 : 0}
-                    path={this.props.location.pathname} />
-                })}
+                {this.state.questions && 
+                  <div className='cards-container' onScroll={this.trackScrolling}>
+                    {this.state.questions.map((item, index) => {
+                      return <InfoCard 
+                        key={index}
+                        question={item}
+                        id={index}
+                        selected={item.status === 'Publicada' ? 1 : 0}
+                        path={this.props.location.pathname} />
+                    })}
+                  </div>
+                }
                 {this.state.questions.length === 0 && 
                   <NoItemsAvailable section='trivia'/>
                 }

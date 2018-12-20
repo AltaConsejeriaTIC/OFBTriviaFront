@@ -9,6 +9,7 @@ import * as Constants from '../../constants.js';
 
 const NavColumnContainer = styled('div')`
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 25%;
   padding-right: 15px;
@@ -22,6 +23,9 @@ const NavColumnContainer = styled('div')`
 
 const Leyend = styled('div')`
   display: ${(props) => props.display === 1 ? 'block' : 'none'}
+  position: absolute;
+  bottom: 25px;
+  padding-right: 25px;
 
   h5 {
     color: #7C7F92;
