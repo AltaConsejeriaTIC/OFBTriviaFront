@@ -168,7 +168,7 @@ export const ITEM_DELETE_ALERT_CONTENT = (itemType) => {
   return {
     title: 'Exito',
     text: `El ${itemType} fue eliminado.`,
-    showCancelButton: true,
+    showCancelButton: false,
     confirmButtonText: 'OK',
     customClass: 'swal-custom',
     allowOutsideClick: false,

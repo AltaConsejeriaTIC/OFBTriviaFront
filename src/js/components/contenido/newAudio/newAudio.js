@@ -145,17 +145,18 @@ class NewAudio extends React.Component {
   deleteItem = () => {
     swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
     .then((dismiss) => {
-      this.setState({loading: true});
-      ServerServices.deleteAudio(this.state.id)
-      .then((result) => {
-        console.log(result)
-        if(result.status === 200) {
-          swal(Constants.ITEM_DELETE_ALERT_CONTENT('audio'))
-          .then(() => {
-            this.setState({mustNavigate: true});
-          })
-        }
-      }) 
+      if(dismiss.value) {
+        this.setState({loading: true});
+        ServerServices.deleteAudio(this.state.id)
+        .then((result) => {
+          if(result.status === 200) {
+            swal(Constants.ITEM_DELETE_ALERT_CONTENT('audio'))
+            .then(() => {
+              this.setState({mustNavigate: true});
+            })
+          }
+        });
+      }
     })
   }
 
@@ -164,7 +165,6 @@ class NewAudio extends React.Component {
   };
 
   render() {
-      console.log(this.state)
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/contenido/audio'/>
     }

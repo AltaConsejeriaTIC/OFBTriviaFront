@@ -41,7 +41,6 @@ export const getTriviaList = async (lastId, page) => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['questionsList']}?${lastId ? 'lastId=' + lastId : ''}${page ? 'page=' + page : ''}`
   const list = await fetch(composedURL, fetchHeaders);
   const body = await list.json()
-  console.log(body)
   const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };
@@ -53,7 +52,6 @@ export const getQuestionById = async (id) => {
 };
 
 export const deleteTrivia = async (id) => {
-  console.log(id)
   const composedBody = {
     id,
     'active': false,
@@ -74,7 +72,6 @@ export const getAnswersList = async (questionId) => {
 
 export const createQuestion = async (questionObject, id) => {
   if (id) {questionObject.id = id};
-  console.log(questionObject)
   const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createQuestion']}`, {
     method: "POST",
     body: JSON.stringify(questionObject),
@@ -107,7 +104,6 @@ export const createAudio = async (title, artist, url, id) => {
     url,
     id
   };
-  console.log(composedBody)
   const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createAudio']}`, {
     method: "POST",
     body: JSON.stringify(composedBody),
@@ -117,7 +113,6 @@ export const createAudio = async (title, artist, url, id) => {
 };
 
 export const deleteAudio = async (id) => {
-  console.log(id)
   const composedBody = {
     id,
     'active': false,
@@ -146,7 +141,6 @@ export const createVideo = async (title, channel, url, thumbnail, time, id) => {
     time,
     id
   };
-  console.log(composedBody)
   const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['createVideo']}`, {
     method: "POST",
     body: JSON.stringify(composedBody),
@@ -156,7 +150,6 @@ export const createVideo = async (title, channel, url, thumbnail, time, id) => {
 };
 
 export const deleteVideo = async (id) => {
-  console.log(id)
   const composedBody = {
     id,
     'active': false,

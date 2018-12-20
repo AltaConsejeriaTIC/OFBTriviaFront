@@ -75,7 +75,6 @@ class ContentCard extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     if (this.state.mustNavigate) {
       return (
         <Redirect push to={{
