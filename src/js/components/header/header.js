@@ -62,6 +62,10 @@ const HeaderContainer = styled('div')`
         margin-right: 30px;
       }
     }
+
+    button {
+      position: block;
+    }
   }
 
 

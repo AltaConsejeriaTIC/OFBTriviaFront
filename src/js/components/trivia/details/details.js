@@ -190,6 +190,8 @@ class TriviaDetails extends React.Component {
       scoring: false,
       answers: [],
       winners: [],
+      canEdit: true,
+      canScore: true,
     };
   };
 
@@ -206,26 +208,29 @@ class TriviaDetails extends React.Component {
     response.then((json) => {
       this.setState((prevState, props) => {
         prevState.question = json;
-        prevState.lockUI =  (new Date() < new Date(this.state.question.startDate)) ? true : false;
+        prevState.canEdit =  (new Date() > new Date(prevState.question.startDate)) ? true : false;
         return prevState;
-      })
+      }, this.getAnswersList);
     })
   };
 
   getAnswersList = () => {
+    console.log('testin')
     const answers = ServerServices.getAnswersList(this.state.question.id);
     answers.then((answers) => {
       const winners = [];
       answers.forEach((answer) => {
         if (answer.winner === 1) {
           winners.push(answer);
-
         }
       });
-      this.setState({
-        answers: answers,
-        winners: winners,
-        lockUI: winners.length > 0 ? true : false,
+      console.log(answers, winners)
+      this.setState((prevState, props) => {
+        prevState.answers = answers;
+        prevState.winners = winners;
+        prevState.canEdit = new Date() > new Date(prevState.question.startDate) ? true : false;
+        prevState.canScore = winners.length > 0;
+        return prevState;
       });
     })
   };
@@ -265,7 +270,7 @@ class TriviaDetails extends React.Component {
         const result = ServerServices.saveWinners(this.state.winners, this.state.question.id);
         result.then((response) => {
           if(response.status === 200) {
-            this.setState({scoring: false});
+            this.setState({scoring: false}, this.getAnswersList);
           }
         })
       }
@@ -281,6 +286,7 @@ class TriviaDetails extends React.Component {
   };
 
   render() {
+    console.log(this.state)
     if(this.state.redirectToEdit){
       return <Redirect push to={{
         pathname: '/dashboard/trivia/edit',
@@ -323,7 +329,7 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring &&
             <Button
               primary
-              disabled={this.state.lockUI}
+              disabled={this.state.canEdit}
               width='auto'
               height='40px'
               border
@@ -334,7 +340,7 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring && 
             <Button
               primary
-              disabled={this.state.lockUI || this.state.answers.length === 0}
+              disabled={this.state.canScore}
               width='auto'
               height='40px'
               border
