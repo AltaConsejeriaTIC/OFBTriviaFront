@@ -15,8 +15,10 @@ const END_POINTS = {
   videosList: 'trivia/get-videos',
   youtubeData: 'trivia/get-video-data',
   createVideo: 'trivia/upload-video',
-  getUserData: 'trivia/get-user'
-}
+  getUserData: 'trivia/get-user',
+  send: 'trivia/send'
+
+};
 
 const fetchHeaders = {
   headers : { 
@@ -180,4 +182,17 @@ export const getUserData = async (userId) => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['getUserData']}?id=${userId}`
   const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
-}
+};
+
+
+export const sendPush = async (questionObject) => {
+  const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['send']}`, {
+    method: "POST",
+    body: JSON.stringify({
+      "title": "Se ha creado una nueva trivia en la aplicación",
+      "body": questionObject.content
+    }),
+    headers : fetchHeaders.headers
+  }));
+  return json;
+};
