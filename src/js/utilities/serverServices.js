@@ -39,6 +39,9 @@ export const login = async (credentials) => {
 //Trivia
 export const getTriviaList = async (lastId, page) => {
   const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['questionsList']}?${lastId ? 'lastId=' + lastId : ''}${page ? 'page=' + page : ''}`
+  const list = await fetch(composedURL, fetchHeaders);
+  const body = await list.json()
+  console.log(body)
   const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };

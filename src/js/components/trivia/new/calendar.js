@@ -14,20 +14,27 @@ export default class Calendar extends React.Component {
     super(props);
     this.state = this.getInitialState();
   }
+
   getInitialState() {
-    const start = this.props.from ? new Date(this.props.from) : null;
-    const end = this.props.to ? new Date(this.props.to) : null;
+    const fromDateString = this.props.from ? this.props.from.split('-') : null;
+    const toDateString = this.props.to ? this.props.to.split('-') : null;
+    if (fromDateString[1] != 0){
+      fromDateString[1] -= 1;
+    }
+    if (toDateString[1] != 0){
+      toDateString[1] -= 1;
+    }
     return {
-      from: start,
-      to: end,
-      enteredTo: null, // Keep track of the last day for mouseEnter.
+      from: fromDateString ? new Date(fromDateString[0], fromDateString[1], fromDateString[2]) : null,
+      to: toDateString ? new Date(toDateString[0], toDateString[1], toDateString[2]) : null,
     };
   }
 
   isSelectingFirstDay = (from, to, day) => {
     const isBeforeFirstDay = from && DateUtils.isDayBefore(day, from);
+    const isBeforeLastDay = to && DateUtils.isDayBefore(day, to);
     const isRangeSelected = from && to;
-    return !from || isBeforeFirstDay || isRangeSelected;
+    return !from || isBeforeFirstDay || isRangeSelected || isBeforeLastDay;
   };
 
   handleDayClick = (day) => {
@@ -37,28 +44,17 @@ export default class Calendar extends React.Component {
       return;
     }
     if (this.isSelectingFirstDay(from, to, day)) {
+      console.log("lala")
       this.setState({
         from: day,
         to: null,
-        enteredTo: null,
       });
       this.props.onStartDateSelection(Formater.triviaFormFormat(day));
     } else {
       this.setState({
         to: day,
-        enteredTo: day,
       });
-      console.log('first day')
       this.props.onEndDateSelection(Formater.triviaFormFormat(day));
-    }
-  };
-
-  handleDayMouseEnter = (day) => {
-    const { from, to } = this.state;
-    if (!this.isSelectingFirstDay(from, to, day)) {
-      this.setState({
-        enteredTo: day,
-      });
     }
   };
 
@@ -67,25 +63,32 @@ export default class Calendar extends React.Component {
   };
 
   render() {
-    console.log(this.state)
-    const { from, to, enteredTo } = this.state;
+    const { from, to } = this.state;
+    console.log(this.props)
+    console.log(new Date(2018, 11, 19))
+    let disabledDays = { before: new Date()};
+    if (this.props.currentType === 'startDate'){
+      if (this.props.to) {disabledDays.after = this.props.to};
+    } else {
+
+    }
+    console.log(disabledDays)
     const modifiers = { start: from, end: to };
-    const disabledDays = { before: this.state.from ? this.state.from : new Date()};
     const selectedDays = [from, { from, to: to}];
     return (
-      <DayPicker
-        className="Range"
-        numberOfMonths={1}
-        fromMonth={from}
-        month={from}
-        selectedDays={selectedDays}
-        disabledDays={disabledDays}
-        modifiers={modifiers}
-        onDayClick={this.handleDayClick}
-        onDayMouseEnter={this.handleDayMouseEnter}
-        localeUtils={MomentLocaleUtils}
-        locale='es'
-      />
+      <React.Fragment>
+        <DayPicker
+          className = 'Range'
+          numberOfMonths = {1}
+          month = {from}
+          selectedDays = {selectedDays}
+          disabledDays = {disabledDays}
+          modifiers = {modifiers}
+          onDayClick = {this.handleDayClick}
+          localeUtils = {MomentLocaleUtils}
+          locale = 'es'
+        />
+      </React.Fragment>
     );
   }
 }

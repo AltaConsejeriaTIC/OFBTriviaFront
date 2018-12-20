@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import styled, {ThemeProvider} from 'styled-components';
+import styled, { ThemeProvider, css } from 'styled-components';
 import swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
@@ -98,6 +98,12 @@ const SectionContainer = styled('div')`
         position: relative;
         height: 80%;
         width: 25%;
+
+        input {
+          &.selected {
+            background-color: #fcefc6;
+          }
+        }
       }
 
       .trivia-content {
@@ -179,6 +185,14 @@ const CalendarContainer = styled('div')`
     color: ${Constants.SECONDARY_BACKGROUND_COLOR};
     font-size: 11px;
   }
+
+  ${(props) => props.currentType === 'startDate' && css`
+    top: -30px;
+  `}
+
+  ${(props) => props.currentType === 'endDate' && css`
+    top: 30px;
+  `}
 `;
 
 
@@ -268,6 +282,13 @@ class NewTrivia extends React.Component {
     });
   };
 
+  handleDateInput = (event) => {
+    this.setState({
+      selectingDateType: event.target.name,
+      showCalendar: true,
+    })
+  };
+
   showCalendar = () => {
     this.setState({showCalendar: true})
   };
@@ -299,9 +320,7 @@ class NewTrivia extends React.Component {
   }
 
   render() {
-    console.log(this.state.question.startDate);
-    console.log(this.state.question.endDate);
-
+    console.log(this.state.selectingDateType === 'startDate' ? 'selected' : '')
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/trivia'/>
     }
@@ -343,10 +362,10 @@ class NewTrivia extends React.Component {
                   type='text'
                   name='startDate'
                   readOnly
-                  className={this.state.emptyFields && this.state.question.startDate === '' ? 'red' : ''}
+                  className={`${this.state.emptyFields && this.state.question.startDate === '' ? 'red' : ''} ${this.state.selectingDateType === 'startDate' ? 'selected' : ''}`}
                   placeholder='aaaa-mm-dd'
                   value={this.state.question.startDate}
-                  onClick={this.showCalendar}/>
+                  onClick={this.handleDateInput}/>
               </label>
               <label>
                 FECHA DE CIERRE
@@ -354,14 +373,15 @@ class NewTrivia extends React.Component {
                   readOnly
                   type='text'
                   name='endDate'
-                  className={this.state.emptyFields && this.state.question.endDate === '' ? 'red' : ''}
+                  className={`${this.state.emptyFields && this.state.question.endDate === '' ? 'red' : ''} ${this.state.selectingDateType === 'endDate' ? 'selected' : ''}`}
                   placeholder='aaaa-mm-dd'
                   value={this.state.question.endDate}
-                  onClick={this.showCalendar}/>
+                  onClick={this.handleDateInput}/>
               </label>
               {this.state.showCalendar &&
                 <CalendarContainer currentType={this.state.selectingDateType}>
                   <Calendar 
+                    currentType={this.state.selectingDateType}
                     from={this.state.question.startDate}
                     to={this.state.question.endDate}
                     onStartDateSelection={this.onStartDateSelection}
