@@ -207,7 +207,7 @@ class NewAudio extends React.Component {
                 maxLength={Constants.AUDIO_NAME_MAX_CHARACTERS}
                 defaultValue={this.state.artist ? this.state.artist : ''}
                 onChange={this.handleInputChange}/>
-              <span>{`${this.state.title.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
+              <span>{`${this.state.artist.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
             </label>
             <label>
               LINK DEL AUDIO
