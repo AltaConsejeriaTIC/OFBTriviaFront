@@ -47,6 +47,7 @@ export default class Calendar extends React.Component {
         to: null,
       });
       this.props.onStartDateSelection(Formater.triviaFormFormat(day));
+      this.props.onEndDateSelection('');
     } else {
       this.setState({
         to: day,
@@ -63,7 +64,6 @@ export default class Calendar extends React.Component {
     const { from, to } = this.state;
     let disabledDays = { before: new Date()};
     if (this.props.currentType === 'startDate'){
-      if (to) {disabledDays.after = to};
     } else {
       if (to) {disabledDays.before = from};
     }

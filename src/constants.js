@@ -175,14 +175,11 @@ export const ITEM_DELETE_ALERT_CONTENT = (itemType) => {
   }
 }
 
-export const SERVICE_NOT_AVAILABLE_ON_BACKEND = {
-  title: 'Función actualmente no disponible.',
-  text: 'Lamentamos los inconvenientes.',
-  showCancelButton: true,
-  cancelButtonText: 'CANCELAR',
-  confirmButtonText: "OK",
+export const BACKEND_DEFAULT_ERROR_ALERT_CONTENT = {
+  title: 'Error',
+  text: 'Algo salió mal, por favor intenta nuevamente en unos minutos.',
+  showCancelButton: false,
+  confirmButtonText: 'OK',
   allowOutsideClick: false,
   customClass: 'swal-custom',
 }
-
-//export const DATE_FORMAT_APPENDIX = 'T00:00:00.0Z';
