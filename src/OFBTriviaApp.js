@@ -23,7 +23,7 @@ class OFBTriviaApp extends React.Component {
     super(props);
     const { cookies } = props;
     this.state = {
-      user: cookies.get('user') || true,
+      user: cookies.get('user') || null,
       mustNavigate: false,
     };
   };
