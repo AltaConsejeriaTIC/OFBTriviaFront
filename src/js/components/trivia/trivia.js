@@ -88,7 +88,6 @@ class Trivia extends React.Component {
   componentDidMount() {
     this.setState({isMounted: true})
     this.getTriviaPage();
-    this.getTriviaPage(2);
   }
 
   compoenentWillUnmount() {
@@ -96,20 +95,21 @@ class Trivia extends React.Component {
   }
 
   getTriviaPage = (customPage) => {
-    if(customPage) { return this.setState({currentPage: customPage}, this.getTriviaPage)};
     const page = this.state.currentPage;
     const questions = ServerServices.getTriviaList(null, page);
     questions.then((questions) => {
-      questions.forEach((question) => {
-        question.startDate = new Date(question.startDate);
-        question.endDate = new Date(question.endDate);
-      })
-      if(this.state.isMounted) {
-        this.setState((prevState, props) => {
-          prevState.questions = prevState.questions.concat(questions);
-          prevState.currentPage += 1;
-          return prevState;
+      if(questions.length > 0){
+        questions.forEach((question) => {
+          question.startDate = new Date(question.startDate);
+          question.endDate = new Date(question.endDate);
         })
+        if(this.state.isMounted) {
+          this.setState((prevState, props) => {
+            prevState.questions = prevState.questions.concat(questions);
+            prevState.currentPage += 1;
+            return prevState;
+          }, this.getTriviaPage())
+        }
       }
     })
   };
@@ -120,6 +120,7 @@ class Trivia extends React.Component {
 
   trackScrolling = (event) => {
     if (event.target.scrollTop + 1 > event.target.scrollHeight - event.target.getBoundingClientRect().height) {
+      console.log(this.state.currentPage)
       this.getTriviaPage();
     }
   };
