@@ -227,7 +227,7 @@ class TriviaDetails extends React.Component {
         prevState.answers = answers;
         prevState.winners = winners;
         prevState.canEdit = new Date() > new Date(prevState.question.startDate) ? true : false;
-        prevState.canScore = winners.length > 0;
+        prevState.canScore = !(winners.length > 0);
         return prevState;
       });
     })
