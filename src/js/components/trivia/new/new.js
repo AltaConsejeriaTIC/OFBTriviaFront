@@ -258,9 +258,6 @@ class NewTrivia extends React.Component {
             newId: result.id,
             mustNavigate: true
           });
-          ServerServices.sendPush(questionData).then((result)=> {
-            console.log("Push notification send", result);
-          })
           //Success
         }else{
           swal(Constants.ERROR_TRIVIA_ALERT_CONTENT);
