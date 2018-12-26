@@ -145,17 +145,18 @@ class NewAudio extends React.Component {
   deleteItem = () => {
     swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
     .then((dismiss) => {
-      this.setState({loading: true});
-      ServerServices.deleteAudio(this.state.id)
-      .then((result) => {
-        console.log(result)
-        if(result.status === 200) {
-          swal(Constants.ITEM_DELETE_ALERT_CONTENT('audio'))
-          .then(() => {
-            this.setState({mustNavigate: true});
-          })
-        }
-      }) 
+      if(dismiss.value) {
+        this.setState({loading: true});
+        ServerServices.deleteAudio(this.state.id)
+        .then((result) => {
+          if(result.status === 200) {
+            swal(Constants.ITEM_DELETE_ALERT_CONTENT('audio'))
+            .then(() => {
+              this.setState({mustNavigate: true});
+            })
+          }
+        });
+      }
     })
   }
 
@@ -164,7 +165,6 @@ class NewAudio extends React.Component {
   };
 
   render() {
-      console.log(this.state)
     if(this.state.mustNavigate){
       return <Redirect push to='/dashboard/contenido/audio'/>
     }
@@ -207,7 +207,7 @@ class NewAudio extends React.Component {
                 maxLength={Constants.AUDIO_NAME_MAX_CHARACTERS}
                 defaultValue={this.state.artist ? this.state.artist : ''}
                 onChange={this.handleInputChange}/>
-              <span>{`${this.state.title.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
+              <span>{`${this.state.artist.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
             </label>
             <label>
               LINK DEL AUDIO

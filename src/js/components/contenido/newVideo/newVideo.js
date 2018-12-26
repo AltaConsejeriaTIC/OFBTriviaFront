@@ -178,7 +178,6 @@ class NewAudio extends React.Component {
     this.setState({loading: true});
     const response = ServerServices.createVideo(this.state.videoData.snippet.title, this.state.channel, this.state.url, this.state.selectedThumbnail.url, this.state.videoDuration, this.state.id);
     response.then((result) => {
-      console.log(result);
       if(result.status === 201 || result.status === 200){
         this.setState({mustNavigate: true});
         //Success
@@ -217,7 +216,7 @@ class NewAudio extends React.Component {
   getYoutubeVideoData = () => {
     const response = ServerServices.getYoutubeData(this.state.url);
     response.then((youtubeData) => {
-      console.log(youtubeData.items[0])
+      console.log(youtubeData)
       this.setState({
         loadingPreview: false,
         showingPreview: true,
@@ -265,18 +264,18 @@ class NewAudio extends React.Component {
   deleteItem = () => {
     swal(Constants.CONFIRM_DELETE_ACTION_ALERT_CONTENT)
     .then((dismiss) => {
-      this.setState({loading: true});
-      ServerServices.deleteVideo(this.state.id)
-      .then((response) => {
-        console.log(response)
-        if(response.status === 200) {
-          swal(Constants.ITEM_DELETE_ALERT_CONTENT('video'))
-          .then(() => {
-            console.log("test")
-            this.setState({mustNavigate: true});
-          })
-        }
-      }) 
+      if(dismiss.value) {
+        this.setState({loading: true});
+        ServerServices.deleteVideo(this.state.id)
+        .then((response) => {
+          if(response.status === 200) {
+            swal(Constants.ITEM_DELETE_ALERT_CONTENT('video'))
+            .then(() => {
+              this.setState({mustNavigate: true});
+            })
+          }
+        });
+      }
     })
   };
 

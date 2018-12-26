@@ -35,8 +35,8 @@ export const Button = styled('button')`
 
   ${(props) => props.winners && css`
     color: white;
-    background-color: ${Constants.PUBLISH_WINNERS_BUTTON_BACKGROUND_COLOR};
-    border: solid 1px ${Constants.PUBLISH_WINNERS_BUTTON_BORDER_COLOR};
+    background-color: #87C677;
+    border: solid 1px #70A663;
   `}
 
   ${(props) => props.delete && css`

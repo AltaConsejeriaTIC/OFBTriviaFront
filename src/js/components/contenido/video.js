@@ -89,7 +89,6 @@ class ContenidoVideo extends React.Component {
   getVideosList = () => {
     const videos = ServerServices.getVideoList();
     videos.then((videos) => {
-      console.log(videos)
       this.setState({
         videos: videos,
         loading: false

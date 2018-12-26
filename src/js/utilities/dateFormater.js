@@ -17,7 +17,7 @@ const MONTHS = {
 }
 
 export const fullDateString = (date) => {
-	return `${date.getDate()} ${MONTHS[date.getMonth()]} de ${date.getFullYear()}`;
+	return `${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]} de ${date.getUTCFullYear()}`;
 };
 
 export const hourFromDate = (date) => {

@@ -215,7 +215,6 @@ class TriviaDetails extends React.Component {
   };
 
   getAnswersList = () => {
-    console.log('testin')
     const answers = ServerServices.getAnswersList(this.state.question.id);
     answers.then((answers) => {
       const winners = [];
@@ -224,12 +223,11 @@ class TriviaDetails extends React.Component {
           winners.push(answer);
         }
       });
-      console.log(answers, winners)
       this.setState((prevState, props) => {
         prevState.answers = answers;
         prevState.winners = winners;
         prevState.canEdit = new Date() > new Date(prevState.question.startDate) ? true : false;
-        prevState.canScore = winners.length > 0;
+        prevState.canScore = !(winners.length > 0);
         return prevState;
       });
     })
@@ -266,7 +264,6 @@ class TriviaDetails extends React.Component {
       if (dismiss.dismiss) {
         return;
       }else {
-        console.log(this.state.question.id)
         const result = ServerServices.saveWinners(this.state.winners, this.state.question.id);
         result.then((response) => {
           if(response.status === 200) {
@@ -286,7 +283,6 @@ class TriviaDetails extends React.Component {
   };
 
   render() {
-    console.log(this.state)
     if(this.state.redirectToEdit){
       return <Redirect push to={{
         pathname: '/dashboard/trivia/edit',

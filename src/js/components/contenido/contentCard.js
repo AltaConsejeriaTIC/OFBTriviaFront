@@ -22,6 +22,7 @@ const InfoCardContainer = styled('div')`
 
   div {
     &.item {
+      width: 80%;
       height: 100%;
       flex-grow: 1;
       display: flex;
@@ -36,9 +37,13 @@ const InfoCardContainer = styled('div')`
       h2 {
         font-size: 15px;
         margin-bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       a {
+        overflow: hidden;
+        text-overflow: ellipsis;
         text-decoration: none;
         font-weight: 600;
         font-family: 'Open Sans';
@@ -47,7 +52,7 @@ const InfoCardContainer = styled('div')`
     }
 
     &.edit-button {
-      min-width: 20%;
+      width: 20%;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -75,7 +80,6 @@ class ContentCard extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     if (this.state.mustNavigate) {
       return (
         <Redirect push to={{

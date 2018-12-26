@@ -246,7 +246,6 @@ class NewTrivia extends React.Component {
   };
 
   saveQuestion = () => {
-    this.setState({showCalendar: false})
     if(this.validateFields()){
       this.setState({loading: true});
       const questionData = this.state.question;
