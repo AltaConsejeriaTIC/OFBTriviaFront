@@ -88,13 +88,15 @@ class Trivia extends React.Component {
   componentDidMount() {
     this.setState({isMounted: true})
     this.getTriviaPage();
+    this.getTriviaPage(2);
   }
 
   compoenentWillUnmount() {
     this.setState({isMounted: false})
   }
 
-  getTriviaPage = () => {
+  getTriviaPage = (customPage) => {
+    if(customPage) { return this.setState({currentPage: customPage}, this.getTriviaPage)};
     const page = this.state.currentPage;
     const questions = ServerServices.getTriviaList(null, page);
     questions.then((questions) => {
