@@ -210,7 +210,7 @@ class NewAudio extends React.Component {
               <span>{`${this.state.artist.length} DE ${Constants.AUDIO_NAME_MAX_CHARACTERS} CARACTERES`}</span>
             </label>
             <label>
-              LINK DEL AUDIO
+              LINK DE SPOTIFY
               <input
                 type='text'
                 name='url'
