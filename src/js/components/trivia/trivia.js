@@ -95,8 +95,6 @@ class Trivia extends React.Component {
   }
 
   getTriviaPage = (page) => {
-    console.log("innicio de prueba")
-    console.log(page)
     const response = ServerServices.getTriviaList(null, page);
     response.then((questions) => {
       if(questions.length > 0){
@@ -107,7 +105,6 @@ class Trivia extends React.Component {
         if(this.state.isMounted) {
           this.setState((prevState, props) => {
             prevState.questions = prevState.questions.concat(questions);
-            //prevState.currentPage += 1;
             return prevState;
           }, this.getTriviaPage(page + 1));
         }

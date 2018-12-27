@@ -325,6 +325,7 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring &&
             <Button
               primary
+              disabled={this.state.canEdit}
               width='auto'
               height='40px'
               border
