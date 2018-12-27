@@ -215,7 +215,7 @@ class NewAudio extends React.Component {
                 type='text'
                 name='url'
                 className={this.state.emptyFields && this.state.url === '' ? 'red' : ''}
-                placeholder='Link del audio'
+                placeholder='Link de spotify'
                 defaultValue={this.state.url ? this.state.url : ''}
                 onChange={this.handleInputChange}/>
             </label>

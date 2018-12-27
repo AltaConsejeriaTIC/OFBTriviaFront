@@ -87,17 +87,18 @@ class Trivia extends React.Component {
 
   componentDidMount() {
     this.setState({isMounted: true})
-    this.getTriviaPage();
+    this.getTriviaPage(1);
   }
 
   compoenentWillUnmount() {
     this.setState({isMounted: false})
   }
 
-  getTriviaPage = (customPage) => {
-    const page = this.state.currentPage;
-    const questions = ServerServices.getTriviaList(null, page);
-    questions.then((questions) => {
+  getTriviaPage = (page) => {
+    console.log("innicio de prueba")
+    console.log(page)
+    const response = ServerServices.getTriviaList(null, page);
+    response.then((questions) => {
       if(questions.length > 0){
         questions.forEach((question) => {
           question.startDate = new Date(question.startDate);
@@ -106,9 +107,9 @@ class Trivia extends React.Component {
         if(this.state.isMounted) {
           this.setState((prevState, props) => {
             prevState.questions = prevState.questions.concat(questions);
-            prevState.currentPage += 1;
+            //prevState.currentPage += 1;
             return prevState;
-          }, this.getTriviaPage())
+          }, this.getTriviaPage(page + 1));
         }
       }
     })
