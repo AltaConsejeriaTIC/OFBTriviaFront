@@ -166,7 +166,7 @@ export const CONFIRM_DELETE_ACTION_ALERT_CONTENT = {
 
 export const ITEM_DELETE_ALERT_CONTENT = (itemType) => {
   return {
-    title: 'Exito',
+    title: 'Éxito',
     text: `El ${itemType} fue eliminado.`,
     showCancelButton: false,
     confirmButtonText: 'OK',

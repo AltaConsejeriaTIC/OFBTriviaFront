@@ -10,7 +10,6 @@ import 'sweetalert2/src/sweetalert2.scss'
 //Custom Constants
 import * as Constants from '../../../../constants.js';
 import AnswerCard from './answerCard.js';
-import PageController from '../../../utilities/pageController.js';
 import { Button } from '../../../utilities/button.js';
 import * as Formater from '../../../utilities/dateFormater.js';
 import * as ServerServices from '../../../utilities/serverServices.js';
@@ -381,12 +380,6 @@ class TriviaDetails extends React.Component {
                 onScoring={this.onScoringHandler}
                 selected={item.winner}/>
             })}
-            {this.state.answers.length > 4 &&
-            <PageController
-              items={this.state.totalQuestions}
-              currentPage={this.state.currentPage}
-              onPageChange={this.onPageChange}/>
-            }
             {this.state.answers.length === 0 &&
               <NoItemsAvailable section='details'/>
             }
