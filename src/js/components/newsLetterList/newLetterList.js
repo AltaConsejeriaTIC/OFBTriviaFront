@@ -15,7 +15,7 @@ import Loader from '../../utilities/loader.js';
 
 const theme = Constants.TRIVIA_THEME;
 
-const TriviaContainer = styled('div')`
+const NewsLettlerListContainer = styled('div')`
   display: flex;
   flex-direction: column;
   height: ${props => props.theme.containerHeight};
@@ -29,7 +29,7 @@ const TriviaContainer = styled('div')`
   }
 `;
 
-const TriviaList = styled('div')`
+const UsersList = styled('div')`
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -75,41 +75,29 @@ const TriviaList = styled('div')`
   }
 `;
 
-class Trivia extends React.Component {
+class NewsLettlerList extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentPage: 1,
-      questions: [],
+      users: [],
       isMounted: false,
     };
   };
 
   componentDidMount() {
     this.setState({isMounted: true})
-    this.getTriviaPage(1);
+    this.getUsersList();
   }
 
   compoenentWillUnmount() {
     this.setState({isMounted: false})
   }
 
-  getTriviaPage = (page) => {
-    const response = ServerServices.getTriviaList(null, page);
-    response.then((questions) => {
-      if(questions.length > 0){
-        questions.forEach((question) => {
-          question.startDate = new Date(question.startDate);
-          question.endDate = new Date(question.endDate);
-        })
-        if(this.state.isMounted) {
-          this.setState((prevState, props) => {
-            prevState.questions = prevState.questions.concat(questions);
-            return prevState;
-          }, this.getTriviaPage(page + 1));
-        }
-      }
-    })
+  getUsersList = () => {
+    //const response = ServerServices.getUsersList();
+    //response.then((questions) => {
+    //
+    //}
   };
 
   PageChange = (page) => {
@@ -119,7 +107,7 @@ class Trivia extends React.Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <TriviaContainer>
+        <NewsLettlerListContainer>
           <SectionTitle>
             <h1>Administrar preguntas y respuestas</h1>
             <div className='separator'/>
@@ -131,7 +119,7 @@ class Trivia extends React.Component {
               <Loader/>
             }
             { !this.state.loading &&
-              <TriviaList>
+              <UsersList>
                 {this.state.questions.length > 0 &&
                 <div className='list-header'>
                   <span>FECHA</span>
@@ -141,7 +129,7 @@ class Trivia extends React.Component {
                 </div>
                 }
                 {this.state.questions && 
-                  <div className='cards-container'>
+                  <div className='cards-container' onScroll={this.trackScrolling}>
                     {this.state.questions.map((item, index) => {
                       return <InfoCard 
                         key={index}
@@ -155,13 +143,13 @@ class Trivia extends React.Component {
                 {this.state.questions.length === 0 && 
                   <NoItemsAvailable section='trivia'/>
                 }
-              </TriviaList>
+              </UsersList>
             }
           </div>
-        </TriviaContainer>
+        </NewsLettlerListContainer>
       </ThemeProvider>
     )
   }
 }
 
-export default Trivia;
+export default NewsLettlerList;
