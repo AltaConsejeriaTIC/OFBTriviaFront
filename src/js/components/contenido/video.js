@@ -104,7 +104,7 @@ class ContenidoVideo extends React.Component {
           <SectionTitle>
             <h1>Administrar videos</h1>
             <div className='separator'/>
-            <Link to='/dashboard/contenido/video/new'>Agregar un video nuevo</Link>
+            <Link to='/admin/contenido/video/new'>Agregar un video nuevo</Link>
           </SectionTitle>
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>

@@ -83,7 +83,7 @@ class ContentCard extends React.Component {
     if (this.state.mustNavigate) {
       return (
         <Redirect push to={{
-          pathname: `/dashboard/contenido/${this.state.itemType}/edit/${this.props.id}`,
+          pathname: `/admin/contenido/${this.state.itemType}/edit/${this.props.id}`,
           state: {
             title: this.props.item.title,
             artist: this.props.item.artist,

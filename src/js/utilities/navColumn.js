@@ -72,18 +72,18 @@ class NavColumn extends React.Component {
       <NavColumnContainer>
         <h2>TRIVIA</h2>
         <NavLink 
-          to='/dashboard/trivia'
+          to='/admin/trivia'
           selected={this.props.currentSection === 'trivia' ? 1 : 0}>
           Administrar preguntas<b/>y ganadores</NavLink>
         <h2>CONTENIDO MULTIMEDIA</h2>
         <NavLink 
-          to='/dashboard/contenido/audio'
+          to='/admin/contenido/audio'
           selected={this.props.currentSection === 'audio' ? 1 : 0}
           single={1}>
           Administrar audios
         </NavLink>
         <NavLink
-          to='/dashboard/contenido/video'
+          to='/admin/contenido/video'
           selected={this.props.currentSection === 'video' ? 1 : 0}
           single={1}>
           Administrar videos

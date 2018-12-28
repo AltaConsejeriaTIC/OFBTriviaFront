@@ -97,7 +97,7 @@ class ContenidoAudio extends React.Component {
           <SectionTitle>
             <h1>Administrar audios</h1>
             <div className='separator'/>
-            <Link to='/dashboard/contenido/audio/new'>Agregar un audio nuevo</Link>
+            <Link to='/admin/contenido/audio/new'>Agregar un audio nuevo</Link>
           </SectionTitle>
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[3]}/>

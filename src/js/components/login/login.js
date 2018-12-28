@@ -173,7 +173,7 @@ class Login extends React.Component {
 
   render() { 
     if(this.state.mustNavigate){
-      return <Redirect push to='/dashboard/trivia'/>
+      return <Redirect push to='/admin/trivia'/>
     }
     return (
       <ThemeProvider theme={theme}>

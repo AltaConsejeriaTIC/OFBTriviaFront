@@ -344,17 +344,17 @@ class NewTrivia extends React.Component {
 
   render() {
     if(this.state.mustNavigate){
-      return <Redirect push to='/dashboard/trivia'/>
+      return <Redirect push to='/admin/trivia'/>
     }
 
     if(this.state.returnToDetails){
       return <Redirect push to={{
-        pathname: `/dashboard/trivia/${this.state.question.id}`,
+        pathname: `/admin/trivia/${this.state.question.id}`,
         state: this.state.question
       }}/>
     }
     if(this.state.mustNavigate){
-      return <Redirect push to={`/dashboard/trivia/${this.state.newId}`}/>
+      return <Redirect push to={`/admin/trivia/${this.state.newId}`}/>
     }
     return (
       <ThemeProvider theme={theme}>

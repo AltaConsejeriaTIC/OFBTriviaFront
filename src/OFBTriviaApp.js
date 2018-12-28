@@ -56,16 +56,16 @@ class OFBTriviaApp extends React.Component {
           </Switch>
           <Switch>
             <Route exact path='/' render={(props) => (<Login onLogin={this.onLogin} {...props}/>)}/>
-            <Route exact path='/dashboard/trivia' render={(props) => (<Trivia {...props}/>)}/>
-            <Route exact path='/dashboard/trivia/new' render={(props) => (<NewTrivia {...props}/>)}/>
-            <Route exact path='/dashboard/trivia/edit' render={(props) => (<NewTrivia {...props}/>)}/>
-            <Route exact path='/dashboard/trivia/:triviaId' render={(props) => (<TriviaDetails {...props}/>)}/>            
-            <Route exact path='/dashboard/contenido/audio' render={(props) => (<ContenidoAudio {...props}/>)}/>
-            <Route exact path='/dashboard/contenido/audio/new' render={(props) => (<NewAudio {...props}/>)}/>
-            <Route exact path='/dashboard/contenido/audio/edit/:audioId' render={(props) => (<NewAudio {...props}/>)}/>
-            <Route exact path='/dashboard/contenido/video' render={(props) => (<ContenidoVideo {...props}/>)}/>
-            <Route exact path='/dashboard/contenido/video/new' render={(props) => (<NewVideo {...props}/>)}/>
-            <Route exact path='/dashboard/contenido/video/edit/:videoId' render={(props) => (<NewVideo {...props}/>)}/>
+            <Route exact path='/admin/trivia' render={(props) => (<Trivia {...props}/>)}/>
+            <Route exact path='/admin/trivia/new' render={(props) => (<NewTrivia {...props}/>)}/>
+            <Route exact path='/admin/trivia/edit' render={(props) => (<NewTrivia {...props}/>)}/>
+            <Route exact path='/admin/trivia/:triviaId' render={(props) => (<TriviaDetails {...props}/>)}/>            
+            <Route exact path='/admin/contenido/audio' render={(props) => (<ContenidoAudio {...props}/>)}/>
+            <Route exact path='/admin/contenido/audio/new' render={(props) => (<NewAudio {...props}/>)}/>
+            <Route exact path='/admin/contenido/audio/edit/:audioId' render={(props) => (<NewAudio {...props}/>)}/>
+            <Route exact path='/admin/contenido/video' render={(props) => (<ContenidoVideo {...props}/>)}/>
+            <Route exact path='/admin/contenido/video/new' render={(props) => (<NewVideo {...props}/>)}/>
+            <Route exact path='/admin/contenido/video/edit/:videoId' render={(props) => (<NewVideo {...props}/>)}/>
 
           </Switch>
           <Switch>

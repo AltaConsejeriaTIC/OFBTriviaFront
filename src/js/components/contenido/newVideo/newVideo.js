@@ -285,7 +285,7 @@ class NewAudio extends React.Component {
 
   render() {
     if(this.state.mustNavigate){
-      return <Redirect push to='/dashboard/contenido/video'/>
+      return <Redirect push to='/admin/contenido/video'/>
     }
     return (
       <ThemeProvider theme={theme}>

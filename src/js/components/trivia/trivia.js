@@ -130,7 +130,7 @@ class Trivia extends React.Component {
           <SectionTitle>
             <h1>Administrar preguntas y respuestas</h1>
             <div className='separator'/>
-            <Link to='/dashboard/trivia/new'>Agregar una trivia nueva</Link>
+            <Link to='/admin/trivia/new'>Agregar una trivia nueva</Link>
           </SectionTitle>
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[2]}/>

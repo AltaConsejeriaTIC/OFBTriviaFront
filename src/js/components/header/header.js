@@ -87,7 +87,7 @@ class Header extends React.Component {
     return (
       <ThemeProvider theme={theme}>
           <HeaderContainer>
-            <Link className='title' to='/dashboard/trivia'>
+            <Link className='title' to='/admin/trivia'>
               <h3>Orquesta Fliarmónica de Bogotá</h3>
               <span>ADMINISTRADOR</span>
             </Link>

@@ -284,7 +284,7 @@ class TriviaDetails extends React.Component {
   render() {
     if(this.state.redirectToEdit){
       return <Redirect push to={{
-        pathname: '/dashboard/trivia/edit',
+        pathname: '/admin/trivia/edit',
         state: {question: this.state.question, isEditing: true}
       }}/>
     }

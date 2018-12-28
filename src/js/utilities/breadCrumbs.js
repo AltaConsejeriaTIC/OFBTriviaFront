@@ -49,13 +49,13 @@ const mainSectionsNames = {
 }
 
 const mainSectionsURLs = {
-  newTrivia: '/dashboard/trivia',
-  editTrivia: '/dashboard/trivia',
-  details: '/dashboard/trivia',
-  newAudio: '/dashboard/contenido/audio',
-  editAudio: '/dashboard/contenido/audio',
-  newVideo: '/dashboard/contenido/video',
-  editVideo: '/dashboard/contenido/video'
+  newTrivia: '/admin/trivia',
+  editTrivia: '/admin/trivia',
+  details: '/admin/trivia',
+  newAudio: '/admin/contenido/audio',
+  editAudio: '/admin/contenido/audio',
+  newVideo: '/admin/contenido/video',
+  editVideo: '/admin/contenido/video'
 }
 
 const subSectionNames = {
