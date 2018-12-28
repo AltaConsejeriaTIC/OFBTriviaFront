@@ -226,7 +226,8 @@ class TriviaDetails extends React.Component {
         prevState.answers = answers;
         prevState.winners = winners;
         prevState.canEdit = new Date() > new Date(prevState.question.startDate);
-        prevState.canScore = (winners.length > 0 && new Date() < new Date(prevState.question.startDate));
+        prevState.canScore = !(winners.length > 0) && new Date() < new Date(prevState.question.startDate);
+        console.log(prevState.canScore)
         return prevState;
       });
     })
@@ -335,7 +336,7 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring && 
             <Button
               primary
-              disabled={this.state.canScore}
+              disabled={!this.state.canScore}
               width='auto'
               height='40px'
               border
