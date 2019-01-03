@@ -30,7 +30,7 @@ const SectionContainer = styled('div')`
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.textColor};
   padding: 0 5%;
-  overflow: scroll;
+  overflow: hidden;
 
   .top-control {
     display: flex;
@@ -343,6 +343,7 @@ class NewTrivia extends React.Component {
   }
 
   render() {
+    console.log(this.state, this.props)
     if(this.state.mustNavigate){
       return <Redirect push to='/admin/trivia'/>
     }

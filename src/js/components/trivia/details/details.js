@@ -283,6 +283,7 @@ class TriviaDetails extends React.Component {
   };
 
   render() {
+    console.log(this.state, this.props)
     if(this.state.redirectToEdit){
       return <Redirect push to={{
         pathname: '/admin/trivia/edit',
@@ -325,7 +326,6 @@ class TriviaDetails extends React.Component {
             {!this.state.scoring &&
             <Button
               primary
-              disabled={this.state.canEdit}
               width='auto'
               height='40px'
               border
