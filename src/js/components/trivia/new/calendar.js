@@ -76,7 +76,6 @@ export default class Calendar extends React.Component {
           numberOfMonths = {1}
           month = {from}
           selectedDays = {selectedDays}
-          disabledDays = {disabledDays}
           modifiers = {modifiers}
           onDayClick = {this.handleDayClick}
           localeUtils = {MomentLocaleUtils}

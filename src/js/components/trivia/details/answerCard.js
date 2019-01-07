@@ -175,6 +175,7 @@ class AnswerCard extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return(
       <InfoCardContainer selected={this.props.selected ? 1 : 0}>
         <div className='user-info'>

@@ -8,7 +8,6 @@ import styled, {ThemeProvider} from 'styled-components';
 import * as Constants from '../../../constants.js';
 import SectionTitle from '../../utilities/sectionTitle.js';
 import NavColumn from '../../utilities/navColumn.js';
-import InfoCard from './infoCard.js';
 import * as ServerServices from '../../utilities/serverServices.js';
 import NoItemsAvailable from '../../utilities/noItemsAvailable.js';
 import Loader from '../../utilities/loader.js';
@@ -29,7 +28,7 @@ const NewsLettlerListContainer = styled('div')`
   }
 `;
 
-const UsersList = styled('div')`
+const EmailList = styled('div')`
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -75,76 +74,53 @@ const UsersList = styled('div')`
   }
 `;
 
-class NewsLettlerList extends React.Component {
+class NewsLetterList extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      users: [],
+      emailList: [],
       isMounted: false,
     };
   };
 
   componentDidMount() {
     this.setState({isMounted: true})
-    this.getUsersList();
   }
 
   compoenentWillUnmount() {
     this.setState({isMounted: false})
   }
 
-  getUsersList = () => {
-    //const response = ServerServices.getUsersList();
-    //response.then((questions) => {
-    //
-    //}
-  };
-
-  PageChange = (page) => {
-    this.setState({currentPage: page});
+  getEmailList = () => {
+    //this.setState({currentPage: page});
   };
 
   render() {
+    console.log(this.props)
     return (
       <ThemeProvider theme={theme}>
         <NewsLettlerListContainer>
           <SectionTitle>
-            <h1>Administrar preguntas y respuestas</h1>
+            <h1>Boletín de noticias</h1>
             <div className='separator'/>
-            <Link to='/admin/trivia/new'>Agregar una trivia nueva</Link>
           </SectionTitle>
           <div className='content'>
             <NavColumn currentSection={this.props.location.pathname.split('/')[2]}/>
             { this.state.loading &&
               <Loader/>
             }
-            { !this.state.loading &&
-              <UsersList>
-                {this.state.questions.length > 0 &&
-                <div className='list-header'>
-                  <span>FECHA</span>
-                  <span>PREGUNTA</span>
-                  <span>ESTADO</span>
-                  <span>RESPUESTA</span>
+            <p>
+              Esta sección contiene la lista de correos electrónicos de todos los participantes que solicitaron recibir noticias por este medio al responder la trivia. 
+            </p>
+            <EmailList>
+            {this.state.emailList && this.state.emailList.map((userData) => {
+              return (
+                <div>
+                  <p>{userData.email}</p>
                 </div>
-                }
-                {this.state.questions && 
-                  <div className='cards-container' onScroll={this.trackScrolling}>
-                    {this.state.questions.map((item, index) => {
-                      return <InfoCard 
-                        key={index}
-                        question={item}
-                        id={index}
-                        selected={item.status === 'Publicada' ? 1 : 0}
-                        path={this.props.location.pathname} />
-                    })}
-                  </div>
-                }
-                {this.state.questions.length === 0 && 
-                  <NoItemsAvailable section='trivia'/>
-                }
-              </UsersList>
-            }
+              )
+            })}
+            </EmailList>
           </div>
         </NewsLettlerListContainer>
       </ThemeProvider>
@@ -152,4 +128,4 @@ class NewsLettlerList extends React.Component {
   }
 }
 
-export default NewsLettlerList;
+export default NewsLetterList;

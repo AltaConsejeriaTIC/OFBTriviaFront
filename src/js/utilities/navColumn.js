@@ -88,6 +88,13 @@ class NavColumn extends React.Component {
           single={1}>
           Administrar videos
         </NavLink>
+        <h2>BOLETÍN DE NOTICIAS</h2>
+        <NavLink
+          to='/admin/newsletter'
+          selected={this.props.currentSection === 'newsletter' ? 1 : 0}
+          single={1}>
+          Usuarios registrados
+        </NavLink>
         <Leyend display={this.props.currentSection === 'trivia' ? 1 : 0}>
           <h5>NOTA</h5>
           <p>

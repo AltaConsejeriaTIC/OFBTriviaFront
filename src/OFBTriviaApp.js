@@ -16,6 +16,8 @@ import ContenidoAudio from './js/components/contenido/audio.js';
 import NewAudio from './js/components/contenido/newAudio/newAudio.js';
 import ContenidoVideo from './js/components/contenido/video.js';
 import NewVideo from './js/components/contenido/newVideo/newVideo.js';
+import NewsLetterList from './js/components/newsLetterList/newsLetterList.js';
+
 
 //The main purpose of this class is to identify if there is a logged user and redirect him to the proper view.
 class OFBTriviaApp extends React.Component {
@@ -66,7 +68,7 @@ class OFBTriviaApp extends React.Component {
             <Route exact path='/admin/contenido/video' render={(props) => (<ContenidoVideo {...props}/>)}/>
             <Route exact path='/admin/contenido/video/new' render={(props) => (<NewVideo {...props}/>)}/>
             <Route exact path='/admin/contenido/video/edit/:videoId' render={(props) => (<NewVideo {...props}/>)}/>
-
+            <Route exact path='/admin/newsletter' render={(props) => (<NewsLetterList {...props}/>)}/>
           </Switch>
           <Switch>
             <Route exact path='/' render={() => null}/>
