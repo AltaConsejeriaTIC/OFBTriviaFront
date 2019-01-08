@@ -189,8 +189,8 @@ class TriviaDetails extends React.Component {
       scoring: false,
       answers: [],
       winners: [],
-      canEdit: true,
-      canScore: true,
+      canEdit: false,
+      canScore: false,
     };
   };
 
@@ -223,11 +223,12 @@ class TriviaDetails extends React.Component {
         }
       });
       this.setState((prevState, props) => {
+        const endDate = new Date(prevState.question.endDate);
+        endDate.setTime(endDate.getTime() + (29*60*60*1000));
         prevState.answers = answers;
         prevState.winners = winners;
         prevState.canEdit = new Date() > new Date(prevState.question.startDate);
-        prevState.canScore = winners.length === 0 && new Date() > new Date(prevState.question.startDate);
-        console.log(prevState.canScore)
+        prevState.canScore = winners.length === 0 && new Date() > endDate;
         return prevState;
       });
     })
@@ -377,6 +378,7 @@ class TriviaDetails extends React.Component {
               return <AnswerCard
                 key={index}
                 answer={item}
+                sugested={item.score >= 0.5}
                 scoring={this.state.scoring}
                 onScoring={this.onScoringHandler}
                 selected={item.winner}/>

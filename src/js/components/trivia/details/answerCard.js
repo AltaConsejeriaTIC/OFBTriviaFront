@@ -17,7 +17,7 @@ const InfoCardContainer = styled('div')`
   width: 100%;
   height: 110px;
   background-color: ${Constants.INFO_CARD_BACKGROUND_COLOR};
-  border: solid 1px ${(props) => props.selected ? Constants.SELECTED_ANSWER_CARD_BORDER_COLOR : Constants.INFO_CARD_BORDER_COLOR};
+  border: solid 1px ${(props) => props.selected || props.sugested? Constants.SELECTED_ANSWER_CARD_BORDER_COLOR : Constants.INFO_CARD_BORDER_COLOR};
   border-radius: ${Constants.UNIVERSAL_BORDER_RADIUS};
   margin-bottom: 5px;
 
@@ -175,9 +175,8 @@ class AnswerCard extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return(
-      <InfoCardContainer selected={this.props.selected ? 1 : 0}>
+      <InfoCardContainer selected={this.props.selected ? 1 : 0} sugested={this.props.sugested ? 1 : 0}>
         <div className='user-info'>
           <span>{this.state.userData ? `${this.state.userData.name} ${this.state.userData.lastName}` : 'Cargando...'}</span>
           <span>{this.state.userData ? this.state.userData.cellphone : 'Cargando...'}</span>
