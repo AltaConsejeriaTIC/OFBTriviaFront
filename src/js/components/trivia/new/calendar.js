@@ -75,6 +75,7 @@ export default class Calendar extends React.Component {
           className = 'Range'
           numberOfMonths = {1}
           month = {from}
+          disabledDays = {disabledDays}
           selectedDays = {selectedDays}
           modifiers = {modifiers}
           onDayClick = {this.handleDayClick}

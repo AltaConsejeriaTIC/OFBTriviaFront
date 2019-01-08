@@ -281,7 +281,6 @@ class NewTrivia extends React.Component {
   onStartDateSelection = (day) => {
     this.setState((prevState, props) => {
       prevState.question.startDate = day;
-      console.log(day)
       prevState.showCalendar = false;
       return prevState;
     });
@@ -343,7 +342,6 @@ class NewTrivia extends React.Component {
   }
 
   render() {
-    console.log(this.state, this.props)
     if(this.state.mustNavigate){
       return <Redirect push to='/admin/trivia'/>
     }

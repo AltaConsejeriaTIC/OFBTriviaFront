@@ -216,7 +216,6 @@ class NewAudio extends React.Component {
   getYoutubeVideoData = () => {
     const response = ServerServices.getYoutubeData(this.state.url);
     response.then((youtubeData) => {
-      console.log(youtubeData)
       this.setState({
         loadingPreview: false,
         showingPreview: true,

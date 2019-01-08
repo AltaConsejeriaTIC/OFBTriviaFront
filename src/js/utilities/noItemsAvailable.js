@@ -40,6 +40,7 @@ const ERROR_HEADERS = {
   details: 'Todavía no hay respuestas de usuarios',
   videos: 'Todavía no hay videos publicados',
   audios: 'Todavía no hay audios publicados',
+  newsLetter: 'No hay usuarios suscritos al boletín de noticias',
 }
 
 const ERROR_PARAGRAPH = {
@@ -49,7 +50,9 @@ const ERROR_PARAGRAPH = {
   videosA: `Puedes añadir un nuevo video haciéndo click en el botón`,
   videosB: `"Agregar un video nuevo"`,
   audiosA: `Puedes añadir un nuevo audio haciéndo click en el botón`,
-  audiosB: `"Agregar un audio nuevo"`
+  audiosB: `"Agregar un audio nuevo"`,
+  newsLetterA: 'Cuando un usuario marque el campo "deseo recibir notificaciones por correo"',
+  newsLetterB: 'su email aparecerá en esta sección.',
 }
 
 function NoItemsAvailable(props){

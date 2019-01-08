@@ -34,6 +34,10 @@ const EmailList = styled('div')`
   max-height: 100%;
   width: 75%;
 
+  p {
+    color: ${Constants.LIST_HEADER_TEXT_COLOR};
+  }
+
   .list-header {
     display: flex;
     flex-direction: row;
@@ -68,9 +72,21 @@ const EmailList = styled('div')`
     }
   }
 
-  .cards-container {
-    overflow: auto;
-    flex-grow: 1;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  th {
+    background-color: ${Constants.SECONDARY_BACKGROUND_COLOR};
+    color: white;
   }
 `;
 
@@ -85,6 +101,7 @@ class NewsLetterList extends React.Component {
 
   componentDidMount() {
     this.setState({isMounted: true})
+    this.getEmailList()
   }
 
   compoenentWillUnmount() {
@@ -92,11 +109,13 @@ class NewsLetterList extends React.Component {
   }
 
   getEmailList = () => {
-    //this.setState({currentPage: page});
+    const response =  ServerServices.getNewsLetter();
+    response.then((emails) => {
+      this.setState({emailList: emails});
+    })
   };
 
   render() {
-    console.log(this.props)
     return (
       <ThemeProvider theme={theme}>
         <NewsLettlerListContainer>
@@ -109,17 +128,39 @@ class NewsLetterList extends React.Component {
             { this.state.loading &&
               <Loader/>
             }
-            <p>
-              Esta sección contiene la lista de correos electrónicos de todos los participantes que solicitaron recibir noticias por este medio al responder la trivia. 
-            </p>
             <EmailList>
-            {this.state.emailList && this.state.emailList.map((userData) => {
-              return (
-                <div>
-                  <p>{userData.email}</p>
-                </div>
-              )
-            })}
+              <p>
+                Esta sección contiene la lista de correos electrónicos de todos los participantes que solicitaron recibir noticias por este medio al responder la trivia. 
+              </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      NOMBRE
+                    </th>
+                    <th>
+                      EMAIL
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.emailList && this.state.emailList.map((userData) => {
+                    return (
+                      <tr key={userData.email}>
+                        <td>
+                          {`${userData.name} ${userData.lastName}`} 
+                        </td>
+                        <td>
+                          {userData.email}
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+              {this.state.emailList.length === 0 && 
+                <NoItemsAvailable section='newsLetter'/>
+              }
             </EmailList>
           </div>
         </NewsLettlerListContainer>

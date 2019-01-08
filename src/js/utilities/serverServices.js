@@ -16,8 +16,8 @@ const END_POINTS = {
   youtubeData: 'trivia/get-video-data',
   createVideo: 'trivia/upload-video',
   getUserData: 'trivia/get-user',
-  send: 'trivia/send'
-
+  send: 'trivia/send',
+  getNewsLetter: 'trivia/get-contact-info',
 };
 
 const fetchHeaders = {
@@ -184,7 +184,6 @@ export const getUserData = async (userId) => {
   return json;
 };
 
-
 export const sendPush = async (questionObject) => {
   const json = await (await fetch(`${BACKEND_ENDPOINT}${END_POINTS['send']}`, {
     method: "POST",
@@ -194,5 +193,11 @@ export const sendPush = async (questionObject) => {
     }),
     headers : fetchHeaders.headers
   }));
+  return json;
+};
+
+export const getNewsLetter = async (userId) => {
+  const composedURL = `${BACKEND_ENDPOINT}${END_POINTS['getNewsLetter']}?id=${userId}`
+  const json = await (await fetch(composedURL, fetchHeaders)).json();
   return json;
 };
