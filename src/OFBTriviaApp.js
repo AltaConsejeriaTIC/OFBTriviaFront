@@ -40,6 +40,8 @@ class OFBTriviaApp extends React.Component {
   };
 
   onLogout = () => {
+    const { cookies } = this.props;
+    cookies.remove('user');
     this.setState({user: false})
   };
 
@@ -69,6 +71,7 @@ class OFBTriviaApp extends React.Component {
             <Route exact path='/admin/contenido/video/new' render={(props) => (<NewVideo {...props}/>)}/>
             <Route exact path='/admin/contenido/video/edit/:videoId' render={(props) => (<NewVideo {...props}/>)}/>
             <Route exact path='/admin/newsletter' render={(props) => (<NewsLetterList {...props}/>)}/>
+            {this.state.user && <Redirect push to='/admin/trivia'/>}
           </Switch>
           <Switch>
             <Route exact path='/' render={() => null}/>
